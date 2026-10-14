@@ -1,0 +1,949 @@
+{
+  "id": "daytona",
+  "name": "Daytona",
+  "product_name": "Daytona Sandboxes",
+  "website": "https://www.daytona.io",
+  "docs_url": "https://www.daytona.io/docs",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Available: Daytona Cloud sandboxes",
+      "notes": "Create an account and API key; Tier 1 requires verified email. Shared regions are us/eu. Class availability and quotas are organization/region-specific; macOS uses the separate use.computer API and reservation, not ordinary Daytona create. Tier 2 requires a linked card and $25 top-up; Tier 3 $500 top-up; Tier 4 $2000 top-up every 30 days. Warm pools require support enablement.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en.md",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/warm-pools.md"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "documented",
+      "value": "Conditional customer-hosted sandbox runners via Enterprise/BYOC; Daytona-hosted control plane required for the documented current deployment",
+      "notes": "2026-10-08 policy review uses deployable sandbox runtime/service, not a wholly independent control plane. Official current region chart deploys runner workloads on customer Kubernetes: privileged DaemonSet/host Docker and Sysbox bootstrap, runner-manager or static-runner topology, API registration/authentication, DNS/TLS and storage prerequisites. Pricing places BYOC under Enterprise/contact sales. January 30, 2026 announcement calls Self-Hosted Runners invite-only experimental; current enablement/parity requires confirmation, not unconditional availability. Canonical Helm route supersedes legacy single-host script; old runners/OSS guides return 404. Full independently operated current control plane remains unclear: chart describes that mode but does not deploy it, current production core closed, historical AGPL server as-is. This is positive runtime support, not SDK-only or complete-stack parity.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/bring-your-own-compute.md",
+        "https://raw.githubusercontent.com/daytonaio/helm-charts/main/runner/README.md",
+        "https://raw.githubusercontent.com/daytonaio/helm-charts/main/charts/daytona-region/README.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/dotfiles/updates/what-s-new-at-daytona-january-2026",
+        "https://www.daytona.io/dotfiles/updates/daytona-is-going-closed-source"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "Enterprise customer-managed compute with Daytona-managed control plane",
+      "notes": "Attach runner nodes in custom regions on customer infrastructure; optional region proxy, SSH gateway and snapshot manager. Region-scoped Kubernetes Helm charts are documented. Custom-region concurrent usage is bounded by attached capacity rather than shared-pool limits. Official Athena case study documents deployed Python sandboxes across AWS, GCP and Azure and custom Kubernetes support; customer-specific evidence, not exhaustive certified cloud prerequisites or full control-plane self-hosting. Pricing lists BYOC under Enterprise/contact sales; no public BYOC rate.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/bring-your-own-compute.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/customers/athena-intelligence"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python, TypeScript, Ruby, Go, Java",
+      "notes": "Docs index lists these SDKs plus API and CLI. Java quickstart shows io.daytona:sdk-java:0.1.0. SDK language does not determine guest executable runtimes.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en.md"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "Rust: krzysztofwos/daytona-client (daytona-client crate)",
+      "notes": "A separately maintained Rust client documents Daytona sandbox/workspace lifecycle, command/process execution, file/volume/snapshot operations, and installation as daytona-client 0.5.0. Its README explicitly says it is not officially affiliated with Daytona; official SDKs remain the vendor-maintained TypeScript, Python, Ruby, Go, and Java clients. The community client documents tested/API limitations including unsupported WebSocket connections; no compatibility or reliability guarantee from Daytona is implied. This is a positive example, not an exhaustive community inventory.",
+      "source_urls": [
+        "https://github.com/krzysztofwos/daytona-client",
+        "https://docs.rs/daytona-client/latest/daytona_client/"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Platform, Toolbox and Analytics HTTP APIs",
+      "notes": "Platform base https://app.daytona.io/api; Toolbox base returned in sandbox toolboxProxyUrl (default https://proxy.app.daytona.io/toolbox/{sandboxId}); Analytics read-only telemetry/usage base https://analytics.app.daytona.io. Public OpenAPI schemas reviewed. Organization auth/runtime scope caveats are in access_controls, not an implicit per-key runtime boundary.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/tools/api.md",
+        "https://www.daytona.io/docs/openapi.json"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "Daytona CLI for Mac, Linux and Windows clients",
+      "notes": "Authenticated CLI includes create/exec/SSH/preview/snapshot/volume/MCP operations. Client OS is not guest OS. KVM flag explicitly requires organization feature enablement.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/tools/cli.md"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Depends on image/snapshot; Python, TypeScript and JavaScript code-run modes; arbitrary installed commands",
+      "notes": "Bash command execution works for other installed runtimes; language parameter selects default language snapshot, not an exclusive guest runtime list. SDK Ruby/Go/Java support is not proof those guests are preinstalled in every image.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/process-code-execution.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Current isolation docs: default container namespaces/resource limits, Linux/Windows VM own kernel, GPU container with exclusive devices; marketing implementation conflict",
+      "notes": "July10 VM article says sandboxes now microVMs rather than shared-kernel containers; July6 GPU article says one VFIO-passthrough device in sandbox VM, while current docs say default containers/GPU containers and up to8 GPUs. Preserve class-specific current docs and dated marketing conflict rather than universal kernel/VFIO guarantee. No shared network except explicitly linked groups. Any valid organization key can execute/read running sandbox tooling regardless resource scopes; organization runtime trust boundary, not per-key tenant isolation. No blanket security guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/isolation.md",
+        "https://www.daytona.io/docs/en/api-keys.md",
+        "https://www.daytona.io/dotfiles/vms-pause-and-fork",
+        "https://www.daytona.io/dotfiles/gpu-sandboxes"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Daytona API: Linux containers, Linux VMs and Windows VMs; macOS is a separate use.computer offering",
+      "notes": "macOS requires a use.computer key, Mac reservation and api.use.computer/v1/sandboxes, so Daytona API features/prices are not assumed to apply. VM create requires an existing VM snapshot; Windows snapshots cannot be built from base images.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/snapshots.md"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Default 1 vCPU. Documented default organization range 1-4 vCPU; each GPU up to 16 vCPU, up to 8 GPUs; windows-large 4 vCPU",
+      "notes": "Organization caps are adjustable with support and vary by class/region; not a universal maximum or computed 128-vCPU guarantee. CPU/RAM customizable after create; disk resize only container. API describes cpu as CPU cores while docs/pricing say vCPU; physical-core equivalence not established. windows-large lists 4 vCPU/16GiB/50GiB.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/openapi.json"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Default 1 GiB in the resource table (prose says 1GB). Organization limit 8GB. Each GPU adds up to 192GB RAM. windows-large is 16GiB.",
+      "notes": "The resource table unit is GiB and its maximum is 8. Prose says 1GB RAM and an 8GB organization limit. GPU scaling and the Windows 16GiB snapshot exceed that organization cap. Pricing is per GiB.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/pricing"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Default 3 GiB. Organization custom-resource maximum 10 GiB. Each GPU adds up to 512GB disk. windows-small is 30GiB and windows-medium and windows-large are 50GiB.",
+      "notes": "The 10GB figure is the organization custom-resource cap. GPU disk scaling and the Windows snapshot sizes disagree with it. The page uses both GB and GiB.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "documented",
+      "value": "On-demand and spot ephemeral GPU sandboxes, up to 8 GPUs; on-demand uses organization GPU quota, spot is quota-exempt but capacity-limited",
+      "notes": "Current create docs/API enum allows H100, H200, B300, RTX-PRO-6000, RTX-4090, RTX-5090 and MI355X; B200 has a published price but is not an allowed current gpuType parameter. Shared GPU ignores target and uses Earth; specific geography requires support. Free credits cannot fund GPUs. Spot requires Tier 2+, fails immediately without capacity, can terminate without warning/webhook; spotEvictedAt and record available for 24h after preemption do not preserve files. On-demand may wait for capacity; organization-enabled queueTimeout bounds unassigned waiting, not execution lifespan. Main lifecycle/persistence docs say GPU stop deletes disk/memory; troubleshooting contradictorily says GPU files survive stop/start. Retain ephemeral behavior, persist outputs to volumes, and flag the conflict.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Container/GPU Docker images, Dockerfiles and declarative builds; Linux VM custom images via pre-built VM snapshots",
+      "notes": "Direct image create requires public tagged/digested images, not latest/lts/stable. Private OCI registry images can be prepared as snapshots; local image push requires AMD64. Linux VM requires an existing VM snapshot from a registry image, not a Dockerfile/declarative build. Windows images are captured from existing Windows sandboxes, not base images. Declarative builds cache for 24 hours on the same runner; not a cold-create latency guarantee. Warm pools require support enablement, matching snapshot/region/default resources/user and no custom env vars, volumes or secrets. Image size maximum was not established.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/snapshots.md",
+        "https://www.daytona.io/docs/en/declarative-builder.md",
+        "https://www.daytona.io/docs/en/warm-pools.md"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Runtime package installation and build-time dependencies",
+      "notes": "Install system packages and additional language runtimes; custom image USER can restrict permissions. Package hosts must be reachable under the tier/firewall policy; Tier 3/4 custom allowlists do not automatically allow package registries.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/declarative-builder.md",
+        "https://www.daytona.io/docs/en/network-limits.md"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Guest container root/Linux desktop root; sudo package installation documented for default Linux sandbox, not host root/every class/user",
+      "notes": "Isolation docs explicit guest container root without affecting runner. External-storage guide uses sudo apt-get in default runtime and daytonaio/sandbox build. Custom image USER can be non-root. Windows Office install guide shows package installation but not a universal Administrator entitlement; Linux VM/Windows/custom-image privileges need specific image/user verification. No assumption every guest has sudo.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/isolation.md",
+        "https://www.daytona.io/docs/en/declarative-builder.md",
+        "https://www.daytona.io/",
+        "https://www.daytona.io/docs/en/mount-external-storage.md",
+        "https://www.daytona.io/dotfiles/microsoft-office-in-daytona-windows-sandboxes"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker-in-Docker and Compose using a Docker-enabled snapshot",
+      "notes": "Snapshots docs provide daemon installation and dind image examples; recommend at least 2 vCPU and 4GiB for overhead, not a mandatory minimum. Docker is not assumed preinstalled in every image. Linux VM nested virtualization requires the organization sandbox_kvm feature; it is separate from Docker support.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/snapshots.md",
+        "https://www.daytona.io/docs/en/tools/cli.md"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Independent shell sessions and asynchronous commands run long-lived background processes",
+      "notes": "Commands within a session run sequentially; use multiple sessions for parallel processes. Background work does not reset inactivity timers. Shell-command default timeout is 10 seconds, separate from sandbox lifetime; use sessions/configured execution timeouts. Stop clears process memory; only Linux/Windows VM pause/resume preserves it, not default container stop/start.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/process-code-execution.md",
+        "https://www.daytona.io/docs/en/scale.md",
+        "https://www.daytona.io/docs/en/persistence.md"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "Filesystem upload/download, CRUD, permissions and streaming transfers",
+      "notes": "fs module operates on sandbox files; relative paths are under the sandbox user's home. File export is not a process-memory snapshot or automatic failure recovery.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/file-system-operations.md"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Main lifecycle/persistence docs: non-ephemeral container/VM root files survive stop/start, GPU/ephemeral stop deletes; GPU troubleshooting conflicts",
+      "notes": "Container disk on runner until archive/object storage; start restores. Stopped VM offloads disk/releases quota but retains disk charges; stop clears memory. Delete/TTL destroys local state; independent snapshot/volume needed after replacement. Troubleshooting says recoverable=true may restore last successful backup, otherwise replace; no backup frequency/RPO. API backup deprecated no-op. Troubleshooting also says GPU filesystem survives stop/start, contradicting main guides/GPU ephemeral auto-delete; do not rely on GPU local persistence. Linked children ephemeral, parent deletion cascades.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "S3-compatible FUSE mounts persist independently of sandbox deletion",
+      "notes": "Mount a ready volume at create time; cannot mount root/system paths. Shared mounts support subpath isolation; Java SDK/CLI lack subpath and require REST API. Not block storage/database tables; slower than local disk, non-transactional concurrent writes use last-write-wins. Included at no additional cost, maximum 100 volumes/organization, data outside storage quota. Deleting a volume is irreversible.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/volumes.md"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Supported on Linux VM and Windows sandboxes",
+      "notes": "The lifecycle table marks pause and resume for Linux VM and Windows only. Container and GPU are unchecked. Missing checkmarks are the page's own table, not an inference.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Linux/Windows VM pause/resume, hot snapshots and forks preserve process memory; container/GPU stop does not",
+      "notes": "Hot snapshot requires started VM and includeMemory=true via REST API; SDK snapshot helpers create cold snapshots only. Cold snapshots require stopped sandbox and save files only. Every stop clears memory; ephemeral/GPU stop deletes state. Network reconnection/failure recovery guarantees are not established.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/snapshots.md"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Stopped Container/Linux VM/Windows filesystem capture and new-sandbox restoration; Linux/Windows VM hot capture adds memory; GPU capture unresolved",
+      "notes": "Detailed guide: cold STOPPED, VM hot STARTED/includeMemory=true via API. Python SDK source sends CreateSandboxSnapshot(name) without includeMemory; generic SDK prose omits state/class prerequisites, not proof of hot or GPU capture. Capture independent of source deletion; unused deactivation default2 weeks (Organization schema configurable20160m), not deletion/retention limit; reactivate before create. Storage billed independently, rate/count/byte limits unpublished. GPU lifecycle checkmark conflicts with ephemeral stop; capture section lacks GPU procedure. Windows Office guide explicitly stops before capture, supporting cold-state rule.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/snapshots.md",
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://raw.githubusercontent.com/daytona/clients/main/sdk-python/src/daytona/_sync/sandbox.py",
+        "https://www.daytona.io/dotfiles/microsoft-office-in-daytona-windows-sandboxes"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Running Linux/Windows VM fork copies filesystem and memory; container cloning uses cold snapshot then new create",
+      "notes": "Direct fork unsupported container/GPU; independent child, parent cannot delete with active forks. KVM inherited/organization-enabled. Official HUD cookbook says one in-flight fork per parent; sequential or tree fanout. Vendor sample fork0.66s/graded child1.78s p50 is setup-specific, not generic reset/readiness SLA; performance entries carry versions/resources/conditions. No universal reset bound.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Tier 1 and Tier 2 are network-restricted. Tier 3 and Tier 4 have full internet access by default.",
+      "notes": "Tier 1 and Tier 2 cannot override the organization policy at the sandbox level. Essential services stay reachable on those tiers. On Tier 3 and Tier 4 a sandbox allow list or networkBlockAll replaces the default.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/network-limits.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Current docs: Tier 3/4 custom IPv4 CIDR or domain/wildcard allowlist or deny-all; Tier 1/2 cannot override organization policy",
+      "notes": "July 9, 2026 Domain Firewall says all organizations; current network/troubleshooting docs retain tier gates. Tier 3 $500, Tier 4 $2000/30 days. Mutually exclusive: IPv4 CIDR /0-/32 max 10 (Aug 25, 2025 blog said 5), domains max 100, no protocol/path/port. Custom policies exclude unlisted essential hosts; updates require write:sandboxes. SDK documents runner iptables; API describes transparent HTTP(S) proxy for domain rules. outboundProxyUrl alone bypassable by clearing env; domainAllowList enforces web-port 80/443 redirection. Proxy URL http/https, max 2048 chars, no localhost/private/loopback/link-local literal host. DNS/SNI/UDP/non-web/IPv6 semantics unspecified; no exfiltration guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/network-limits.md",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/typescript-sdk/sandbox.md",
+        "https://www.daytona.io/dotfiles/domain-firewall",
+        "https://www.daytona.io/docs/en/troubleshooting.md",
+        "https://www.daytona.io/dotfiles/sandbox-firewall"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "External HTTPS preview proxy to HTTP services on sandbox ports 1-65535; not arbitrary raw TCP forwarding",
+      "notes": "HTTP/WebSocket proxy, not proof of direct TCP/UDP ingress. Ports 22222 (terminal), 2280 (toolbox) and 33333 (recordings) always require auth even public. SSH uses separate token gateway. Current OpenCode guide explicitly maps localhost/127.0.0.1:3000 web service to external preview URL, so 0.0.0.0 is not a documented universal requirement; application/class-specific bind behavior still not comprehensively specified.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/preview.md",
+        "https://www.daytona.io/docs/en/custom-preview-proxy.md",
+        "https://www.daytona.io/docs/en/ssh-access.md",
+        "https://www.daytona.io/docs/en/guides/opencode/opencode-web-agent.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "HTTPS URLs proxy HTTP services inside running sandboxes; standard sandbox-wide token or signed port-bound expiring URL",
+      "notes": "Standard https://{port}-{sandboxId}.{proxy-domain} uses x-daytona-preview-token; token permits all ports including command/file tooling, cannot be revoked, rotates on stop/start and persists on pause/resume. Signed https://{port}-{token}.{proxy-domain} expires (default 60s, range 1-86400s), survives restart until expiry/revocation. public=true removes preview auth except reserved 22222/2280/33333. Browser warning can be skipped by header, Tier 3 upgrade or custom proxy; stopped service needs start. No universal raw TCP or stopped-service reachability.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/preview.md",
+        "https://www.daytona.io/docs/en/custom-preview-proxy.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Tailscale/OpenVPN/Netbird private VPN access requires Tier 3+; linked sandbox networks are separate",
+      "notes": "Tier 3 requires $500 top-up; customer manages VPN identities/routes and keeps network policy permitting connections. VPN private IP access does not establish a managed VPC peering product. Linked child requires autoDeleteInterval=0 (SDK ephemeral=true), scheduled on same runner; API prohibits GPU participation and nested links. Child stop deletes it and parent deletion cascades. Cross-class link compatibility and parent stop/pause/archive prerequisites not established by reviewed references. Not shared networking for unrelated sandboxes.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/vpn-connections.md",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/openapi.json"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Resource-pool-limited concurrency; no independent numeric sandbox-count limit established",
+      "notes": "Tier 1: 10 vCPU, 30GiB disk, conflicting 10GiB/20GiB RAM. Tiers 2/3/4: 100/200GiB/300GiB, 250/500GiB/2000GiB, 500/1000GiB/5000GiB. Access requires respectively card+$25, $500, and $2000 every 30 days. GPU quota is separate. Warm pools consume quota and require enablement. Creation is separately limited to 300/400/500/600 per minute per organization, not a latency benchmark. BYOC custom capacity is customer-bounded.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/warm-pools.md",
+        "https://www.daytona.io/docs/en/scale.md"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "No universal numeric maximum; RegionQuota.maxSandboxLifespan null/0 means unrestricted, otherwise enforced TTL cannot be disabled",
+      "notes": "OpenAPI RegionQuota defines lifespan in minutes from creation to destruction per organization/region/class. Nonzero configured cap defaults an omitted TTL to that maximum and cannot be disabled, qualifying guide/SDK blanket 0-disables statements. Actual account value requires authenticated GET /sandbox/{sandboxId}/region-quota or dashboard Limits, not a public numeric constant or schema example. TTL destroys started/stopped/paused/archived local state; disabling idle stop/pause is separate from an enforced cap. queueTimeout bounds unassigned provisioning only, not session runtime.",
+      "source_urls": [
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/python-sdk/sync/sandbox.md"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Container/GPU default auto-stop 15 minutes; non-ephemeral Linux/Windows VM default auto-pause 60 minutes",
+      "notes": "0 disables relevant interval; stop/pause mutually exclusive. Internal/background work does not reset inactivity. Main lifecycle/custom-proxy docs say previews refresh auto-stop (unless skip-activity header) but not auto-pause; Python set_autostop_interval reference says previews do not count, while troubleshooting groups previews with both timers. Preserve this official conflict; explicit refresh_activity or disabling relevant timer is documented for long work, not reliance on previews alone. Stop clears memory/deletes ephemeral/GPU/linked children; VM pause retains memory. Separate enforced TTL can still destroy any state.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/custom-preview-proxy.md",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/python-sdk/sync/sandbox.md",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Tier 1: 10,000 general requests, 300 sandbox creations, and 10,000 sandbox lifecycle operations per minute.",
+      "notes": "Per-organization authenticated limits. Tier 2 is 20,000 / 400 / 20,000, Tier 3 is 40,000 / 500 / 40,000, Tier 4 is 50,000 / 600 / 50,000, and Enterprise is custom.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/limits.md"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Shared CPU targets us/eu; shared GPU uses logical Earth and ignores geographic preference; dedicated/custom regions separate",
+      "notes": "Dedicated managed regions require sales; BYOC custom regions use customer compute. Homepage city illustration (India, Frankfurt, London, Washington DC, Oregon) is not an established selectable shared-target list. Specific shared GPU geography requires support; no latency or data-residency guarantee inferred.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/regions.md",
+        "https://www.daytona.io/"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Separate stdout/stderr streams for asynchronous session commands",
+      "notes": "Log API follows live output until completion; without follow it retrieves logs so far. Sessions must be configured for async execution to stream ongoing work. Not a numeric latency guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/log-streaming.md"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Session command logs, live or as a snapshot of logs so far",
+      "notes": "Documented for long-running and background commands, plus entrypoint logs.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/log-streaming.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "Interactive PTY sessions, browser terminal and separate token-based SSH gateway",
+      "notes": "PTY create/connect/resize/kill/disconnect documented; disconnect is not kill. SSH token default expiry 60 minutes with custom expiry/revocation. Browser terminal reserved port 22222 requires authentication.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/pty.md",
+        "https://www.daytona.io/docs/en/ssh-access.md",
+        "https://www.daytona.io/docs/en/custom-preview-proxy.md"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Organization-scoped encrypted secrets: opaque sandbox placeholders substituted in outbound HTTPS headers only",
+      "notes": "No plaintext environment/file injection. No HTTP/body/query/transformed-placeholder substitution; Basic Auth needs a pre-encoded secret sent as an unmodified header placeholder. Host allowlist is optional: omitted hosts substitutes to any host and can leak to an attacker-controlled destination. manage:secrets manages values; write:sandboxes can mount any organization secret without manage:secrets. Response scrubbing documented; rotation within 15s, new env vars only in newly spawned processes; sandboxes initially without secrets need restart after attaching. Not arbitrary database-protocol secret injection.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/secrets.md",
+        "https://www.daytona.io/docs/en/api-keys.md"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Organization resource roles/API-key scopes; Enterprise SSO; scopes do not restrict running-sandbox execution/file access",
+      "notes": "Any valid organization API key/member can access running sandbox tooling even with no assignments; organization is the runtime trust boundary. write:sandboxes can schedule deletion through TTL/auto-delete and mount any organization secret. Managed child API keys require contact enablement and only resource scopes, not per-sandbox runtime isolation. Preview tokens are separate; standard token grants sandbox-wide tooling access, signed URLs are port-bound/expiring. No per-key tenant runtime boundary inferred.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/api-keys.md",
+        "https://www.daytona.io/docs/en/organizations.md",
+        "https://www.daytona.io/docs/en/preview.md",
+        "https://www.daytona.io/pricing"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Daytona MCP server with Claude, Cursor and Windsurf setup; computer-use, Git and LSP APIs",
+      "notes": "MCP uses authenticated Daytona CLI. SDK language support is separate from installed agent/guest runtimes. macOS desktop access uses separate use.computer API/reservation.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/mcp.md",
+        "https://www.daytona.io/docs/en/architecture.md",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Current clients: Apache-2.0 outside cli/, CLI AGPL-3.0; archived v0.190.0 core AGPL-3.0; current production core closed source since June 11, 2026",
+      "notes": "Official dated closure announcement confirms historical public core stays available as-is without maintenance/updates, current SDKs/docs move to github.com/daytona. daytona/clients LICENSE distinguishes CLI/other clients; old core archived October 3, 2026. Main LICENSE404 resolved by README-linked v0.190.0 AGPL-3.0. Historical/client/API-spec licenses do not establish current sandbox-server openness, maintained self-hosting or feature parity.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/daytona/clients/main/LICENSE",
+        "https://github.com/daytonaio/daytona",
+        "https://raw.githubusercontent.com/daytonaio/daytona/v0.190.0/LICENSE",
+        "https://www.daytona.io/dotfiles/updates/daytona-is-going-closed-source"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "No shared sandbox network by default; linked groups are an explicit exception. Authenticated preview/SSH ingress and tier-based egress controls are separate. Tier 3/4 custom policies require paid top-ups; not a blanket security guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/network-limits.md",
+        "https://www.daytona.io/docs/en/isolation.md"
+      ]
+    },
+    "egress_allowlist": {
+      "value": "partial",
+      "note": "Current docs Tier3/4 custom IPv4CIDRs(max10)/domains(max100), mutually exclusive with deny-all; Tier1/2 org policy cannot override. July9 announcement says all organizations, conflicting scope. Runner iptables/transparent HTTP(S) proxy documented, DNS/SNI/UDP/IPv6/non-web details incomplete.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/network-limits.md",
+        "https://www.daytona.io/docs/en/typescript-sdk/sandbox.md",
+        "https://www.daytona.io/dotfiles/domain-firewall"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "HTTPS proxy URLs to HTTP/WebSocket services on ports 1-65535, not raw TCP. Standard token is sandbox-wide; signed token is port-bound/expiring. Reserved 22222/2280/33333 always require auth, even public sandboxes.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/preview.md"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "Tailscale/OpenVPN/Netbird require Tier 3+ ($500 top-up); customer VPN routing/auth, not managed VPC peering. Separate linked ephemeral same-runner parent-child networks exclude GPU and cascade deletion; cross-class compatibility unverified.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/vpn-connections.md",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/openapi.json"
+      ]
+    },
+    "snapshots": {
+      "value": "partial",
+      "note": "Stopped container/Linux VM/Windows cold filesystem captures restore to new sandboxes; VM hot capture adds memory via API. GPU lifecycle checkmark conflicts with ephemeral stop and missing capture procedure. Inactive after 2 unused weeks; snapshot storage billed after source deletion.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/snapshots.md"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": "partial",
+      "note": "Linux/Windows VM pause/resume, hot snapshots and forks only. Hot capture needs started VM and includeMemory=true through API; SDK helpers are cold-only. Every stop clears memory; container/GPU pause unsupported.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/snapshots.md"
+      ]
+    },
+    "pause_resume": {
+      "value": "partial",
+      "note": "Pause and resume are listed for Linux VM and Windows, not for Container or GPU.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "cloning_forking": {
+      "value": "partial",
+      "note": "Running Linux/Windows VM fork copies memory/files; container/GPU direct fork unsupported. Container clone requires stopped cold capture/new create. Parent cannot be deleted while fork children active.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Non-ephemeral container/VM stop/start preserves root disk; container archive restores via start. GPU/ephemeral/linked-child stop and delete/TTL lose local state. Recovery after replacement requires independent snapshot/volume; recoverable errors only, no universal failure guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/persistence.md",
+        "https://www.daytona.io/docs/en/billing.md"
+      ]
+    },
+    "volumes": {
+      "value": true,
+      "note": "S3-compatible FUSE mounts survive sandbox deletion; mount ready volume at create, not root/system paths. Not database/block storage, non-transactional last-write-wins. Included no additional cost, 100/organization, outside storage quota.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/volumes.md"
+      ]
+    },
+    "custom_images": {
+      "value": "partial",
+      "note": "Public pinned images and Dockerfile/declarative builds for container/GPU; private-registry/local AMD64 snapshot preparation supported. Linux VM custom image requires VM snapshot, not Dockerfile; Windows custom state from existing sandbox. Warm pools gated with no env/volume/secret overrides.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/declarative-builder.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Docker-in-Docker/Compose with Docker-enabled snapshot or daemon installation, not assumed in all images. Docs recommend 2 vCPU/4GiB for overhead. KVM nested VM support is separate and organization-gated.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/snapshots.md"
+      ]
+    },
+    "root_sudo": {
+      "value": "partial",
+      "note": "Guest container/Linux desktop root and default Linux sudo package installation documented, not host root. Custom USER may be non-root; not universal sudo/Windows Administrator/class privilege.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/isolation.md",
+        "https://www.daytona.io/",
+        "https://www.daytona.io/docs/en/mount-external-storage.md"
+      ]
+    },
+    "gpu": {
+      "value": true,
+      "note": "Up to8 ephemeral GPUs; on-demand requires quota, spot Tier2+ quota-exempt/capacity-only, can instantly terminate. Shared Earth ignores target; free credits excluded. B200 priced but not allowed current gpuType enum. GPU stop persistence conflicts in troubleshooting versus lifecycle docs.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/openapi.json",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    },
+    "self_hosted": {
+      "value": "partial",
+      "note": "Positive customer-deployed sandbox runtime: official BYOC region Helm chart runs privileged runner workloads on customer Kubernetes; Enterprise/contact/enablement restricted, Daytona control plane required. Independent current full stack/parity unresolved; legacy install script not canonical. This is runner/runtime support, not open SDKs or blanket independent self-hosting.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/bring-your-own-compute.md",
+        "https://raw.githubusercontent.com/daytonaio/helm-charts/main/runner/README.md",
+        "https://raw.githubusercontent.com/daytonaio/helm-charts/main/charts/daytona-region/README.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/dotfiles/updates/what-s-new-at-daytona-january-2026"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "Enterprise/contact-sales customer runners/custom regions, Daytona-managed control plane. Official Athena case documents AWS/GCP/Azure and custom Kubernetes; not exhaustive certified prerequisites. Region Helm not full self-host; public price unknown.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/bring-your-own-compute.md",
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/customers/athena-intelligence"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "Current clients Apache-2.0 except CLI AGPL-3.0; archived v0.190.0 core AGPL-3.0 verified through README link. Current core private; no updates/support to old core. Open clients/historical releases do not establish current service openness.",
+      "source_urls": [
+        "https://github.com/daytonaio/daytona",
+        "https://raw.githubusercontent.com/daytona/clients/main/LICENSE",
+        "https://raw.githubusercontent.com/daytonaio/daytona/v0.190.0/LICENSE"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Independent shells/async sessions supported; background work does not reset inactivity. Stop clears processes; only VM pause/resume retains memory. Shell exec default 10s is not sandbox lifespan.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/process-code-execution.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "The process module can open interactive PTY sessions, and the homepage documents a web terminal and SSH.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/pty.md",
+        "https://www.daytona.io/"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "Session logs can stream while a command is still running.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/log-streaming.md"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "Organization encrypted secrets substituted in outbound HTTPS headers only, not HTTP/bodies/query/encoded placeholders or arbitrary protocols. Optional hosts omitted means unrestricted substitution. write:sandboxes can mount any organization secret; host allowlists are essential.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/secrets.md"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "The docs index and sandbox examples include the Python SDK.",
+      "source_urls": [
+        "https://www.daytona.io/docs",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "The docs index and sandbox examples include the TypeScript SDK.",
+      "source_urls": [
+        "https://www.daytona.io/docs",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "go_sdk": {
+      "value": true,
+      "note": "The docs index lists a Go SDK and the sandbox page includes Go create examples.",
+      "source_urls": [
+        "https://www.daytona.io/docs",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "Docs list a CLI, including daytona create and preview-url examples.",
+      "source_urls": [
+        "https://www.daytona.io/docs",
+        "https://www.daytona.io/docs/en/preview.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "daytona mcp init supports Claude, Cursor, and Windsurf.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/mcp.md"
+      ]
+    },
+    "max_vcpu": {
+      "value": null,
+      "note": "No single maximum is printed. GPU sandboxes support up to 8 GPUs and each GPU adds up to 16 vCPUs; the organization non-GPU limit is 4 vCPU.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "No single maximum is printed. Source says each GPU adds up to 192GB RAM, up to 8 GPUs; the organization limit is 8 GB and windows-large is 16GiB. GB was not converted.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "RegionQuota.maxSandboxLifespan null/0 unrestricted; nonzero enforced minutes from create/default TTL cannot disable. Actual org/region/class cap via authenticated sandbox region-quota GET/dashboard, not universal constant. Idle/provisioning queue timers separate.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/openapi.json"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": 900,
+      "note": "900s default container/GPU stop only; VM default pause60m. Internal work not activity. Lifecycle says previews refresh stop not pause; Python SDK excludes previews, troubleshooting groups both. Conflict preserved; explicit refresh_activity/disable documented, TTL independent.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/python-sdk/sync/sandbox.md",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    }
+  },
+  "pricing_summary": "Pay-as-you-go, calculated per second: $0.0504/h per vCPU, $0.0162/h per GiB memory, $0.000108/h per GiB storage after first 5 free (allowance scope unspecified). Windows $0.0858/vCPU/h has unresolved base-rate additivity. Reserved CPU/RAM/disk accrue while started and creating/starting/stopping/pausing; stopped/paused disk only, preserved paused memory not billed. Archived/deleted sandbox not billed; independent snapshot storage remains billed with numeric rate unverified. Volumes included at no additional cost. GPU rates are separate and free credits excluded; spot Tier 2+ may terminate without notice. No mandatory monthly subscription stated, but Tier 2/3/4 require card+$25/$500/$2000 top-ups (Tier 4 every 30 days); Enterprise/BYOC pricing negotiated. $200 introductory compute is promotional, not recurring. Build, network and storage-I/O fees/minimum transaction charge remain unspecified, not free.",
+  "pricing": [
+    {
+      "item": "vCPU",
+      "plan": "Pay as you go",
+      "published_price": "$0.0504/h",
+      "conditions": "Pricing page says all billing is calculated per second. Billing docs: a started sandbox is billed for vCPU, RAM, and disk. Stopped and paused sandboxes are billed for reserved disk only. Ephemeral and GPU sandboxes are deleted on stop, so stopped billing does not apply to them. Paused memory state is not billed. Creating, starting, stopping, and pausing bill the same as started until the stopped or paused state is reached.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/billing.md"
+      ]
+    },
+    {
+      "item": "Memory",
+      "plan": "Pay as you go",
+      "published_price": "$0.0162/h per GiB",
+      "conditions": "Reserved RAM is billed while started or creating/starting/stopping/pausing, even waiting/I/O, not CPU-utilization consumption. Stopped/paused RAM and paused preserved memory not billed. Per-second calculation; source API/prose also uses GB, not silently converted.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/billing.md"
+      ]
+    },
+    {
+      "item": "Storage",
+      "plan": "Pay as you go",
+      "published_price": "$0.000108/h per GiB after the first 5 free",
+      "conditions": "5 GiB allowance scope per sandbox/account is unspecified. Reserved disk is billed in started/transitional/stopped/paused states, even when offloaded VM disk releases quota. Archived/deleted sandbox not billed. Snapshot storage independently remains billed after source deletion; exact snapshot rate not established by this sandbox disk rate.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/limits.md"
+      ]
+    },
+    {
+      "item": "Windows OS",
+      "plan": "Pay as you go",
+      "published_price": "$0.0858/vCPU/h",
+      "conditions": "The page does not say whether this replaces or adds to the base vCPU rate.",
+      "source_urls": [
+        "https://www.daytona.io/pricing"
+      ]
+    },
+    {
+      "item": "GPU",
+      "plan": "Preemptible",
+      "published_price": "Nvidia H100 $2.27/h; Nvidia H200 $2.61/h; Nvidia B200 $3.59/h; Nvidia B300 $4.08/h; AMD MI355X $3.44/h; Nvidia RTX PRO 6000 $1.74/h; Nvidia RTX 5090 $0.74/h; Nvidia RTX 4090 $0.57/h",
+      "conditions": "Spot requires Tier 2+ (card and $25 top-up), available capacity only, immediate failure without it and termination without warning. Free credits unavailable for GPU. Shared GPU ignores target geography and uses Earth; B200 priced but current create inventory does not establish availability. CPU/RAM/disk additivity/bundling not clarified by rate card; hourly source rates retained with per-second billing statement.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/billing.md"
+      ]
+    },
+    {
+      "item": "GPU",
+      "plan": "On-demand",
+      "published_price": "Nvidia B300 $6.25/h; Nvidia B200 $6.25/h; AMD MI355X $5.99/h; Nvidia H200 $4.54/h; Nvidia H100 $3.95/h; Nvidia RTX PRO 6000 $3.03/h; Nvidia RTX 5090 $1.29/h; Nvidia RTX 4090 $0.99/h",
+      "conditions": "Rates verified in pricing page HTML on-demand tab, not calculated from spot. Subject to GPU quota/capacity, may queue; Tier 3 not required but free credits excluded. Ephemeral stop deletes disk/memory. B200 priced but missing create inventory; shared Earth ignores target geography. CPU/RAM/disk bundling not clarified.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/sandboxes.md",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/limits.md"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Pay as you go",
+      "published_price": "No mandatory monthly subscription stated; paid tier top-ups apply",
+      "conditions": "Tier 1 email verification. Tier 2 linked card+$25 top-up; Tier 3 $500 top-up unlocks custom per-sandbox egress and VPN; Tier 4 $2000 top-up every 30 days. These are published wallet/access requirements, not invented subscription charges. Volume discounts have no published percentage. Enterprise/BYOC contact sales. Per-second billing stated; minimum per-execution/top-up transaction and separate build fees not established.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/limits.md",
+        "https://www.daytona.io/docs/en/billing.md"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "New use",
+      "published_price": "$200 free compute",
+      "conditions": "Introductory, not recurring; free trial no card, free credits excluded for GPU. Pricing startup offer up to $50k conflicts with dedicated startup page $10K immediately/up to $100K. Application/contact access, not unconditional recurring allowance; eligibility/expiry not public, wallet has breakdown/expiration. Excluded from production cost evidence.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/startups"
+      ]
+    },
+    {
+      "item": "Enterprise",
+      "plan": "Enterprise",
+      "published_price": "Custom",
+      "conditions": "Larger limits, SSO, audit logs or BYOC; contact sales, no public rates. BYOC uses customer compute and Daytona control plane; customer-cloud costs and region services not priced by public hosted rates.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/bring-your-own-compute.md"
+      ]
+    },
+    {
+      "item": "Volumes",
+      "plan": "Daytona volumes",
+      "published_price": "Included at no additional cost",
+      "conditions": "Maximum 100 volumes per organization; S3-compatible FUSE data outside disk quota. Not transactional block/database storage. External customer storage is separate and not assumed free.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/volumes.md"
+      ]
+    },
+    {
+      "item": "Snapshot storage",
+      "plan": "Snapshots from sandbox",
+      "published_price": "Billed; numeric rate not established",
+      "conditions": "Remains billed after source sandbox deletion. No published amount, allowance, memory-state storage basis or build/preparation price established in reviewed pricing/billing/snapshot pages; do not apply sandbox disk rate by inference.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/snapshots.md",
+        "https://www.daytona.io/pricing"
+      ]
+    },
+    {
+      "item": "Archive retention",
+      "plan": "Container sandboxes",
+      "published_price": "Archived sandbox not billed",
+      "conditions": "Container only; filesystem restored by start. Default archive after 7 stopped days, maximum 30 days; VM stop/pause releases disk quota but retained disk still billed. Independent snapshots are separate. No universal failure recovery guarantee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/persistence.md"
+      ]
+    },
+    {
+      "item": "Unspecified ancillary charges",
+      "plan": "Public hosted pricing",
+      "published_price": "Not established",
+      "conditions": "Rechecked pricing/billing/terms do not specify separate ingress/egress/storage-I/O, image build/preparation rates or minimum execution charge; absence is not zero. Warm pool running reservations consume quota, no separate discount stated; Windows/GPU additivity unresolved. Terms last updated Aug22,2025: fees exclude taxes, payments non-refundable except law, monthly arrears; docs present wallet/top-ups. Account order forms may govern fees. Prior usage may post during documented48h post-cancellation window; delete active sandboxes before cancellation, not just close account.",
+      "source_urls": [
+        "https://www.daytona.io/pricing",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/warm-pools.md",
+        "https://www.daytona.io/terms-of-service"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Sandbox creation",
+      "published_claim": "Sub 90ms from code to execution",
+      "conditions": "Vendor marketing accessed2026-10-08; webfetch representation reports publication Oct2,2026, direct HTML has no datePublished/dateModified; exact claim update date not established. Container card also <90ms. No statistic/sample/region/image/resources/cold-warm definition for this claim; not VM/GPU readiness/reset/fork/resume. Custom pull/build/queue/pool operations separate; specifically configured HUD SDK-point timings are separate claims below, not normalized to90ms.",
+      "source_urls": [
+        "https://www.daytona.io/",
+        "https://www.daytona.io/docs/en.md",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    },
+    {
+      "metric": "Historical Daytona Cloud lifecycle benchmark",
+      "published_claim": "Sandbox creation 71 ms; code execution 67 ms; cleanup 59 ms; total 197 ms",
+      "conditions": "Vendor-published April28,2025 launch article, accessed2026-10-08. Vendor calls these measured under typical agentic workloads/fast iteration/short-lived tasks, but gives no percentile/statistic, sample size, image/resources, region, cold/warm definition, code task or reproducible methodology. Historical generic Cloud results, not independent current benchmark or VM/GPU readiness/reset/fork/resume guarantee; not comparable to another vendor without matched conditions.",
+      "source_urls": [
+        "https://www.daytona.io/dotfiles/introducing-daytona-cloud-the-agent-native-infrastructure"
+      ]
+    },
+    {
+      "metric": "Linux VM resume",
+      "published_claim": "Resume restores the exact state in under a second",
+      "conditions": "Vendor July10,2026 VMs Pause & Fork article; Linux VM examples use daytona-vm-small. Paused full machine memory/process/open-connection state, no compute while paused; disk billed per billing docs. No percentile, sample size, region, measured configuration or methodology; not independent benchmark or universal all-class SLA. July20 Windows Office article says resumes in a few seconds, so do not apply subsecond to Windows by analogy. Article's all-microVM/all-organization prose conflicts with current default-container/class-region quota docs; those restrictions retained.",
+      "source_urls": [
+        "https://www.daytona.io/dotfiles/vms-pause-and-fork",
+        "https://www.daytona.io/dotfiles/microsoft-office-in-daytona-windows-sandboxes",
+        "https://www.daytona.io/docs/en/billing.md",
+        "https://www.daytona.io/docs/en/troubleshooting.md"
+      ]
+    },
+    {
+      "metric": "HUD RL initial snapshot build",
+      "published_claim": "First snapshot build about 74 seconds",
+      "conditions": "Vendor-published HUD small Python failing-tests environment cookbook, accessed2026-10-08, publication date unspecified. HUD v0.6.15/Daytona v0.205.1, content-hashed snapshot from Dockerfile.hud;1vCPU/1GB RAM/3GB disk as published, ephemeral=true/autostop0. First run builds snapshot, subsequent creates reuse it. No percentile, region or isolated image-pull measurement; build duration not a published monetary build fee.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md"
+      ]
+    },
+    {
+      "metric": "HUD RL SDK cold create and usable environment",
+      "published_claim": "Fresh sandbox roughly 1.2 seconds to create and about 3 seconds fully usable",
+      "conditions": "Vendor HUD cookbook, accessed2026-10-08, publication date unspecified. HUD v0.6.15/Daytona v0.205.1;1vCPU/1GB RAM/3GB disk, ephemeral/autostop0, reused content-hashed Dockerfile.hud snapshot. SDK-point usable includes create, SSH tunnel and environment server boot. No statistic stated for these single-path figures, region not given; not generic90ms/VM/GPU SLA or first snapshot build, which takes about74s.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md"
+      ]
+    },
+    {
+      "metric": "HUD RL concurrent cold and warm time to usable",
+      "published_claim": "Cold p50 2.8s/3.3s/5.1s/9.9s at 8/32/128/256 concurrent; warm 4.4s at128 and7.3s at256",
+      "conditions": "Vendor HUD cookbook medians of3 repetitions at each cold concurrency,1272 cold creates without failure across ladder;512-wide probe about1% create failures, recommends batch<=256. Warm results compared with cold5.1/9.9s;768 warm rollouts at256 had1 failure, reported spread1.3s vs cold2.6s (spread statistic undefined). HUD v0.6.15/Daytona v0.205.1;1vCPU/1GB/3GB as published, reused task snapshot, SSH tunnel/server boot, ephemeral/autostop0. Region unspecified; warm pool must be support-enabled/matching snapshot-region-default resources, no env/volumes/secrets overrides, pool>=batch. Specific environment observations, not global concurrency limits or guarantees.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md",
+        "https://www.daytona.io/docs/en/warm-pools.md"
+      ]
+    },
+    {
+      "metric": "HUD RL warm pool claim and refill",
+      "published_claim": "Claim about half a second at128-wide; drained pool refill about13s at128/about28s at256; empty pool256 builds38-45s",
+      "conditions": "Vendor HUD cookbook, accessed2026-10-08, date unspecified. Same configured environment/versions/resources as its cold/warm ladder; pool>=batch and matching claim rules; drained pool serves cold until refilled, zero-gap batches can outrun pool. Claim statistic unspecified, region unspecified. Separate operations from usable rollout/server readiness or image build; support-enabled pools consume running reserved quota/billing, no discount inferred.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md",
+        "https://www.daytona.io/docs/en/warm-pools.md"
+      ]
+    },
+    {
+      "metric": "HUD RL VM fork and graded child readiness",
+      "published_claim": "Fork 0.66s; child serving graded rollouts 1.78s p50 versus about3s cold path",
+      "conditions": "Vendor HUD cookbook current SDK v0.205.1/HUD v0.6.15, accessed2026-10-08, publication date unspecified; VM fork of already warm running parent, one in-flight fork/parent, sequential or tree fanout. Cookbook default environment1vCPU/1GB/3GB, content-hashed snapshot/SSH tunnel. p50 explicitly applies to1.78s child rollout;0.66s statistic/sample unspecified, fork repetition count/region absent. Not container direct fork or GPU-training evidence, nor a universal fork/reset SLA. Parent delete constrained by active fork children.",
+      "source_urls": [
+        "https://www.daytona.io/docs/en/guides/reinforcement-learning/hud-rl-cookbook.md",
+        "https://www.daytona.io/docs/en/sandboxes.md"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Memory/disk GB versus GiB and API CPU cores versus docs vCPU remain unresolved; default organization caps are not universal class maxima. Quantitative maxima stay null rather than multiplying GPU scaling.",
+    "Regions docs establish shared us/eu and GPU logical Earth; homepage city art is not a selectable-target inventory. macOS uses separate use.computer API/key/reservation.",
+    "Tier 1 memory is 10GiB on the tier card and 20 GiB in the later limits table. Both figures are kept.",
+    "Stopped/paused reserved disk remains billed despite VM quota release; archived/deleted sandbox not billed, independent snapshot storage still billed. Volumes included at no additional cost. Snapshot/build/network/I/O numeric fees, 5GiB allowance scope and Windows/GPU additivity remain unknown.",
+    "GPU filesystem snapshot lifecycle checkmark conflicts with ephemeral stop and absent detailed capture procedure; memory capture only VM, API hot snapshots versus SDK cold-only preserved.",
+    "Current core moved private and former repo archived October 3, 2026; former OSS deployment guide and main core LICENSE return 404, but README-linked v0.190.0 core license is verified AGPL-3.0. Current clients licenses verified separately; historical/client licenses are not current maintained server self-hosting.",
+    "OpenAPI qualifies indefinite lifetime with organization/region/class maxSandboxLifespan enforcement; numeric account caps unverified. Warm pools and managed API keys require organization enablement; Tier 3/4 custom network policy and VPN have paid access gates.",
+    "Production excludes capabilities/research_notes/pricing_summary and adds no workload-specific fields. API rate limits can disappear for RL/short-agent selections; report identifies filter/UI defects separately. No catalog regeneration/shared integration performed.",
+    "Second pass2026-10-08: official indexed searches/direct pages resolve June11 production-core closure date, AWS/GCP/Azure customer BYOC evidence, localhost preview example, allowed GPU type enum and null/0 lifespan semantics. Actual cap requires authenticated dashboard/quota lookup; no private account calls made.",
+    "Additional official conflicts preserved: July9 Domain Firewall says all organizations versus tier-restricted docs; Python autostop SDK excludes preview activity versus lifecycle/proxy; troubleshooting says GPU stop/start retains files versus ephemeral deletion elsewhere; startup page10K/up to100K versus pricing50K. SDK snapshot helpers omit class/state prerequisites rather than proving GPU capture.",
+    "Eligibility policy review 2026-10-08: community_sdk_languages unknown to unsupported as qualified NO DOCUMENTED SUPPORT FOUND inference after targeted official-source search, not vendor denial. self_hosted unknown to documented/typed partial based on actual customer runner deployment; prior full-control-plane criterion was narrower than assigned runtime/service definition. Numeric maxima/prices remain unknown; gated and conflict-qualified support preserved. Report E01-E03 records old/new decisions, scope and source access."
+  ]
+}

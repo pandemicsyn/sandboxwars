@@ -1,0 +1,1010 @@
+{
+  "id": "boxd",
+  "name": "boxd",
+  "product_name": "boxd",
+  "website": "https://boxd.sh",
+  "docs_url": "https://docs.boxd.sh",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Hosted machines on boxd.sh",
+      "notes": "Credit-based Pay as you go. A new org is capped at 2 machines without a card and 50 with one; parked machines count. The €30 starting credit requires a payment method and is promotional, not recurring. Machines are ordinary VMs unless created with isolated: true; that mode removes fleet credentials/integrations but retains internet and SSH/HTTPS. SDK create/fork returns when scheduled, not ready; waitUntilReady checks running and exec. Guest CPU/memory sizes are documented. NO DOCUMENTED SUPPORT FOUND: No documented support found for sandbox GPUs in the official docs/marketing/API/SDK sources reviewed as of 2026-10-08; conservative audit eligibility inference, not a current vendor denial.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "documented",
+      "value": "Custom self-host: a single Rust binary, contact sales",
+      "notes": "The Custom offer requires an annual license with no public numeric price. Run on a KVM-capable Linux host in your VPC or datacenter, with no Kubernetes, external Postgres, or Redis. The resources page uses boxd-ctl org set-quota. No public install guide was on the docs index reviewed 2026-10-08; do not treat the open Ignition engine as the whole Boxd platform.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/llms.txt"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "Custom BYOC through self-hosting the binary in your VPC, contact sales",
+      "notes": "FAQ defines BYOC as self-hosting binary in own VPC/datacenter/region. May 4 self-host blog says no upstream managed control plane, binary plus config on KVM host, customer operates it; these are vendor architecture claims, not a public install recipe. Supported-cloud list, managed customer-cloud data-plane service and current deployment details remain unknown. Annual-license Custom negotiated, not public PAYG rates.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/",
+        "https://boxd.sh/blog/self-hosted-agent-execution-for-engineering-teams/",
+        "https://docs.boxd.sh/llms.txt"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript and Python",
+      "notes": "TypeScript is @boxd-sh/sdk, Promise-only and ESM-only, for Node 20+, Bun, and Deno, plus a @boxd-sh/sdk/web entry. Python is the boxd package, sync and async, Python 3.10+. PyPI boxd 0.2.14 retrieved 2026-10-08 declares license_expression MIT; this is the Python client, not the hosted runtime.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://pypi.org/pypi/boxd/json"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "The official docs document TypeScript/Python SDKs and user-generated gRPC stubs for other languages, but the vendor-controlled sources reviewed cannot establish whether third-party community SDKs exist. Generated stubs and guest Go execution are not evidence of a named packaged client; no exhaustive community inventory was established.",
+      "source_urls": [
+        "https://docs.boxd.sh/llms.txt",
+        "https://docs.boxd.sh/llms-full.txt",
+        "https://boxd.sh/llms.txt",
+        "https://docs.boxd.sh/quickstart.md",
+        "https://docs.boxd.sh/reference/grpc-api.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Public gRPC API at boxd.sh:9443, service boxd.api.v1.BoxdApi",
+      "notes": "The gRPC page says the CLI, SSH server, and SDKs are clients of that API. Transport is TLS, with the same certificate the cluster's HTTPS domains use. Plain HTTP/2 (h2c) is still accepted on the same port so older clients keep working. The TypeScript SDK page says the default base URL is https://boxd.sh:9443 and that a https scheme means TLS.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/grpc-api.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "boxd CLI",
+      "notes": "The installer supports macOS Apple Silicon and Linux x86_64 and arm64, installing to ~/.local/bin/boxd. The in-VM CLI is pre-authenticated on ordinary machines but stripped from isolated machines, along with fleet credentials and integrations.",
+      "source_urls": [
+        "https://docs.boxd.sh/cli/installation.md",
+        "https://docs.boxd.sh/guides/vm-to-vm.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Whatever is installed on the machine; the default image is Ubuntu",
+      "notes": "SDK language is separate from the guest. The TypeScript create example sets image to ubuntu:24.04. The homepage FAQ says every machine is Ubuntu 24.04. The sandboxes page says fleets boot the default Ubuntu image.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://boxd.sh",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "KVM microVM with its own kernel",
+      "notes": "The homepage FAQ says a machine is a KVM virtual machine, not a container sharing the host kernel. The sandboxes page says each machine has its own kernel, network stack, and disk. The suspend page says the platform is built on Ignition.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/guides/suspend-resume.md"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Ubuntu 24.04",
+      "notes": "The homepage FAQ states Ubuntu 24.04. The create example uses ubuntu:24.04. Other guest operating systems were not named.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Selectable 1, 2, or 4 vCPU paired with 4, 8, or 16 GiB; default 2 vCPU",
+      "notes": "Resources and current proto establish these fresh-create classes and a default per-machine org ceiling of 4 vCPU / 16 GiB, raiseable by request. Forks/restores retain source size; nonzero sizing is refused by the proto. Resize of a running machine reboots and loses memory, retaining disk. Resume/wake before resizing sleeping machines. The pricing illustration also shows 8 vCPU / 32 GiB but does not establish public ungated access; bigger machines are Custom/requested. The FAQ still describes fixed 2 vCPU machines.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Selectable 4, 8, or 16 GiB paired with 1, 2, or 4 vCPU; default 8 GiB",
+      "notes": "Default org ceiling is 16 GiB; higher quotas require approval. Org defaults only affect subsequent fresh creates. Forks/restores retain captured size. Running resize reboots and loses processes; disk remains. RAM bills on resident usage in running and standby, not allocation. The pricing illustration also shows 32 GiB, not an ungated standard size.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Fixed 100 GB in guides versus 100 GiB in pricing/proto; units unresolved",
+      "notes": "Resources/Docker/disks/overview say 100 GB copy-on-write; pricing/proto say 100 GiB. Proto disk_bytes must be 0 or fixed 100 GiB, not arbitrary root-disk sizing. No conversion made. Standalone disks accept sizes such as 10G/byte count, with same-host attachment. Written guest disk bills in every state; separate retained snapshot/volume/backup charges unknown.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/guides/run-docker.md",
+        "https://docs.boxd.sh/guides/disks.md",
+        "https://docs.boxd.sh/index.md",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08",
+      "notes": "NO DOCUMENTED SUPPORT FOUND for GPUs inside Boxd sandboxes after targeted GPU/CUDA/NVIDIA/accelerator searches and complete current docs/marketing/API/SDK/resources/pricing/FAQ review. Conservative documented-support eligibility inference, not a current vendor denial or proof GPUs cannot exist. Current RL guide keeps your GPUs busy by avoiding CPU rollout resets, not an in-sandbox GPU offering. March 10 roadmap and May 4 vendor comparison/computer-use negatives are historical. Retired self-host accelerator search snippet now returns Overview, not a blocked current feature page; no current positive hosted or Custom GPU support found in replacement sources. CUDA software/custom-image wording is not GPU hardware support. Search/access ledger: the dated official-source review policy follow-up.",
+      "source_urls": [
+        "https://docs.boxd.sh/llms.txt",
+        "https://docs.boxd.sh/llms-full.txt",
+        "https://boxd.sh/llms.txt",
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/use-cases/reproducible-rl-environments.md",
+        "https://boxd.sh/blog/architecture/how-boxd-works/",
+        "https://boxd.sh/blog/anthropic-computer-use-on-a-remote-vm/",
+        "https://boxd.sh/blog/boxd-vs-sprites/"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "create accepts image: ubuntu:24.04; custom images are mentioned by Desktop docs",
+      "notes": "Custom registry authentication, supported registries/tags, Dockerfile-to-guest builds, architecture, size limits, and access gates are not established. Do not equate this parameter or a VM snapshot with arbitrary custom container-image support. Docker builds/runs inside the guest are separately documented. Desktop needs a recent default image and is unavailable on custom images; forks/restores retain source image. Snapshot create cannot also set image/env/cmd/restartPolicy/shared/networks.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/guides/desktop.md",
+        "https://docs.boxd.sh/guides/run-docker.md"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Install anything on the machine",
+      "notes": "The overview comparison says full Linux, root, install anything. The sandboxes page says code can load kernel modules, restart systemd, and edit /etc.",
+      "source_urls": [
+        "https://docs.boxd.sh/index.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Root inside the machine; the login user is in the docker group and sudo is used",
+      "notes": "The homepage FAQ says Ubuntu 24.04 with root. The Docker page says the boxd user is in the docker group so docker works without sudo. The file-operations page uses sudo mv for a root-owned path. The sandboxes page says code has root inside its own VM.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/guides/run-docker.md",
+        "https://docs.boxd.sh/guides/file-operations.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker Engine, Compose v2, and Buildx are preinstalled and the daemon is running",
+      "notes": "The Docker page says containers run on the machine's own kernel. The standalone docker-compose binary is not on the image. Images and volumes share the machine disk.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/run-docker.md"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Processes keep running after SSH disconnects, subject to network idle timers",
+      "notes": "Timers watch inbound TCP/UDP, not CPU or outbound polling: quiet work hibernates after 4 hours by default. Disable auto-hibernate and any enabled auto-suspend for uninterrupted work; clocks/cron/systemd timers freeze while sleeping. SDK exec timeout docs say a remote process may continue, but the current proto says cancellation kills its process group with SIGTERM then SIGKILL; termination on timeout remains conflicting. Stop/reboot/resize lose running processes.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/resources.md"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "CLI cp, console Files tab, and SDK file APIs",
+      "notes": "Uploads stream with no practical size limit stated. Downloads to a laptop are at most 4 MB per cp. From inside a machine, cp downloads at most 1 GB per file. exec has no download cap. The console lists at most 5,000 directory entries. Desktop drag-and-drop is 500 files and 1 GiB per file, upload only.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/file-operations.md",
+        "https://docs.boxd.sh/guides/desktop.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Root disk persists across stop/reboot/sleep, not destruction",
+      "notes": "Stop/reboot retain files but lose processes; suspend/hibernate keep memory. Destroy removes root disk/checkpoints. Snapshots outlive source; standalone disks survive but same-host attach only. Off-cluster disk-only backups: schedule off by default, default retention 7 days, destructive in-place cold restore. Marketing says snapshots cluster-replicated, not automatic failover. Terms September 18 sections 4.5/7.5 disclaim uninterrupted service/data-loss responsibility and require independent backups; 9.4 allows deletion after 30-day retention upon account termination. No automatic host-failure recovery or balance-expiry grace established; persistence is not a durability guarantee. Written disk bills, retained-artifact costs unknown.",
+      "source_urls": [
+        "https://docs.boxd.sh/cli/commands",
+        "https://docs.boxd.sh/guides/disks.md",
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/guides/checkpoints.md",
+        "https://docs.boxd.sh/guides/disaster-recovery.md",
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/features/forking/",
+        "https://boxd.sh/terms/"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Standalone disks outlive the machine; one attachment, same host only",
+      "notes": "Create with a size such as 10G and choose mount path/read-only per attachment. Disk and VM must share a host; attach at fresh creation to place the VM on that host. A snapshot restore cannot attach a disk at creation; later attachment works only if hosts coincide. CLI also refuses --disk with --fork. This is not a freely reattachable cross-host volume. Separate disk/snapshot/backup billing rates and failure durability are not established.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/disks.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/cli/commands"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Standby pause/resume and disk hibernate/wake preserve state",
+      "notes": "Pause requires running, resume requires standby; hibernate/wake are distinct. Suspend guide default: auto-suspend off, auto-hibernate after 4 hours without inbound TCP/UDP. Proto SrfConfig says unset auto-suspend 30 seconds for fresh create: unresolved. Set explicit timers for quiet work. Standby bills resident RAM and written disk, hibernate disk only; near-free wording is not zero charges. Checkpoint restore drops open connections; ordinary cold reboot loses memory.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Standby and hibernate restore memory, processes, and open sockets",
+      "notes": "The suspend page says both states preserve in-memory state and open connections, and that clocks freeze while suspended. Reboot drops memory and connections. Checkpoint restore reboots into the captured memory and disk.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/checkpoints.md"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Named memory-and-disk snapshots; separate in-place checkpoints and disk-only backups",
+      "notes": "Capture requires running and briefly pauses it. Restore creates a new machine from latest ready version; saving again cleans the older version once ready. Snapshots survive source deletion, remain org-scoped, and start restores with unrestricted egress: reapply policy after restore, not atomically with creation. Source size/image/isolation are retained; cached hostname/IP may be stale. No hard snapshot cap; costs and failure guarantees unknown. Checkpoints: 10 per VM, deleted with VM, restore only when ready and on current host; later writes lost and connections drop. Off-cluster disk backups cold-boot in place without memory, schedules off by default, default retention 7 days, schedule floor 15 minutes.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/guides/checkpoints.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/guides/disaster-recovery.md"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Fork copies disk, memory, and running processes, except stopped-source disk-only",
+      "notes": "Copy-on-write, under 200ms vendor claim. Guide says running parent briefly pauses; marketing forking page says never pauses: conflict. Hibernated parent stays asleep while copy wakes. SDK returns scheduled, waitUntilReady separately checks exec. Source shape/isolation and egress retained; guest writes independent, but default private networks are not mutually isolated unless configured. Marketing disk-only-delta/sleep €0 wording is not a zero total bill: rate card bills written disk and standby RAM.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/fork.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh/features/forking/",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Unrestricted until an allowlist is set",
+      "notes": "An empty allowlist is the starting state. An isolated sandbox still has outbound internet. IPv6 egress is refused.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Externally enforced allowlist; empty means unrestricted, not deny-all",
+      "notes": "Hosts/wildcards admit HTTP/HTTPS; public IPv4/CIDRs admit other traffic, including resolved addresses of allowed names. Entries have no scheme/port/path. Wildcard excludes apex; shared-provider/TLD wildcards, non-public addresses, 0.0.0.0/0, and IPv6 are refused. HTTP block returns 403; HTTPS closes handshake; other traffic drops. Bound-secret hosts are always additionally allowed. Fork inherits policy, snapshot restore starts unrestricted; apply policy after restore. Root cannot widen it. No explicit deny-all sentinel, denylist, or DNS-wide blocking guarantee established. September 28 deep dive scopes interception to outbound TCP 80/443 using Host/SNI; bound-host TLS uses cluster CA and server re-resolution. Egress guide says laptop CLI is unavailable, conflicting with current CLI/allowlist guide.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/guides/egress-allowlist.md",
+        "https://docs.boxd.sh/cli/commands",
+        "https://boxd.sh/blog/a-secret-the-machine-never-has/"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "Public HTTPS to a guest listener, dedicated SSH, and up to 3 raw TCP/UDP forwards",
+      "notes": "HTTPS proxy terminates TLS and forwards HTTP/WebSockets to guest port 8000 by default, changeable or auto-detected; unlimited subdomain proxies documented. Bind app to reachable guest interface (official worker example uses 0.0.0.0); loopback-only reachability is not established. Main sleeping hostname has default browser bot check; API clients get 503 without wake unless protection disabled or a named proxy used. Raw ports allocated 40000-60000, owner-only management, persist across reboot, removed on destroy; raw traffic is not HTTPS. SSH uses dedicated shared-proxy port and account key/managed alias. Team-enabled Tailscale restricts all machine ingress to tailnet, but management API stays reachable anywhere.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/https.md",
+        "https://docs.boxd.sh/guides/proxies.md",
+        "https://docs.boxd.sh/guides/port-forwarding.md",
+        "https://docs.boxd.sh/guides/bot-protection.md",
+        "https://docs.boxd.sh/guides/tailscale.md",
+        "https://docs.boxd.sh/use-cases/claude-managed-agents.md",
+        "https://docs.boxd.sh/cli/commands"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "https://name.boxd.sh and named HTTPS subdomain proxies to guest services",
+      "notes": "Public to anyone with link by default, not authenticated like SSH or console; TLS termination, HTTP redirect/HSTS, WebSockets. Guest must run listener on target port, default 8000. Main/www sleeping hostname bot protection is on by default: browser challenge, non-browser 503 with no wake. Named proxies and per-machine custom domains bypass challenge; disabling protection is supported. Team-enabled Tailscale makes machine URLs tailnet-only; management API is not moved. Endpoint follows machine lifecycle; no perpetual URL after destruction is established.",
+      "source_urls": [
+        "https://docs.boxd.sh/quickstart.md",
+        "https://docs.boxd.sh/guides/https.md",
+        "https://docs.boxd.sh/guides/bot-protection.md",
+        "https://docs.boxd.sh/guides/tailscale.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Default/tag-based VM networks; team-enabled org Tailscale ingress",
+      "notes": "Untagged non-isolated VMs share default network; named networks replace it and require shared tag for connections, private .boxd DNS, exec/cp. Isolated VMs never peer with each other or default network; named tags can grant non-isolated peers. Isolation immutable after creation/inherited by copies, but tags editable. It does not disable internet or SSH/HTTPS. Tailscale requires contacting Boxd with reusable auth key; all machine HTTPS/SSH/raw ingress becomes tailnet-only, while management works anywhere. Per-machine custom domains conflict with tailnet; org wildcard works. This is not an outbound allowlist.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/vm-to-vm.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/guides/tailscale.md"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "50 machines per organization after a card is added; 2 before that",
+      "notes": "Forks, golden images, and hibernated machines count. Destroyed machines do not. The resources page says the cap can be raised by email, usually the same day. API keys are 25 per user. Custom domains are 25 per user.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Unlimited runtime advertised; configurable auto-destroy is separate",
+      "notes": "Resources says runtime Unlimited, not a numeric maximum. SDK/proto auto-destroy 0 disables it. This does not disable network-idle suspend/hibernate: quiet CPU work freezes unless timers changed. Account cap is 2 machines without card/50 with card including sleepers; no API request rate established. No billing-balance-expiry retention guarantee established.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/suspend-resume.md"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Auto-hibernate: 4 hours without inbound TCP/UDP; auto-suspend default conflicts",
+      "notes": "Suspend guide says auto-suspend off; proto says unset is 30 seconds for new machines. Timers watch inbound packets, not CPU or outbound worker traffic. Zero disables each timer. Quiet background work and cron/systemd freeze during sleep. Main HTTPS sleeping hostname requires default browser challenge; API/webhook clients get 503/no wake unless named proxy or protection disabled. Standby costs RAM+disk; hibernate disk only. This is idle-state transition, not maximum session lifetime.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/bot-protection.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "unknown",
+      "value": null,
+      "notes": "Resources lists org-machine/API-key/domain quotas, not requests per second. gRPC auth-token exchange is rate-limited per source IP with no numeric ceiling. SDK RateLimitError/maxRetries does not define an entitlement. October 7 customer volume (3,064 machines in busiest hour) is observed usage, not a guaranteed API quota. No numeric create/reset/exec rate established after targeted docs/marketing/API second pass.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-api.md",
+        "https://boxd.sh/blog/moyai/"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Official sources conflict: FAQ EU default versus terms/privacy EU and US clusters",
+      "notes": "FAQ says EU hardware default/no US cloud dependency. Terms updated 2026-09-18 sections 2.5/4.2 describe EU or United States cluster selection with no guarantee of continued availability. Privacy updated 2026-09-01 lists Latitude.sh LLC (US) infrastructure for EU/US clusters and transfers. TypeScript baseURL and Python base_url select a cluster; BOXD_BASE_URL configures either SDK, and in-machine clients automatically target the surrounding machine's cluster unless overridden. Published hosted EU/US endpoint names, city/region IDs and current provisioning access remain unestablished; cluster selection is not an EU-only sovereignty guarantee. Self-host can choose own region under Custom terms.",
+      "source_urls": [
+        "https://boxd.sh/faq/",
+        "https://boxd.sh/terms/",
+        "https://boxd.sh/privacy/",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "exec streams, and the one-shot exec returns stdout, stderr, and an exit code",
+      "notes": "TypeScript streamExec yields chunks. With a PTY, stderr is merged into stdout. The gRPC Exec RPC is a bidirectional stream. The web SDK entry does not support streamExec.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-api.md"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "StreamLogs RPC and SDK machine console-output streams",
+      "notes": "SDK machines.logs returns console bytes, with follow option. Proto StreamLogs returns streamed LogChunk. No separate log-retention duration established; application log files live on guest disk and follow its lifecycle.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "SSH, native SDK streamExec PTY, and Desktop terminal",
+      "notes": "exec accepts tty/cols/rows; PTY merges stderr. Native SDK interactive streaming works, but web SDK/grpc-web is half-duplex and rejects streamExec. Desktop requires recent default image and authenticated console access. SSH uses account key and dedicated proxy port via managed .boxd alias, not bare .boxd.sh port 22. SDK says unset PTY geometry zero, proto says fallback 80x24; set explicit geometry.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/desktop.md",
+        "https://docs.boxd.sh/cli/commands"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Org sealed write-only secrets; optional host-bound placeholders",
+      "notes": "Plain secrets enter guest environment as real values; host-bound secrets use bxds_ placeholders substituted in headers/query/body/Basic auth to named hosts. Default scope shared; private/all available. Isolated machines receive variables only in exec/SSH, never boot services. Already-running machines refresh at next boot profile. Bound hosts are admitted in addition to egress allowlist. HTTPS substitution trusts Boxd cluster CA; certificate-pinning/custom-CA clients must use system trust or unbind. SDK rotation must resend domains, otherwise binding clears; CLI rotation retains it. A compromised guest can still use bound credentials to call allowed APIs; this is not a blanket exfiltration or misuse guarantee.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/env-secrets.md",
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://boxd.sh/blog/a-secret-the-machine-never-has/"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Org roles member, admin, and owner; SSO on Custom",
+      "notes": "There is one owner. Ownership transfer is done by the boxd team. API keys can be member or org credentials. The Custom plan lists SSO and audit logs. Sharing a machine with the org is a separate control.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/organizations.md",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Coding-agent tools/skills, Managed Agents and OpenAI executor guides, and OSS connectors",
+      "notes": "Ordinary default-image machines include Claude Code/Codex/OpenCode; isolated mode strips saved logins, integrations, agent skills and in-VM CLI. Shared machines wipe personal logins. Local CLI installer supplies agent skill; homepage advertises integration MCP installation. OSS overview lists TanStack AI, Flue, Bindu, Harbor, Crabbox, Zuse, Omnara. October 7 Harbor customer story says provider awaits upstream merge and requires its PR branch, not released upstream support. Managed-agent/executor guides require external provider setup/credentials and disabling inbound idle timers for outbound workers. Desktop needs recent default image.",
+      "source_urls": [
+        "https://docs.boxd.sh/use-cases/coding-agents.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/use-cases/oss-integrations.md",
+        "https://boxd.sh/blog/moyai/",
+        "https://docs.boxd.sh/use-cases/claude-managed-agents.md",
+        "https://docs.boxd.sh/use-cases/openai-agents-api.md",
+        "https://docs.boxd.sh/cli/installation.md",
+        "https://docs.boxd.sh/guides/desktop.md",
+        "https://boxd.sh"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Ignition engine LICENSE: AGPL-3.0; Python client 0.2.14 metadata: MIT",
+      "notes": "Ignition is the underlying open-source engine, not proof that the whole Boxd service is open source. Its master LICENSE is GNU Affero GPL version 3; main LICENSE returned 404 on 2026-10-08. Python package license_expression is MIT. Boxd self-host is a separate Custom annual-license offer.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://raw.githubusercontent.com/lttle-cloud/ignition/master/LICENSE",
+        "https://pypi.org/pypi/boxd/json",
+        "https://boxd.sh/pricing/"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": "partial",
+      "note": "Isolated mode removes default fleet peers/credentials, not internet or SSH/HTTPS; named tags may grant non-isolated peers. Empty egress list is unrestricted, bound-secret hosts additionally allowed, and snapshot restore loses policy. No explicit deny-all established.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "Externally enforced host/wildcard HTTP(S) and public IPv4/CIDR policy; empty is unrestricted. Shared-suffix wildcards/IPv6 refused; resolved host addresses can admit other traffic. Bound-secret hosts remain allowed; fork inherits, snapshot restore does not. No blanket DNS/SNI bypass guarantee.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/guides/egress-allowlist.md"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "HTTPS proxy to guest target port (default 8000), WebSockets, named proxies, and 3 raw TCP/UDP forwards (40000-60000, owner-managed, deleted on destroy). Sleeping main URL bot check blocks API wake with 503 unless disabled or named proxy used. Org Tailscale makes ingress tailnet-only.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/https.md",
+        "https://docs.boxd.sh/guides/port-forwarding.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/guides/bot-protection.md",
+        "https://docs.boxd.sh/guides/tailscale.md"
+      ]
+    },
+    "private_networking": {
+      "value": true,
+      "note": "Default/tag-based networks; isolated machines never peer with each other/default pool but can reach named non-isolated peers. Tailscale requires Boxd team enablement and moves machine HTTPS/SSH/raw ingress, not management API; per-machine custom domains conflict.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/vm-to-vm.md",
+        "https://docs.boxd.sh/guides/tailscale.md"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Running-source capture of memory+disk, latest-ready version creates new machine and survives source deletion; old version cleaned when replacement ready. Org-scoped; restore retains image/size/isolation but starts unrestricted egress. Checkpoints are host-local, 10 per VM, deleted with VM; costs unknown.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/guides/checkpoints.md",
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": true,
+      "note": "Standby/hibernate and snapshot boot preserve process memory; checkpoint restores captured memory but drops connections and later writes. Stop/reboot/resize lose memory. Disk-only disaster-recovery backups do not recover processes.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/guides/checkpoints.md",
+        "https://docs.boxd.sh/guides/disaster-recovery.md",
+        "https://docs.boxd.sh/guides/resources.md"
+      ]
+    },
+    "pause_resume": {
+      "value": true,
+      "note": "Pause requires running and resume standby; memory/sockets preserved. Standby pays resident RAM+disk; hibernate disk only. Auto-suspend off in guide versus 30s proto default remains unresolved; inbound idle timers can freeze CPU-busy jobs.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "Copy-on-write disk/live memory; stopped-source disk-only. Copies retain size/isolation/egress. SDK returns scheduled, not exec-ready; waitUntilReady required. Guide brief parent pause conflicts with marketing never-pauses. Writes independent, not private-network isolation by default; disk rate conflicts with marketing free sleep.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/fork.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://boxd.sh/features/forking/",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "Root disk persists through stop/reboot/sleep, deleted on destroy (100 GB guides vs 100 GiB pricing). Stop/reboot lose memory. Snapshots outlive VM; disks same-host, checkpoints deleted with VM. Disk-only off-cluster backups default schedule off/7-day retention. Terms require independent backups, allow deletion after 30-day termination retention; no automatic failure recovery. Written disk charges, ancillary costs unknown.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/disks.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/disaster-recovery.md",
+        "https://boxd.sh/terms/"
+      ]
+    },
+    "volumes": {
+      "value": true,
+      "note": "Standalone disks outlive VM, one attachment, same host only. Attach at fresh creation for placement. Cannot attach at snapshot/fork creation; later attach requires matching host. Retained-disk billing and failure durability not established.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/disks.md"
+      ]
+    },
+    "custom_images": {
+      "value": "partial",
+      "note": "SDK image parameter/default Ubuntu example and Desktop custom-image exclusion establish some image control, not arbitrary container registry/Dockerfile guest support. Registries/auth/tags/architecture/limits/access unknown. Docker builds inside VM are separate.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/guides/desktop.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Docker Engine, Compose v2, and Buildx are preinstalled and the daemon is already running.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/run-docker.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "The homepage says every machine is Ubuntu 24.04 with root, and the sandboxes page says code has root inside its own VM.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for GPUs inside Boxd sandboxes. Targeted GPU/CUDA/NVIDIA/accelerator searches, complete official docs/marketing indexes, resources/pricing and SDK/proto: no current offering. RL trainer-GPU wording is not sandbox hardware; retired self-host snippet now Overview. Conservative audit eligibility inference, not current vendor denial or impossibility; historical March/May negatives do not alone settle October support.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/llms.txt",
+        "https://docs.boxd.sh/llms-full.txt",
+        "https://boxd.sh/llms.txt",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/use-cases/reproducible-rl-environments.md",
+        "https://boxd.sh/blog/architecture/how-boxd-works/",
+        "https://boxd.sh/blog/anthropic-computer-use-on-a-remote-vm/",
+        "https://boxd.sh/blog/boxd-vs-sprites/"
+      ]
+    },
+    "self_hosted": {
+      "value": "partial",
+      "note": "Contact-sales Custom annual-license offering, single Rust binary on KVM-capable Linux in own VPC/datacenter. No public installation procedure or numeric license price established; not an ungated public-plan entitlement.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh/faq/"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "Custom contact-sales annual-license BYOC means customer self-host binary in VPC. May 4 blog says no upstream managed control plane; customer operates KVM host. Not established vendor-managed customer-cloud service; cloud list/current setup unknown.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/",
+        "https://boxd.sh/blog/self-hosted-agent-execution-for-engineering-teams/"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "Ignition engine master LICENSE AGPL-3.0, Python 0.2.14 and TypeScript 0.2.14 package metadata MIT. This is not the full platform/server license; Boxd self-host is Custom commercial annual license.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://github.com/lttle-cloud/ignition",
+        "https://raw.githubusercontent.com/lttle-cloud/ignition/master/LICENSE",
+        "https://pypi.org/pypi/boxd/json",
+        "https://registry.npmjs.org/@boxd-sh%2Fsdk/latest",
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "SSH disconnect does not stop jobs, but inbound-only idle detection freezes quiet CPU/outbound workers; disable hibernate and enabled suspend. SDK timeout may leave work running versus proto cancellation-kills-process-group conflict unresolved.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Native SDK interactive PTY/SSH; web SDK rejects streamExec because grpc-web is half-duplex. Desktop needs recent default image/console access. Set cols/rows explicitly: SDK zero-geometry versus proto 80x24 fallback conflict.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md",
+        "https://docs.boxd.sh/guides/desktop.md"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "Native TypeScript streamExec/Python stream_exec and bidirectional gRPC Exec stream output; PTY merges stderr. Web SDK rejects interactive streamExec due grpc-web half-duplex. SDK/proto disagree on timeout cancellation termination.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://docs.boxd.sh/reference/grpc-api.md"
+      ]
+    },
+    "secrets_management": {
+      "value": true,
+      "note": "Sealed write-only org secrets; plain values enter guest, optional host-bound placeholders substituted on egress. Shared default scope; isolated VMs receive only exec/SSH, not boot. Bound hosts add to allowlist; pinned TLS/custom CA may fail; compromised guest can still use credentials.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/env-secrets.md",
+        "https://docs.boxd.sh/guides/egress.md",
+        "https://boxd.sh/blog/a-secret-the-machine-never-has/"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "The boxd Python package offers sync and async clients.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/python-sdk.md"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "The official TypeScript SDK is @boxd-sh/sdk for Node, Bun, and Deno.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/typescript-sdk.md"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for a published Boxd Go SDK. Targeted Go/Golang/community SDK searches and complete docs/marketing indexes, Quickstart, SDK and gRPC/proto references show TypeScript/Python packages and user-generated Go stubs only. Conservative audit eligibility inference, not vendor denial; Go guest execution and raw generated gRPC clients remain possible. Sprites Go SDK belongs to another product.",
+      "source_urls": [
+        "https://docs.boxd.sh/reference/grpc-api.md",
+        "https://docs.boxd.sh/llms.txt",
+        "https://docs.boxd.sh/llms-full.txt",
+        "https://boxd.sh/llms.txt",
+        "https://docs.boxd.sh/quickstart.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/reference/python-sdk.md",
+        "https://boxd.sh/blog/boxd-vs-sprites/"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "CLI installs from boxd.sh for supported macOS/Linux hosts. In-VM pre-authenticated CLI exists on ordinary machines, stripped in isolated mode.",
+      "source_urls": [
+        "https://docs.boxd.sh/cli/installation.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Homepage MCP integration installation/local CLI agent skill documented. Isolated VMs strip saved agent logins, skills, connected integrations and in-VM CLI; shared VMs wipe personal logins. Harbor October 7 story requires PR branch awaiting upstream merge.",
+      "source_urls": [
+        "https://boxd.sh",
+        "https://docs.boxd.sh/cli/installation.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://boxd.sh/blog/moyai/"
+      ]
+    },
+    "max_vcpu": {
+      "value": 4,
+      "note": "4 vCPU is default org per-machine ceiling, not absolute platform maximum. Fresh classes 1/2/4 paired with 4/8/16 GiB; larger quota contact approval. Pricing illustration has 8/32 but access not established; fork/restore retain source size.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/resources.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 16,
+      "note": "16 GiB is default org per-machine ceiling, not absolute platform maximum. Resources documents 4/8/16 GiB selectable classes; larger quotas contact approval. GiB is sourced, not converted from GB.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/resources.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "Resources says Unlimited, numeric maximum unknown so null, not zero/infinite quantity. Auto-destroy 0 disables destruction only; inbound idle timers may still freeze quiet jobs, charged standby RAM/disk or hibernate disk. No balance-expiry grace established.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": 14400,
+      "note": "The default auto-hibernate is 4 hours without inbound TCP or UDP; auto-suspend is off by default, while the proto comment says an unset auto-suspend timeout means 30 seconds for a new machine.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    }
+  },
+  "pricing_summary": "Credit PAYG, no monthly plan/per-seat fee; terms state no minimum purchase commitment unless separately agreed. EUR: €0.049/vCPU-hour on full count running; €0.015/GiB-hour resident RAM running/standby; €0.0001/GiB-hour written disk every state. Official USD rates $0.059/vCPU-hour, $0.018/GiB-hour RAM, $0.00012/GiB-hour disk are not converted. Org-currency choice in official llms conflicts with EUR-only terms. Every-second sampling advertised; SDK 15-minute accounting buckets do not establish minimum charge/rounding. Starting €30/USD 30 requires card, promotional not recurring; default €20 auto-top-up configurable/off. VAT excluded. Custom annual license negotiated. Creation/build/preparation, separate retained artifacts and network/I/O unpriced, not free. Vendor examples not workload estimates; marketing zero-idle wording conflicts with disk rate.",
+  "pricing": [
+    {
+      "item": "vCPU",
+      "plan": "Pay as you go",
+      "published_price": "€0.049 / vCPU-hour",
+      "conditions": "Billed on the machine's full vCPU count only while it runs. Nothing in standby, hibernated, or stopped. The page says machines are metered every second. Prices exclude VAT. Currency of this row is EUR. The same page also prints a USD card at $0.059 per vCPU-hour. That USD figure was not converted from €0.049.",
+      "source_urls": [
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "item": "RAM",
+      "plan": "Pay as you go",
+      "published_price": "€0.015 / GiB-hour",
+      "conditions": "Resident memory, sampled every second, while running or in standby. Not the provisioned size. Unit is GiB. The USD card on the same page prints $0.018 per GiB-hour. That figure was not converted from the EUR rate.",
+      "source_urls": [
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "item": "Disk",
+      "plan": "Pay as you go",
+      "published_price": "€0.0001 / GiB-hour",
+      "conditions": "Written disk in every state including hibernated/stopped, not provisioned size. USD $0.00012/GiB-hour is separately published. Marketing forking/llms says asleep €0/zero idle, guides near-zero/effectively free; those must not override explicit rate. Copy-on-write delta description does not establish full retained snapshot/backup/volume accounting. Prices exclude VAT. Terms EUR-only charging versus official USD card unresolved.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/llms.txt",
+        "https://boxd.sh/features/forking/",
+        "https://boxd.sh/terms/"
+      ]
+    },
+    {
+      "item": "Published running example",
+      "plan": "Pay as you go",
+      "published_price": "About €0.22 per hour at full memory; about €0.13 per hour in the rate-card illustration; the illustration also prints ≈ €0.13 / hour, €0.098 vCPU, €0.03 RAM, and €0.002 disk",
+      "conditions": "The FAQ says a default machine (2 vCPU / 8 GiB) is about €0.22 per hour at full memory while it runs. The rate card illustrates 2 of 8 GiB resident and 20 of 100 GiB written. These are the page's figures. They were not recomputed.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh"
+      ]
+    },
+    {
+      "item": "Published scenario totals",
+      "plan": "Pay as you go",
+      "published_price": "Development workspace €32.61; preview environment €9.25; coding agent €24.82; personal assistant €9.00; sandbox €5.35; agentic SaaS €12.90; always on €94.90",
+      "conditions": "Vendor illustrative monthly totals for its own typical-day assumptions, not bills or estimates for any Arena workload. Rate-card default example is 2 vCPU, 2 of 8 GiB resident RAM and 20 of 100 GiB written disk; activity splits vary by vendor scenario. No source workload session/duration/concurrency is assumed here; figures not recomputed.",
+      "source_urls": [
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "New account",
+      "published_price": "EUR 30 / USD 30 of starting credits",
+      "conditions": "Official llms specifies both currency grants, not converted. One-time starting grant when card added, not recurring allowance; no charge for adding card. No-card org cap 2, card raises to 50 including sleepers. Production excludes this item, not paid usage rates. Terms EUR-only charging versus org-currency choice unresolved.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/llms.txt",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh/terms/"
+      ]
+    },
+    {
+      "item": "Auto top-up",
+      "plan": "Pay as you go",
+      "published_price": "€20 at a time",
+      "conditions": "Starts after the €30 credits run out. The page says the amount can be changed or switched off under Billing.",
+      "source_urls": [
+        "https://boxd.sh/pricing/"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Pay as you go",
+      "published_price": "No monthly plan/per-seat fee; no minimum purchase commitment unless separately agreed",
+      "conditions": "Pricing FAQ and terms section 5.1 establish no fixed subscription or minimum commitment for default PAYG. Proto still has single boxd-monthly schema/monthly_eur example 2000 (not verified €20 price), plus stripe/credits modes. Old shape catalog gone; schema does not establish compulsory subscription. Terms section 5.2 says EUR charges versus official EUR/USD rate card and llms org-currency choice: contract-currency conflict unresolved. Top-up distinct from recurring subscription or minimum usage charge.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/terms/",
+        "https://boxd.sh/llms.txt",
+        "https://docs.boxd.sh/reference/grpc-proto.md"
+      ]
+    },
+    {
+      "item": "Custom",
+      "plan": "Custom",
+      "published_price": "Talk to us; self-host annual license, no numeric price",
+      "conditions": "Contact-sales bigger machines/quotas, volume pricing, self-host or BYOC, EU residency, SSO/audit logs/support. BYOC described as customer self-hosting binary in own VPC, not established vendor-managed data plane. Public PAYG rates are not the Custom license price.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/faq/"
+      ]
+    },
+    {
+      "item": "Unpublished ancillary charges and billing increments",
+      "plan": "Pay as you go / Custom",
+      "published_price": "Unknown",
+      "conditions": "Every-second machine sampling/metering stated; SDK estimates use 15-minute buckets, lag up to 25 minutes, not proof of minimum bill. Terms explicitly no minimum purchase commitment unless agreed. No explicit charge rounding/minimum increment, creation/reset/fork fee, image build/preparation fee, separate standalone disk/snapshot/checkpoint/backup retention rate, network/ingress/egress/I/O price found after second pass. Missing price is not free. Full vCPU count and resident RAM bill while running even CPU-idle/I/O wait; standby RAM+disk, hibernate disk. Hibernated-state/retained-artifact exact accounting unknown; marketing only-delta/free-sleep must not imply zero total cost.",
+      "source_urls": [
+        "https://boxd.sh/pricing/",
+        "https://boxd.sh/terms/",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/guides/disks.md",
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/guides/disaster-recovery.md",
+        "https://boxd.sh/features/forking/"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Fresh-machine boot (vendor calls cold start)",
+      "published_claim": "Under 10ms",
+      "conditions": "Undated overview/sandboxes claim accessed 2026-10-08 for Boxd fresh machine boot; no sample size, region, resource shape or percentile. Default sandbox image Ubuntu. Not established API round-trip, image preparation, app readiness or independently measured cold creation. CLI describes ordinary cold reboot/stop-start as about 2 seconds, not this operation. SDK create/fork returns scheduled; waitUntilReady separately verifies running and exec, polling up to 90 seconds by default (client deadline, not vendor latency). October 7 customer benchmark explicitly uses pre-warmed template; do not silently apply its conditions to this generic claim.",
+      "source_urls": [
+        "https://docs.boxd.sh/index.md",
+        "https://docs.boxd.sh/use-cases/sandboxes.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/cli/commands.md"
+      ]
+    },
+    {
+      "metric": "Fork",
+      "published_claim": "Under 200ms",
+      "conditions": "Undated Boxd vendor claim accessed 2026-10-08 for live memory/disk copy-on-write; guide brief source pause conflicts with marketing never-pauses. Stopped source has disk only. Examples boot 160ms/161ms are illustrated outputs, not percentiles. Resources say fork retains source shape. No region/resource/test sample published. SDK return means scheduled, not usable; waitUntilReady is separate. Fork latency is not reset, cold boot or arbitrary app-ready latency.",
+      "source_urls": [
+        "https://docs.boxd.sh/index.md",
+        "https://docs.boxd.sh/guides/fork.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://boxd.sh",
+        "https://boxd.sh/features/forking/"
+      ]
+    },
+    {
+      "metric": "Snapshot boot example",
+      "published_claim": "The snapshots page prints a create example with boot 6ms",
+      "conditions": "Undated Boxd illustrated output accessed 2026-10-08, not measured percentile/guarantee. Captured memory+disk restore, source image/size retained; no region/test setup specified. SDK returns scheduled and waitUntilReady separately checks exec. Snapshot restores lose egress allowlist and cannot attach standalone disk at creation. Faster-than-live-fork statement is vendor qualitative, not comparative measurement.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/snapshots.md",
+        "https://docs.boxd.sh/reference/typescript-sdk.md",
+        "https://docs.boxd.sh/guides/egress.md"
+      ]
+    },
+    {
+      "metric": "Wake from standby",
+      "published_claim": "Sub-millisecond",
+      "conditions": "Undated Boxd vendor claim accessed 2026-10-08 for RAM standby restore, not HTTP/app-ready end-to-end latency. Example resume_us 840 is one illustration, not a statistic; no shape/region/sample. Disk hibernate ~85ms guide conflicts with homepage/pricing sub-ms disk wake. Main sleeping HTTPS URL can add browser challenge or 503/no wake for API clients; use named proxy or disable protection. Standby RAM and disk still bill.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://boxd.sh",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/bot-protection.md"
+      ]
+    },
+    {
+      "metric": "Wake from hibernate",
+      "published_claim": "About 85ms",
+      "conditions": "Undated guides accessed 2026-10-08: Boxd disk-state replay ~85ms, not a percentile/HTTP ready measurement; shape/region/sample unspecified. Homepage/pricing FAQ describe disk wake as under/sub-millisecond, unresolved conflict. Main sleeping HTTPS URL adds browser challenge or 503/no wake for API clients unless protection disabled/named proxy. Standby RAM resume is a different operation.",
+      "source_urls": [
+        "https://docs.boxd.sh/guides/suspend-resume.md",
+        "https://docs.boxd.sh/guides/resources.md",
+        "https://docs.boxd.sh/index.md",
+        "https://boxd.sh",
+        "https://boxd.sh/pricing/",
+        "https://docs.boxd.sh/guides/bot-protection.md"
+      ]
+    },
+    {
+      "metric": "Pre-warmed-template creation to running: median and p95",
+      "published_claim": "5 ms median; 12 ms at the 95th percentile over 279,577 machines",
+      "conditions": "Vendor customer story published 2026-10-07, accessed 2026-10-08. Moyai Harbor environments boot from Boxd pre-warmed template; vendor event-log population since August 2026, weekly chart through September 27. Full Linux KVM VM, Docker daemon, 100 GB disk; exact vCPU/RAM/region/template content and API round-trip/exec readiness not specified. Not independent measurement, not uncached cold create/reset/resume, and not an API-rate/concurrency entitlement. Harbor connector awaits upstream merge; PR branch installation documented.",
+      "source_urls": [
+        "https://boxd.sh/blog/moyai/"
+      ]
+    }
+  ],
+  "research_notes": [
+    "This dossier is the hosted boxd machine product at boxd.sh. Sandboxes are a use case of the same machine, created with isolated, not a second product with different rates.",
+    "Disk size is 100 GB on the resources, Docker, disks, and overview pages, and 100 GiB on the pricing page and in the gRPC disk_bytes comment. The units were not converted.",
+    "The pricing page says no monthly plan/per-seat fee. Current proto still has a single boxd-monthly schema, stripe/credits modes and monthly_eur cents with a 2000 example; no live subscription price is inferred. Its old subscription shape catalog is gone.",
+    "Standby and hibernate costs disagree. The rate card bills resident RAM in standby and written disk in every state. The resources and suspend pages call those states near zero and effectively free.",
+    "Wake time disagrees. The suspend page says standby is sub-millisecond and hibernate is about 85ms. The homepage and the pricing FAQ describe a disk resume as under a millisecond or sub-millisecond.",
+    "Auto-suspend disagrees. The suspend page says it is off by default. The proto comment says an unset timeout means 30 seconds for a new machine.",
+    "Resources/current proto now establish fresh 1/4, 2/8 and 4/16 vCPU/GiB classes, default 2/8, default ceiling 4/16, larger quotas by request. Pricing illustration also shows 8/32 but access is not established; FAQ fixed-shape wording remains stale relative to resource guide.",
+    "gRPC port 9443 is TLS with legacy h2c still accepted; SDK default uses https. grpc-web supports fetch but not interactive bidirectional streamExec. Earlier cleartext-only note was wrong.",
+    "FAQ EU-default/no-US-dependency wording conflicts with terms September 18 EU/US cluster selection and September 1 privacy Latitude.sh LLC EU/US infrastructure. Actual selectable region access unresolved. GPU eligibility is unsupported/false under October 8 clarified documented-support policy after thorough current-source search; historical March/May negatives are not asserted as current vendor denial. Ignition master LICENSE AGPL-3.0 (main 404), Python 0.2.14 MIT, not open whole Boxd platform.",
+    "SDK exec docs say remote process may continue on timeout; current proto says cancellation kills process group. CLI/SDK PTY default geometry also conflicts with proto. No runtime calls were made to resolve these.",
+    "Snapshot restores start with unrestricted egress, even for isolated lineages; bound-secret hosts add destinations to policy. Standalone disks/checkpoints are host-local; no automatic host-failure recovery guarantee or ancillary retained-artifact/network/I/O prices found.",
+    "October 7 Moyai customer story reports pre-warmed-template creation-to-running median 5 ms/p95 12 ms, not general cold/application-ready latency. Harbor connector is still described as awaiting upstream merge.",
+    "Second pass used domain-restricted websearch, current docs/marketing indexes/sitemaps and full API/SDK pages. Search-cached old self-host/custom-image/pricing/resource pages now redirect to overview/quickstart/current pricing/resources; old snippets are not current evidence. Marketing forking page says parent never pauses and sleep costs €0, conflicting with fork guide brief pause and written-disk rate. Terms no minimum purchase commitment is documented; EUR-only terms conflict with EUR/USD published rates."
+  ]
+}

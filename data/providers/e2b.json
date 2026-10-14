@@ -1,0 +1,994 @@
+{
+  "id": "e2b",
+  "name": "E2B",
+  "product_name": "E2B Sandbox",
+  "website": "https://e2b.dev",
+  "docs_url": "https://docs.e2b.dev",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "E2B Cloud",
+      "notes": "Vendor-operated Firecracker Linux sandboxes on Google Cloud; Hobby, Pro and Enterprise. US default on all plans; EU and APAC require Pro or above and support enablement. Projects/API keys/templates/sandboxes/volumes are region-scoped; no cross-region template copy, build separately. API key required; exhausted credits block usage until payment method added. Public-cloud terms do not automatically apply to Embed or negotiated BYOC.",
+      "source_urls": [
+        "https://e2b.dev/index.md",
+        "https://docs.e2b.dev/client.md",
+        "https://docs.e2b.dev/faq/egress-ip-ranges.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "documented",
+      "value": "E2B Embed and open-source E2B runtime",
+      "notes": "Single-node control plane/runtime/storage via Compose, AWS/GCP/Azure Terraform or Kubernetes; no E2B account/license key. Live preflight supports x86_64 and aarch64 with KVM, 4 KiB host pages, kernel >=6.8 x86 or >=6.10 arm, glibc >=2.34, cgroup v2/TUN/NBD/host tools and default 20 GiB host free disk. Mac use is nested Linux VM on M3+/macOS15+, not native macOS guest. Marketing still names x86-64 only; pinned release/artifact availability matters. Plain HTTP/header routing, not managed public HTTPS; operator firewalls internal ports including unauthenticated5008. Launcher shutdown ends sandboxes; local storage is not a node-failure guarantee. BYOP unsupported by open runtime; Secrets launch does not establish Embed parity.",
+      "source_urls": [
+        "https://e2b.dev/index.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/README.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/compose/scripts/preflight.sh",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/sandbox/sandboxApi.ts"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "Enterprise managed deployment in the customer AWS, GCP, or Azure account and VPC",
+      "notes": "Contact sales/onboarding required. E2B provisions and monitors the cluster; templates, snapshots, logs and sensitive sandbox/build traffic stay in the customer VPC, while anonymized system metrics go to E2B Cloud. This is not customer-operated self-hosting. A separate private-cloud offering with the whole control plane inside the customer boundary remains in development.",
+      "source_urls": [
+        "https://docs.e2b.dev/byoc.md",
+        "https://e2b.dev/index.md"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python and JavaScript/TypeScript",
+      "notes": "Packages are named e2b. A CLI is documented separately.",
+      "source_urls": [
+        "https://docs.e2b.dev/",
+        "https://e2b.dev/"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "Go (third-party community SDKs; not vendor-maintained)",
+      "notes": "Public third-party Go repositories provide E2B sandbox lifecycle, command, and filesystem SDKs, including a package with documented create/connect, commands, files, PTY, volumes, and templates. This establishes the existence of community Go clients, not E2B endorsement, official support, quality, or current compatibility. E2B official SDK inventory remains Python and JavaScript/TypeScript.",
+      "source_urls": [
+        "https://github.com/superduck-ai/e2b-go-sdk",
+        "https://github.com/xagentAI/e2b-go",
+        "https://docs.e2b.dev/client.md",
+        "https://github.com/e2b-dev"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Available",
+      "notes": "Docs index lists sandbox, template, snapshot, and volume HTTP endpoints, including v2 routes.",
+      "source_urls": [
+        "https://docs.e2b.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "Available",
+      "notes": "CLI docs cover auth, create, exec, fork, snapshots, and shutdown.",
+      "source_urls": [
+        "https://docs.e2b.dev/cli"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Linux guest; Code Interpreter supports Python, JavaScript, TypeScript, R, Java, and Bash",
+      "notes": "Code Interpreter's language list is not the contents of every base template. Default base includes Python 3 and Node.js; other runtimes can be installed in a compatible custom template. SDK languages do not limit guest execution.",
+      "source_urls": [
+        "https://docs.e2b.dev/code-interpreting/supported-languages.md",
+        "https://docs.e2b.dev/template/base-image.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Firecracker microVM with its own kernel",
+      "notes": "Homepage summary: hardware-isolated microVM rather than a shared-kernel container.",
+      "source_urls": [
+        "https://e2b.dev/"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux",
+      "notes": "Default base is Debian-based; compatible template images include Debian/Ubuntu, Fedora/RHEL family, Arch and Alpine, plus the prepared e2bdev/nixos image. Images without identifiable /etc/os-release or required packages fail provisioning. Template kernel is LTS Linux 6.1, fixed at build time; rebuild to change it. Desktop is an Ubuntu/VNC template, not a different hosted OS guarantee.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/base-image.md",
+        "https://docs.e2b.dev/template/how-it-works.md",
+        "https://docs.e2b.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "1 to 8 vCPUs on the published self-serve range; Pro and Enterprise can be higher",
+      "notes": "Pricing page says the default sandbox has 2 vCPUs. Billing FAQ instead says to start with 2 vCPU. Both agree on 2 vCPU as a default CPU figure.",
+      "source_urls": [
+        "https://e2b.dev/pricing",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Pricing 1-8 GiB; template API minimum 128 MiB; base documented 512 MiB",
+      "notes": "Different defaults remain: pricing says 4 GiB, base/billing/cost FAQ 512 MiB; build-limits FAQ says rebuild without resource parameters defaults to 1024 MiB. Base instance vs custom build scope is distinct, not a universal default. API memoryMB described in MiB with schema minimum128; SDK BuildOptions comment calls it MB, retain unit conflict. Hobby max8 GiB, Pro8+ via support, EnterpriseCustom; schema acceptance is not operational guarantee for every plan/image. Do not normalize MB/MiB/GiB or assert1GiB universal minimum.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/template/base-image.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/api-reference/templates/create-template-v3.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/template/types.ts"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Included free disk headroom: Hobby 10 GiB; Pro 20+ GiB; Enterprise custom",
+      "notes": "Build-limits FAQ explicitly says free space above image contents, not maximum template size; total filesystem can be larger. Plan applied at build time; higher Pro needs support and rebuild. Separate uncompressed base-image cap is team-specific, reported in build error, raise via support; post-unpack copy/run data not part of image-size cap. API/SDK minFreeDiskMb in MiB requests best-effort free growth, omit uses team default, zero no growth, never shrinks. Pricing/billing shorthand calls10/20GiB storage/disk; no pooled account allowance or all volume/snapshot meters implied free.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/api-reference/templates/create-template-v3.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/template/types.ts"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No GPU sandboxes",
+      "notes": "GPU FAQ and current pricing explicitly say CPU-only, with no GPU option in SDKs, CLI, API or template definition; BYOC does not change this. Remote model inference is not an attached GPU.",
+      "source_urls": [
+        "https://docs.e2b.dev/faq/gpu-support.md",
+        "https://e2b.dev/pricing.md"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Reusable templates from compatible linux/amd64 images, Dockerfiles and private registries",
+      "notes": "V2 SDK >=2.3, general/GCP Artifact Registry/AWS ECR credentials. Migration docs explicitly require linux/amd64 images for fromImage; not proof of same guest architecture on arm64 Embed. Parser no multi-stage Dockerfiles, EXPOSE/VOLUME skipped, unsuitable OS/minimal images fail; prebuilt multi-stage Docker image can be imported after external build. Prepared e2bdev/nixos supported. Base-image uncompressed size cap team-specific/error/support, separate from10/20GiB free headroom; exact cap unknown. Whole build/single command1h; readiness/copy10min, layer upload30min, queued40min; only one build/name+tag, new supersedes old.20 concurrent Hobby/Pro, EnterpriseCustom, higher resources require rebuild with explicit parameters. Tags mutable; pin build ID for exact artifact; no cross-region copy, build each region.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/base-image.md",
+        "https://docs.e2b.dev/template/private-registries.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/migration/template-v2.md",
+        "https://docs.e2b.dev/template/tags.md",
+        "https://docs.e2b.dev/client.md"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Template build steps and runtime package installation",
+      "notes": "pip/npm and sudo apt examples. Runtime changes stay in that instance unless explicitly paused/snapshotted or exported; a fresh base-template instance does not inherit them. Package manager must exist and network policy must permit downloads. Default Debian guidance is not a restriction to Debian-only custom templates.",
+      "source_urls": [
+        "https://docs.e2b.dev/quickstart/install-custom-packages.md",
+        "https://docs.e2b.dev/template/base-image.md"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Guest root selection and sudo are documented",
+      "notes": "Default template user is user, /home/user. PTY examples explicitly select user='root'; Docker examples run sudo during build and runtime; package quickstart uses sudo apt. Guest privileges, not host root, and custom templates can choose another default user.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/pty.md",
+        "https://docs.e2b.dev/template/examples/docker.md",
+        "https://docs.e2b.dev/template/user-and-workdir.md",
+        "https://docs.e2b.dev/quickstart/install-custom-packages.md"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker and Docker Compose inside a prepared guest template",
+      "notes": "Ubuntu 24.04 example installs Docker, validates hello-world and runs sudo docker in the sandbox. Vendor recommends at least 2 CPUs and 2 GB RAM; example uses cpuCount 2 and memoryMB 2048. Lower RAM can OOM. This is guest Docker, not host/container isolation or Docker preinstalled in every base template.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/examples/docker.md"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Background commands survive SDK disconnection while the sandbox runs",
+      "notes": "commands.run background=true returns immediately; default command timeout is 60 seconds and kills the process even in background. Set command timeout 0 to disable it and separately extend sandbox TTL. Persist sandbox ID/pid to reconnect; redirect output to a file because streams are not replayed and can stall after connection loss. Full pause restores processes, filesystem-only/reboot does not; external connections drop. SDK/CLI fork count is 1-20 from SDK 2.52.0/CLI 2.21.0 (API schema still max 100); forks default to 15-second TTL and consume concurrency. Hobby/Pro create rate 1/5 per second, separate from 20/100 default running slots.",
+      "source_urls": [
+        "https://docs.e2b.dev/commands/background.md",
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/fork.md",
+        "https://docs.e2b.dev/changelog.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "SDK filesystem upload/download and template file seeding",
+      "notes": "Read/write files; multi-file upload available, but no simple whole-directory upload/download and multiple downloads are separate calls. Export must precede destructive kill; export/import is not process-memory recovery.",
+      "source_urls": [
+        "https://docs.e2b.dev/quickstart/upload-download-files.md"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Explicit pause keeps root files; saved snapshots or private-beta volumes enable replacement recovery",
+      "notes": "Paused state retained indefinitely until kill; default timeout kills and cannot resume. Full pause preserves memory too; filesystem-only pause reboots. Rebooting a memory-inclusive snapshot loses unflushed writes: flush/sync first. Saved snapshot can spawn new instances beyond source lifetime; volume data independently survives sandbox shutdown but requires private-beta access, fixed mounts at create, and is not a root-disk guarantee. Unexpected host/failure recovery guarantees not established.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/snapshots.md",
+        "https://docs.e2b.dev/sandbox/resume-without-memory.md",
+        "https://docs.e2b.dev/volumes.md"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Private-beta persistent volumes; separately configured S3/GCS/R2 bucket mounts",
+      "notes": "Volume access requires support; managed volumes US/EU only, not APAC. Independent data survives sandbox shutdown and mounts can be shared; set at create and cannot replace through resume/connect/fork. No volume snapshots, server-side copies or read-only mounts; locking can hang, small-file operations have network overhead, permission bits are not enforced between guest users, and deleting a mounted volume can prevent resume. Buckets require FUSE/custom template, external account/credentials and external storage terms, not a native-volume equivalence.",
+      "source_urls": [
+        "https://docs.e2b.dev/volumes.md",
+        "https://docs.e2b.dev/faq/volumes-beta-limitations.md",
+        "https://docs.e2b.dev/storage/cloud-buckets.md"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Explicit pause/connect and opt-in timeout pause/auto-resume",
+      "notes": "Full pause saves root filesystem and memory indefinitely; kill is terminal and timeout defaults to kill. Paused sandboxes not billed for compute or counted in running concurrency. Auto-resume requires a memory snapshot; after wake TTL is at least 5 minutes or original longer value, not reset by ordinary activity. Pause can be refused while previous snapshot persists (503 behavior rolling out; earlier regions may return 500); sandbox keeps running under the documented new behavior, so wait for success before assuming suspension/billing stop. Auto-pause snapshot backlog can fall back to disk-only after about two minutes. Network clients must reconnect.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md",
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Full pause and memory snapshots restore processes; not every recovery transition",
+      "notes": "Default full pause saves RAM/processes; filesystem-only pause and onResume='reboot' discard memory and reboot. Reboot drops unflushed writes. During region-by-region pause-refusal rollout, auto-pause can fall back to filesystem-only after roughly two minutes of snapshot backlog, losing memory. External network connections always disconnect. Self-hosted control planes need compatible version/feature enablement for reboot; older versions can ignore it. Not an unconditional host-failure recovery guarantee.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/filesystem-only-snapshots.md",
+        "https://docs.e2b.dev/sandbox/resume-without-memory.md"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Persistent root-filesystem checkpoints with default memory restore spawn new sandboxes",
+      "notes": "envd>=0.5.0, rebuild older templates. Source briefly pauses then continues same ID; WebSocket/PTY/command streams drop. Snapshot template/tag outlives source; spawn via ID, delete explicitly. REST create-snapshot accepts memory=false for disk-only new-instance cold boot; JS main SDK createSnapshot exposes name but does not forward a memory option, unlike keepMemory on pause. No uniform standalone retention/quota/rate/price published; template count unrestricted but100-item list pages are pagination, not total quota. Private-beta volumes no snapshots; external mounts not documented backed up by root checkpoint. Snapshot name can update existing template build/tag, not immutable historical-name guarantee.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/snapshots.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/create-snapshot.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/list-snapshots.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/sandbox/sandboxApi.ts",
+        "https://docs.e2b.dev/faq/template-limit.md",
+        "https://docs.e2b.dev/faq/volumes-beta-limitations.md"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "SDK/CLI 1-20 forks per call; REST schema maximum 100",
+      "notes": "October 5 changelog: SDK >=2.52.0 and CLI >=2.21.0 reject counts outside 1-20; marketing and REST schema still say 100. Preserve interface distinction; no universal 100-copy SDK claim. Capture once; independent IDs/state/timeouts, original keeps ID/expiry and uses a concurrency slot. Fork TTL defaults to 15 seconds; count also below team's concurrent limit. Write-heavy source pauses longer and streams disconnect; individual copies can fail independently. Saved snapshots are reusable checkpoints, fork call capture is used for that call. No numeric reset/fork latency established.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/fork.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/fork-sandbox.md",
+        "https://docs.e2b.dev/changelog.md",
+        "https://e2b.dev/index.md"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Public outbound internet on by default; opt-in deny-all",
+      "notes": "allowInternetAccess=false is documented as denyOut 0.0.0.0/0. Platform separately blocks private/link-local address ranges outside guest; platform control-channel return traffic is an exception. Domain allowlists automatically allow DNS to 8.8.8.8. Disabling outbound does not secure public ingress; configure allowPublicTraffic separately.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/internet-access.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "IP/CIDR allow/deny; domain allowlists only with default deny",
+      "notes": "No domain deny lists. Domain inspection HTTP Host:80/TLS SNI:443 only; other ports CIDR, no QUIC domain filter. Domain use auto-allows DNS8.8.8.8; allow overrides deny. Shared CDN/storage endpoint may allow other destinations, not blanket isolation. Blocked socket may look open; verify application response. updateNetwork replaces/omitted fields clear, not merge. Public ingress separate; HTTPS transforms public beta. BYOP private beta Cloud/BYOC: TCP after filtering, fails closed on proxy failure; UDP/DNS bypass. API-only TLS hop to proxy, current SDK only forwards address/user/password, discarding TLS option. Open runtime rejects BYOP despite broad Embed marketing; guest tunnel bypassable. No static managed E2B egress IP any plan; own proxy can provide one.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/internet-access.md",
+        "https://docs.e2b.dev/network/byop.md",
+        "https://docs.e2b.dev/network/ip-tunneling.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/update-sandbox-network.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/sandbox/sandboxApi.ts",
+        "https://docs.e2b.dev/faq/egress-ip-ranges.md",
+        "https://docs.e2b.dev/changelog.md"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "Managed-cloud HTTPS proxy to services inside sandbox; not general raw TCP ingress",
+      "notes": "getHost(port) produces https://{port}-{sandboxId}.e2b.app. Service must listen on reachable interface (docs use 0.0.0.0); proxy terminates external TLS and normally forwards HTTP. httpsPorts at creation re-encrypts to guest TLS without certificate verification, not TLS passthrough. Public by default; allowPublicTraffic=false requires e2b-traffic-access-token header (403 without). Pause disconnects clients; opt-in memory auto-resume can wake service, kill ends it. SSH requires installed OpenSSH plus WebSocket proxy, not raw port-22 forwarding. Self-hosted Embed is plain HTTP/header routing and does not supply managed HTTPS hostnames; BYOC private load balancer is deployment-specific.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/public-url.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md",
+        "https://docs.e2b.dev/sandbox/ssh-access.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "Managed-cloud public HTTPS sandbox service URLs via getHost(port)",
+      "notes": "Anyone knowing URL can reach listening service by default, including Code Interpreter port 49999 if present. Restrict public traffic to require per-sandbox token header. HTTPS terminates at proxy; guest HTTP default, optional httpsPorts re-encryption with unverified guest certificate. Running lifetime or enabled memory auto-resume only; clients reconnect after pause. Not raw TCP/SSH; self-hosted Embed needs header routing and customer TLS setup instead of these public hostnames. Custom-domain guide uses customer-operated GCP/Caddy proxy and Cloudflare DNS, not a native managed custom-domain promise.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/public-url.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md",
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/network/custom-domain.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Enterprise BYOC internal load balancer and VPC connectivity",
+      "notes": "Contact sales and configure internal load balancer/VPC peering; Azure uses internal load balancer plus customer Private Link service/private endpoint. E2B-operated deployment, not a generally available shared-cloud sandbox-to-sandbox private mesh. Shared-cloud docs block private/link-local outbound ranges outside guest; proxy tunneling alone is not private network eligibility. Exact BYOC egress-policy interactions require deployment-specific confirmation.",
+      "source_urls": [
+        "https://docs.e2b.dev/byoc.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Hobby 20; Pro 100, Pro+ 600, Pro++ 1,100; Enterprise 1,100+ or custom",
+      "notes": "Running sandboxes only; paused do not count. Billing now says each $500/month add-on adds 500 slots, up to 1,100 on Pro; pricing prints total plan/add-on fees $650 and $1,150. Enterprise custom capacity is negotiated, not guaranteed. Separate creation rates 1/sec Hobby, 5/sec Pro; listed GET rates 10/20 per project/endpoint, Enterprise custom. Fork source consumes a slot and SDK/CLI max per call is 20.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md",
+        "https://docs.e2b.dev/sandbox/fork.md"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Hobby 1 hour continuous; Pro 24 hours continuous; Enterprise custom",
+      "notes": "Billing docs say this is continuous runtime without a pause, not a cap on how long a sandbox can exist. Pausing resets it. Paused retention is unlimited.",
+      "source_urls": [
+        "https://docs.e2b.dev/billing.md",
+        "https://e2b.dev/pricing"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Configurable running TTL, default 5 minutes; not an established idle detector",
+      "notes": "Default timeout action is destructive kill; opt into onTimeout='pause'. Commands/files/HTTP activity do not reset running TTL. setTimeout resets from now; connect only extends to later of current expiry and now+timeout (default 300 seconds). Auto-resume gets at least 5 minutes or original longer timeout, not a 5-minute billing minimum. Billing FAQ calls this inactivity/auto-pause, but lifecycle docs explicitly describe fixed TTL. Continuous runtime caps are Hobby 1 hour/Pro 24 hours; pause/resume resets that window.",
+      "source_urls": [
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md",
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Listed GET endpoints: Hobby 10 and Pro 20 requests/second per project per endpoint; Enterprise custom",
+      "notes": "Includes list sandboxes/metrics/snapshots/templates/API keys/volumes/secrets; path IDs and API keys share the endpoint allowance; pagination requests count. Not a universal rate for all methods. Creation separately 1/sec Hobby, 5/sec Pro, Enterprise custom. 429 returns Retry-After; SDK >=2.49.1 retries these; SDK 2.52.0 also handles documented 502/503 responses with retry policy. Exact fork/reset write rates not published in the reviewed table.",
+      "source_urls": [
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/changelog.md"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Cloud Google regions: US us-west1; EU europe-west1; APAC asia-southeast1",
+      "notes": "US default/all plans; EU and APAC Pro+ and support-enabled domain/project. State/API keys/templates/volumes region-scoped; no region option or cross-region template copy, build once per region. Docs list current Google placements but warn they may span/change regions, not fixed E2B CIDRs/static egress IP on any plan. Private-beta volumes only US/EU, not APAC. Region multipliers not published; Enterprise negotiates pricing/regions and BYOC region/customer quotas during onboarding. Unified console does not unify regional state.",
+      "source_urls": [
+        "https://docs.e2b.dev/client.md",
+        "https://docs.e2b.dev/faq/egress-ip-ranges.md",
+        "https://docs.e2b.dev/faq/volumes-beta-limitations.md",
+        "https://docs.e2b.dev/byoc.md",
+        "https://e2b.dev/enterprise.md"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Supported",
+      "notes": "Command docs include streaming output.",
+      "source_urls": [
+        "https://docs.e2b.dev/commands/streaming"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Sandbox logs API and metrics; Enterprise OTel export",
+      "notes": "GET /v2/sandboxes/{id}/logs supports cursor/limit/direction/level/search; max1000 per request is not retention. Managed OTel Enterprise/onboarding, best effort/drop possible. Lifecycle-events API7-day retention is separate from general sandbox output-log retention, which remains unestablished. Embed ClickHouse logs7days and configured collector separate. Enterprise SLA negotiated, not default log durability.",
+      "source_urls": [
+        "https://docs.e2b.dev/api-reference/sandboxes/get-sandbox-logs-v2.md",
+        "https://docs.e2b.dev/sandbox/lifecycle-events-api.md",
+        "https://docs.e2b.dev/sandbox/otel-telemetry-export.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md",
+        "https://e2b.dev/enterprise.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "Interactive PTY; SSH via prepared WebSocket proxy template",
+      "notes": "PTY bidirectional streaming and reconnect; default PTY timeout 60 seconds, disable with timeout 0 for longer sessions subject to sandbox TTL. SSH requires OpenSSH/websocat and wss proxy; not direct public TCP/22. Stream keepalives do not guarantee uninterrupted connections; pause/snapshot drops clients.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/pty.md",
+        "https://docs.e2b.dev/sandbox/ssh-access.md",
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Managed-cloud GA project-scoped write-only Secrets injected at egress HTTPS proxy; BYOC coming soon",
+      "notes": "October7,2026 launch explicitly GA, superseding Sept14 private-beta changelog; BYOC coming soon despite Enterprise table saying Yes. Embed parity not established. HTTPS transform itself public beta; no plainHTTP/arbitrary guest-env injection (direct in-guest delivery planned). Secret.fill formats placeholder locally; actual value injected outside guest. OpenAPI transform prose says client-side resolution, conflicting with SDK placeholder code and live guide/launch; no claimed client decryption. Destination may echo value. Missing/deleted/unavailable secret omits header but forwards traffic, including removal of conflicting guest header; scope destinations narrowly. Limits page100/project (API409 reports effective cap, example50),64KiB/value,32 names/host,256KiB/request; fixed10 domains/sandbox,1rule/domain,20headers/rule,2048char/value. Broad transform wildcard can expose credentials across matching hosts.",
+      "source_urls": [
+        "https://e2b.dev/resources/introducing-e2b-secrets.md",
+        "https://e2b.dev/enterprise.md",
+        "https://docs.e2b.dev/secrets.md",
+        "https://docs.e2b.dev/secrets/inject.md",
+        "https://docs.e2b.dev/secrets/limits.md",
+        "https://docs.e2b.dev/api-reference/secrets/create-secret.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/update-sandbox-network.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/secret.ts",
+        "https://docs.e2b.dev/network/internet-access.md",
+        "https://docs.e2b.dev/changelog.md"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "API keys, sandbox traffic tokens and private-beta workload identity",
+      "notes": "API key authenticates SDK/CLI. Public URLs anonymous by default; allowPublicTraffic=false requires e2b-traffic-access-token. Workload identity private beta via support: up to 5 JWT-SVID tokens per sandbox, audience/project scoped, injected outside sandbox; external service verification/exchange required. Exchanged AWS credentials can outlive sandbox/token. These are distinct mechanisms, not a verified broad IAM/RBAC matrix or automatic ingress security.",
+      "source_urls": [
+        "https://docs.e2b.dev/api-key.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md",
+        "https://docs.e2b.dev/iam/workload-identity.md"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Many coding agents and desktop computer use",
+      "notes": "Docs index lists Claude Code, Codex, Cursor, Devin, OpenAI Agents SDK, LangChain, and an Ubuntu desktop for computer use, among others.",
+      "source_urls": [
+        "https://docs.e2b.dev/llms.txt",
+        "https://e2b.dev/"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for E2B runtime/Embed; official inventory also names SDKs and CLI",
+      "notes": "Runtime LICENSE and Embed README verified directly; hosted service has separate terms. Open-source client license is not the basis for self-hosted support; runtime/control-plane deployment is documented separately.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/LICENSE",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/README.md",
+        "https://e2b.dev/open-source.md"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Opt-in outbound deny-all via allowInternetAccess=false/denyOut 0.0.0.0/0; not default isolation of public ingress. Domain policies add DNS exception; shared endpoints weaken destination isolation. Public URL access needs separate traffic-token policy. Embed requires operator firewall/TLS configuration.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/internet-access.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "IP/CIDR allow/deny; domains only allowed with default deny, not domain deny lists. HTTP Host:80 and TLS SNI:443 only; other ports CIDR, no QUIC domain filter. Automatic DNS 8.8.8.8 exception, allow beats deny, shared CDN/storage destinations can remain reachable. Network updates replace rules.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/internet-access.md"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "Managed-cloud HTTPS service proxy via getHost(port), public by default or traffic-token restricted. TLS terminates at proxy; guest HTTP default, optional httpsPorts re-encryption without guest-cert verification. Pause disconnects clients; memory auto-resume optional. Not raw TCP/SSH. Embed is plain HTTP/header routing and needs customer TLS setup.",
+      "source_urls": [
+        "https://docs.e2b.dev/network/public-url.md",
+        "https://docs.e2b.dev/network/restrict-public-access.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "Enterprise BYOC internal load balancer/VPC peering or Azure Private Link after onboarding; not an established generally available shared-cloud sandbox private mesh. Confirm BYOC egress-policy interactions for deployment.",
+      "source_urls": [
+        "https://docs.e2b.dev/byoc.md"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Root checkpoint envd>=0.5.0; source briefly pauses/streams drop then continues; spawn replacement beyond source lifetime. REST memory=false saves files/cold boots; JS main createSnapshot exposes name, not memory toggle. List100/page is not total quota; named snapshot/tag can update existing build. Retention/quota/prices unresolved; no volume/external backup guarantee.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/snapshots.md",
+        "https://docs.e2b.dev/faq/volumes-beta-limitations.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/create-snapshot.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/sandbox/sandboxApi.ts"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": true,
+      "note": "Full pause/snapshot restores RAM/processes; filesystem-only/reboot does not, and reboot loses unflushed writes. Snapshot-backlog auto-pause can fall back to disk-only after about two minutes during regional rollout. External clients always disconnect; no unconditional failure-recovery guarantee.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/filesystem-only-snapshots.md",
+        "https://docs.e2b.dev/sandbox/resume-without-memory.md"
+      ]
+    },
+    "pause_resume": {
+      "value": true,
+      "note": "Explicit pause/connect; opt-in timeout pause and memory auto-resume. Timeout defaults to kill; ordinary activity does not reset TTL. Paused state retained indefinitely, no compute/concurrency charge. Pause refusal/backlog rollout may require retry or disk-only fallback; verify success before assuming paused.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md",
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "SDK >=2.52.0/CLI >=2.21.0 allow 1-20 forks per call; REST schema and marketing still max 100. Source retained; independent copies use running slots and default to 15-second TTL. Source pause depends on disk changes; streams drop and copies can fail independently.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/fork.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/fork-sandbox.md",
+        "https://docs.e2b.dev/changelog.md"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "Explicit pause keeps root files indefinitely; default timeout/kill destroys resumability. Saved snapshots restore replacement files; independent volumes require private-beta access and fixed mounts. Reboot from memory-inclusive snapshot loses unflushed writes. No unexpected-node-failure durability guarantee established.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/volumes.md",
+        "https://docs.e2b.dev/sandbox/snapshots.md",
+        "https://docs.e2b.dev/sandbox/resume-without-memory.md"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "Support-gated private beta, US/EU managed cloud only. Independent shared data survives sandbox shutdown; mounts fixed at create. No volume snapshots/read-only mounts/server-side copies; locking can hang, permissions not enforced between users, deleting mounted volume can break resume. External FUSE buckets have separate credentials/terms.",
+      "source_urls": [
+        "https://docs.e2b.dev/volumes.md",
+        "https://docs.e2b.dev/faq/volumes-beta-limitations.md"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Documented linux/amd64 imported images/private credentials/v2 templates; parser no multistage, EXPOSE/VOLUME skipped, unsuitable OS/images fail; prepared NixOS supported. External prebuilt multistage image import distinct. Team-specific image cap versus10/20GiB free headroom. Build/command1h,ready/copy10min,upload30min,queued40min;20 concurrent Hobby/Pro. Tags mutable/pin build,build per region; arm64 Embed guest-image parity unresolved.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/base-image.md",
+        "https://docs.e2b.dev/template/private-registries.md",
+        "https://docs.e2b.dev/template/quickstart.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/migration/template-v2.md",
+        "https://docs.e2b.dev/template/tags.md",
+        "https://docs.e2b.dev/client.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Prepared Ubuntu template installs/runs Docker and Compose in guest, not default base. Vendor recommends at least 2 CPUs and 2 GB RAM; example memoryMB 2048. Lower RAM may OOM.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/examples/docker.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "Default user is user; PTY explicitly supports user root and Docker/package examples run sudo at build and runtime. Guest privileges, not host root; custom template user may differ.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/user-and-workdir.md",
+        "https://docs.e2b.dev/sandbox/pty.md",
+        "https://docs.e2b.dev/template/examples/docker.md"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "The GPU FAQ says E2B sandboxes are CPU-only and BYOC does not add a GPU option.",
+      "source_urls": [
+        "https://docs.e2b.dev/faq/gpu-support.md"
+      ]
+    },
+    "self_hosted": {
+      "value": true,
+      "note": "Runtime/Embed Apache2 Linux Compose/AWS/GCP/Azure Terraform/Kubernetes. Live preflight x86_64/aarch64 KVM,4KiB pages,kernel>=6.8/6.10 respectively,glibc>=2.34,cgroupv2/TUN/NBD/tools/default20GiB host free. Marketing x86-only narrower. PlainHTTP/customer firewall/TLS and pinned compatible artifacts required; no hosted durability promise, BYOP unsupported.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/README.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/docs/REFERENCE.md",
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/embed/compose/scripts/preflight.sh",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/sandbox/sandboxApi.ts"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "Enterprise sales-gated AWS/GCP/Azure customer-VPC deployment operated by E2B; anonymized metrics go to E2B Cloud. Not self-hosting. Whole-platform private cloud remains in development.",
+      "source_urls": [
+        "https://e2b.dev/",
+        "https://docs.e2b.dev/byoc.md"
+      ]
+    },
+    "open_source": {
+      "value": true,
+      "note": "Runtime LICENSE and Embed README state Apache-2.0; official inventory also names SDK/CLI. Hosted service terms separate.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/e2b-dev/runtime/main/LICENSE",
+        "https://e2b.dev/open-source.md"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "background option survives SDK disconnect; default command timeout 60 seconds kills process. Set 0 and extend sandbox TTL for long jobs; persist ID/pid and redirect logs. Full-memory pause restores processes, disk-only/reboot does not.",
+      "source_urls": [
+        "https://docs.e2b.dev/commands/background.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Bidirectional PTY with disconnect/reconnect; default session timeout 60 seconds, 0 disables it, still subject to sandbox TTL. Keepalive does not guarantee uninterrupted stream; snapshots/pause disconnect clients.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/pty.md"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "commands.run streams stdout/stderr callbacks; SDK keepalive every 50 seconds, reconnect required after connection loss/pause/snapshot. Not replayed durable background log storage.",
+      "source_urls": [
+        "https://docs.e2b.dev/commands/streaming.md"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "Managed Cloud Secrets GA per Oct7 launch; BYOC coming soon despite Enterprise tableYes, Embed parity unestablished. Project write-only placeholder proxy-injected HTTPS, not plainHTTP/guest env; in-guest delivery planned. Destination may echo; unresolved header omitted but traffic forwarded. Transforms public beta/broad wildcards unsafe. OpenAPI client-side-resolution prose conflicts with SDK placeholder/live guide.",
+      "source_urls": [
+        "https://docs.e2b.dev/secrets.md",
+        "https://docs.e2b.dev/secrets/inject.md",
+        "https://docs.e2b.dev/changelog.md",
+        "https://e2b.dev/resources/introducing-e2b-secrets.md",
+        "https://e2b.dev/enterprise.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/update-sandbox-network.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/secret.ts"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "Sandbox examples and the docs index include the Python SDK.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/fork.md",
+        "https://docs.e2b.dev/llms.txt"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "Sandbox examples and the docs index include the JavaScript/TypeScript SDK.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/fork.md",
+        "https://docs.e2b.dev/llms.txt"
+      ]
+    },
+    "go_sdk": {
+      "value": "partial",
+      "note": "A public third-party Go SDK provides E2B sandbox lifecycle, commands, files, PTY, volumes, and templates. It is not E2B-maintained or endorsed; official E2B documentation lists Python and JavaScript/TypeScript clients. Current compatibility, maintenance, quality, and vendor support are unverified, so Go client availability is partial rather than a fully supported official SDK claim.",
+      "source_urls": [
+        "https://github.com/superduck-ai/e2b-go-sdk",
+        "https://github.com/xagentAI/e2b-go",
+        "https://docs.e2b.dev/client.md"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The CLI docs cover auth, create, exec, fork, snapshots, and shutdown.",
+      "source_urls": [
+        "https://docs.e2b.dev/cli.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "The docs index documents an MCP gateway and agent guides including Claude, Codex, and Cursor.",
+      "source_urls": [
+        "https://docs.e2b.dev/llms.txt",
+        "https://docs.e2b.dev/mcp-gateway.md"
+      ]
+    },
+    "max_vcpu": {
+      "value": null,
+      "note": "Hobby prints a maximum of 8 vCPUs. Pro prints 8+ and Enterprise is Custom, so no single numeric maximum is published.",
+      "source_urls": [
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "Hobby prints 8 GiB. Pro prints 8+ GiB and Enterprise is Custom, so no single numeric maximum is published.",
+      "source_urls": [
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "No product-wide numeric maximum: Pro continuous runtime is 24 hours (86400 seconds), Hobby 1 hour (3600 seconds), Enterprise Custom. Pause/resume resets window; paused retention indefinite. Not a universal 86400-second lifetime cap.",
+      "source_urls": [
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "Fixed running TTL defaults to 5 minutes, not idle detection. Activity does not reset it; connect extends only, setTimeout resets. Timeout defaults to kill; pause/auto-resume opt-in. Auto-resume minimum TTL 5 minutes is not billing floor. No numeric idle-detector default established.",
+      "source_urls": [
+        "https://docs.e2b.dev/faq/sandbox-lifetime.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md"
+      ]
+    }
+  },
+  "pricing_summary": "Allocated running CPU $0.000014/vCPU-second and RAM $0.0000045/GiB-second including waiting; paused retention no bill/concurrency, killed compute stops. Hobby$0/month20slots1h; Pro$150/month plus usage100slots24h continuous; pause resets window. Pro+$650/month total600slots, Pro++$1,150 total1,100slots, usage separate. EnterpriseCustom/$3,000 monthly usage minimum; one-year committed-use offering and BYOC quote separate. Hobby$100 one-time promo; approved startup/research$20,000 one-time/Pro membership, not recurring or guaranteed. Included10/20GiB root free headroom above image, not total template size. Volume/standalone snapshot/build/creation/network-I/O fees/floors unestablished, not free. DefaultRAM pricing4GiB versus base512MiB/custom-buildFAQ1024MiB; API minimum128MiB not universal1GiB. EU/APAC Pro/support; region rates unpublished. Hosted rates do not price customer infra/BYOC.",
+  "pricing": [
+    {
+      "item": "Plan fee",
+      "plan": "Hobby",
+      "published_price": "$0/month",
+      "conditions": "No compulsory paid subscription. 20 running slots, 1-hour continuous runtime (pause resets), 10 GiB free root-disk headroom above image contents. One-time $100 credit, not recurring or free ongoing compute; blocked on exhaustion until payment method added. No card to start. US default/all plans; EU/APAC require Pro and support.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/client.md",
+        "https://docs.e2b.dev/faq/build-limits.md"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Pro",
+      "published_price": "$150/month plus usage",
+      "conditions": "100 default running slots, up to 24 hours continuous runtime (pause resets). 20 GiB free root-disk headroom above image, higher via support/rebuild. No additional credit just for upgrading. EU/APAC enabled through support. Fees do not establish negotiated BYOC or regional billing terms.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/client.md",
+        "https://docs.e2b.dev/faq/build-limits.md"
+      ]
+    },
+    {
+      "item": "Concurrency add-on",
+      "plan": "Pro+",
+      "published_price": "$650/month total plan and add-on fee",
+      "conditions": "Current pricing explicitly prints $650 total for 600 slots; usage separate. Billing: Pro includes 100 slots, each $500/month add-on adds 500 slots. Do not add Pro $150 again to this published total; former single-add-on conflict is no longer in current billing wording.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "item": "Concurrency add-on",
+      "plan": "Pro++",
+      "published_price": "$1,150/month total plan and add-on fee",
+      "conditions": "Current pricing explicitly prints $1,150 total for 1,100 slots; usage separate. Billing: each $500/month add-on adds 500 slots, up to 1,100 on Pro. Do not add Pro $150 again to this published total.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "item": "Plan minimum",
+      "plan": "Enterprise",
+      "published_price": "$3,000 monthly minimum for Enterprise usage",
+      "conditions": "Custom pricing/deployment/support/limits, contact sales for BYOC. Enterprise page separately offers one-year minimum usage commit for lower rates/higher capacity/custom sessions/SLA; no numeric negotiated discount or universal BYOC quote. Billing1,100+ concurrency not guaranteed allocation. Customer-cloud costs separate from self-serve rates.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://e2b.dev/enterprise.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/byoc.md"
+      ]
+    },
+    {
+      "item": "vCPU",
+      "plan": "Usage",
+      "published_price": "$0.000014 per vCPU-second",
+      "conditions": "Allocated/provisioned vCPU times running wall time, not measured active CPU. Idle/waiting/I/O time while running remains billable. Per-second meter; minimum charge or rounding floor not separately established. Paused/killed compute stops; self-host/BYOC customer costs not represented.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/faq/calculate-sandbox-price.md"
+      ]
+    },
+    {
+      "item": "RAM",
+      "plan": "Usage",
+      "published_price": "$0.0000045 per GiB-second",
+      "conditions": "Allocated RAM while running, including waiting. Pricing default 4 GiB conflicts with base/billing 512 MiB; build FAQ says custom rebuild without resources 1024 MiB. API memoryMB MiB minimum128 versus SDK comment MB and estimator label GB; retain units/scopes, inspect allocation, no universal default or conversion. Per-second meter, regional multipliers/floors unestablished.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/faq/calculate-sandbox-price.md",
+        "https://docs.e2b.dev/template/base-image.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/api-reference/templates/create-template-v3.md",
+        "https://raw.githubusercontent.com/e2b-dev/E2B/main/packages/js-sdk/src/template/types.ts",
+        "https://pricing.e2b.dev/"
+      ]
+    },
+    {
+      "item": "Storage",
+      "plan": "Hobby, Pro, Enterprise",
+      "published_price": "Sandbox storage Free / included",
+      "conditions": "10GiB Hobby/20+GiB Pro is free headroom above image contents per build-limitsFAQ, not maximum total template size or pooled allowance; EnterpriseCustom, higher via support/rebuild. Team-specific base-image cap separate. minFreeDiskMb MiB best-effort growth,0 no growth,never shrink. No universal free independent volumes/standalone snapshots/external buckets; paused retention specifically no bill. Unlimited template count currently; possible future template-storage pricing.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/api-reference/templates/create-template-v3.md",
+        "https://docs.e2b.dev/template/quickstart.md",
+        "https://docs.e2b.dev/faq/paused-sandboxes-concurrency.md"
+      ]
+    },
+    {
+      "item": "Paused sandbox",
+      "plan": "Usage",
+      "published_price": "Paused retention not billed; killed compute stops",
+      "conditions": "FAQ explicitly says indefinite paused retention has no impact on bill/concurrency, not just compute discount. Standalone snapshots/volumes distinct. BillingFAQ says timeout stops billing; persistence says refusal/retry may keep running up to~2min past timeout. Exact billing treatment of that retry window not found; verify actual pause before assuming stopped. Auto-resume starts running meter; minimum5min resumedTTL not minimum charge, explicit kill/pause possible.",
+      "source_urls": [
+        "https://docs.e2b.dev/faq/paused-sandboxes-concurrency.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/auto-resume.md"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Hobby",
+      "published_price": "$100 one-time usage credits",
+      "conditions": "Not a recurring allowance. Billing FAQ says the account is blocked when credits run out until a payment method is added.",
+      "source_urls": [
+        "https://e2b.dev/pricing",
+        "https://docs.e2b.dev/billing.md"
+      ]
+    },
+    {
+      "item": "Egress",
+      "plan": "Unknown",
+      "published_price": "unknown",
+      "conditions": "No separate ingress/egress or network/storage-I/O rate established by pricing/billing/calculation pages. Missing rate is not free. BYOC, own proxies and external buckets may have separate infrastructure/service charges.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/calculate-sandbox-price.md"
+      ]
+    },
+    {
+      "item": "Creation and template preparation",
+      "plan": "Unknown",
+      "published_price": "unknown separate fee",
+      "conditions": "Second-pass pricing/billing/calculationFAQ/estimator/buildFAQ/API/SDK still no separate create/build fee,min rounding/charge guarantee or exact build compute scope. Build1h/20concurrent Hobby-Pro; substep/queue limits in custom_images. Cache/reuse not proof of free preparation. Region templates not copyable, build each region. No monthly workload bill synthesized.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://pricing.e2b.dev/",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/faq/calculate-sandbox-price.md",
+        "https://docs.e2b.dev/faq/build-limits.md",
+        "https://docs.e2b.dev/api-reference/templates/create-template-v3.md",
+        "https://docs.e2b.dev/client.md"
+      ]
+    },
+    {
+      "item": "Volumes and standalone snapshot retention",
+      "plan": "Unknown",
+      "published_price": "unknown separate rates",
+      "conditions": "No explicit native-volume/standalone-snapshot retention,save/restore/I-O rate after second-pass pricing/billing/estimator/API/features. Native volumes private beta/support/US-EU only. Free root headroom/unbilled paused retention not every storage object. External bucket account/credentials/charges separate.",
+      "source_urls": [
+        "https://e2b.dev/pricing.md",
+        "https://pricing.e2b.dev/",
+        "https://docs.e2b.dev/billing.md",
+        "https://docs.e2b.dev/volumes.md",
+        "https://docs.e2b.dev/sandbox/snapshots.md",
+        "https://docs.e2b.dev/api-reference/sandboxes/create-snapshot.md",
+        "https://docs.e2b.dev/storage/cloud-buckets.md"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Approved startup or research program",
+      "published_price": "$20,000 one-time usage credits and Pro tier membership",
+      "conditions": "Approval/capacity-gated, first-time users; startup raised less than $5m/founded less than 3 years, research institution/nonprofit affiliated and non-commercial. Credits go to one project, expire 1 year after redemption, non-transferable/non-refundable; no future discount or Enterprise access. Prior non-base tier disqualifies free Pro; membership duration not published. Provider may revoke/change program. Public attribution/badge and positive words within 7 days; research form additionally requires case study within 30 days. Rejected may reapply after 3 months. YC/accelerator extra amounts/terms unknown; no enrollment or promotion performed.",
+      "source_urls": [
+        "https://e2b.dev/startups.md",
+        "https://e2b.dev/research.md",
+        "https://e2b.dev/startups/terms",
+        "https://e2b.dev/startups/apply",
+        "https://e2b.dev/research/apply"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Sandbox start from a snapshot or custom template",
+      "published_claim": "~150 ms",
+      "conditions": "Vendor claim accessed 2026-10-08; experimental @e2b/eve-sandbox backend/Eve beta table, not an independent measurement or defined cold/warm percentile. Manus case study dated 2025-05-06 and Arena dated 2025-02-03 repeat ~150ms startup; no resource/region/image size/statistic stated. Does not price or time initial template preparation, application setup, reset or fork. Snapshot docs say live snapshots have less effective prefetching and higher memory pressure than prepared templates.",
+      "source_urls": [
+        "https://docs.e2b.dev/agents/eve.md",
+        "https://e2b.dev/customers/how-manus-uses-e2b-to-provide-agents-with-virtual-computers.md",
+        "https://e2b.dev/customers/how-lmarena-collaborated-with-e2b-to-build-llm-web-development-evals.md",
+        "https://docs.e2b.dev/sandbox/snapshots.md"
+      ]
+    },
+    {
+      "metric": "Prepared template snapshot load",
+      "published_claim": "~80ms",
+      "conditions": "Vendor claim accessed 2026-10-08; template contains filesystem and already-running processes captured after readiness. Not template build latency or an established generic live-snapshot/reset/fork/cold end-to-end readiness figure. No percentile, region, resource or template-size conditions/page update date stated; distinct operation from ~150ms startup and ~1s resume.",
+      "source_urls": [
+        "https://docs.e2b.dev/template/how-it-works.md"
+      ]
+    },
+    {
+      "metric": "Full sandbox pause",
+      "published_claim": "Approximately 4 seconds per 1 GiB of RAM",
+      "conditions": "Vendor persistence-page estimate accessed 2026-10-08; pause operation, not startup/throughput. No percentile, resource shape, disk changes, region or source update date stated. Pause may be refused/backlogged during regional rollout; fork docs separately say source-pause duration scales with disk changes.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/fork.md"
+      ]
+    },
+    {
+      "metric": "Memory-preserving sandbox resume",
+      "published_claim": "Approximately 1 second",
+      "conditions": "Vendor persistence-page estimate accessed 2026-10-08; memory restore, not cold create or application build/readiness. Reboot/disk-only resume costs roughly fresh boot and restarts processes; outside clients reconnect. No percentile, image/RAM shape, region or page update date stated.",
+      "source_urls": [
+        "https://docs.e2b.dev/sandbox/persistence.md",
+        "https://docs.e2b.dev/sandbox/resume-without-memory.md"
+      ]
+    },
+    {
+      "metric": "Customer RL tool execution relative speed",
+      "published_claim": "Up to 3 times faster than other sandbox providers the customer evaluated",
+      "conditions": "Vendor-hosted Paper Instruments case published2026-09-03,accessed2026-10-08,attributes customer's benchmarking. Unnamed comparison providers,no raw latency/percentile/method/hardware/region/dataset/confidence interval; not independent reproducible benchmark or general ranking. Tool execution,not fork/reset or attachedGPU; customer's trainingGPUs separate.",
+      "source_urls": [
+        "https://e2b.dev/blog/paperinstruments.md"
+      ]
+    },
+    {
+      "metric": "Historical first data read after start with Huge Pages",
+      "published_claim": "Up to 5x faster start of memory-intensive tasks; first read of 0,5 GB improved from about 4,9s to 0,76s",
+      "conditions": "Historical vendor post2024-02-26,accessed2026-10-08,not current universal startup. Preserve published comma decimals/GB; data-read example,not sandbox cold-create/fork/reset/readiness.2MiB huge pages vs4KiB ordinary; then new custom sandboxes enabled,older templates rebuild. No percentile/hardware/region/retest,derived ratio or silent normalization.",
+      "source_urls": [
+        "https://e2b.dev/resources/up-to-5x-faster-sandboxes.md"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Startup ~150ms, prepared-template load ~80ms, full pause ~4s/GiB and memory resume ~1s are distinct vendor claims, not interchangeable cold/warm/reset/clone readiness benchmarks. Unknown statistics/resources/regions stay explicit.",
+    "DefaultRAM pricing4GiB versus base512MiB; custom-buildFAQ1024MiB distinct path. API minimum128MiB,SDK commentMB versus APIMiB. BuildFAQ resolves10/20GiB free headroom above image,not maximum size; image cap team-specific. Imported image docs linux/amd64; arm64 Embed image compatibility needs pinned-release check.",
+    "October 5, 2026 SDK 2.52.0/CLI 2.21.0 restrict forks to 1-20; current REST schema/marketing retain 100. Billing add-on wording now agrees with current pricing totals $650/$1,150; prior discrepancy is stale.",
+    "Second pass Oct7 SecretsGA launch supersedes Sept14 beta; BYOC coming soon despite Enterprise tableYes,Embed parity unestablished. Volumes private betaUS-EU,workload identity private beta; transforms public beta. SDK Secret.fill local placeholder contradicts generated OpenAPI client-side-resolution prose; retain source conflict.",
+    "US default/allplans us-west1,EUeurope-west1/APACasia-southeast1 Pro-support; projects/keys/state region-specific,no template copying,placement may change,no staticE2B egressIP. ManagedHTTPS differs from EmbedplainHTTP/header routing/operatorTLS. Preflight x86_64/aarch64 with host requirements despite narrower marketing; BYOC private-egress interactions deployment-specific.",
+    "2026-10-08 independent correction: public third-party repositories document E2B Go sandbox SDKs; community_sdk_languages is documented as Go community availability and go_sdk is partial for third-party client existence with unverified vendor compatibility. These repositories do not establish E2B maintenance, endorsement, quality, official support, or current compatibility; official SDK inventory remains Python and JavaScript/TypeScript."
+  ]
+}

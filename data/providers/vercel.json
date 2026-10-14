@@ -1,0 +1,1023 @@
+{
+  "id": "vercel",
+  "name": "Vercel",
+  "product_name": "Vercel Sandbox",
+  "website": "https://vercel.com",
+  "docs_url": "https://vercel.com/docs/sandbox",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Generally available Vercel-hosted Linux microVMs on Hobby, Pro and Enterprise",
+      "notes": "Requires a Vercel account and project; no deployed application is required. Hobby is restricted to non-commercial personal use and hard usage quotas. Pro has a $20/month platform fee with one deploying seat and shared $20/month usage credit; Enterprise pricing and quotas are custom. Drives are public beta; Secure Compute is a purchased Enterprise feature, not BYOC.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/blog/vercel-sandbox-is-now-generally-available",
+        "https://vercel.com/docs/sandbox/quickstart",
+        "https://vercel.com/docs/plans/hobby",
+        "https://vercel.com/docs/plans/pro-plan",
+        "https://vercel.com/docs/networking/secure-compute"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "Vercel's Sandbox comparison explicitly says self-hosting is not currently offered",
+      "notes": "Vercel's 2026-09-04 comparison explicitly says Sandbox does not currently offer BYOC/self-hosting infrastructure flexibility. The open SDK/CLI and image sources are client/developer artifacts, not a service installation contract. This is a scoped product-specific negative; no separate hosted-service deployment claim.",
+      "source_urls": [
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b",
+        "https://vercel.com/sandbox",
+        "https://github.com/vercel/sandbox"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unknown",
+      "value": null,
+      "notes": "The Sandbox comparison says BYOC is not currently offered, but broader Enterprise AWS BYOC/platform material does not establish Sandbox inclusion or the control-plane/execution model. Secure Compute is Vercel-run peering, not customer-account execution. Preserve the product-scope conflict as unknown; /docs/byoc returned 404 in the source review. See audit E04.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/secure-compute",
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b",
+        "https://vercel.com/platform",
+        "https://vercel.com/pricing",
+        "https://vercel.com/blog/vercel-ship-2026-recap"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "JavaScript/TypeScript and Python",
+      "notes": "Official packages are @vercel/sandbox (JS/TS) and vercel.sandbox (Python); CLI is separate. No official Go Sandbox SDK was documented in reviewed official sources as of 2026-10-08. This is a bounded comparison inference, not vendor denial; guest Go and generic HTTP clients are distinct. See audit E02.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/sandbox/ecosystem",
+        "https://vercel.com/docs/rest-api/sdk",
+        "https://github.com/vercel/sandbox"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "Official docs list JS/TS and Python SDKs, CLI, and integrations; they do not exhaust third-party projects. Keep community SDK inventory unknown rather than infer absence from official sources. No vendor support or endorsement of external clients implied. See final audit correction.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/sandbox/ecosystem",
+        "https://github.com/vercel/sandbox"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "REST API at https://api.vercel.com/v2/sandboxes",
+      "notes": "Named-sandbox creation, session stop, async command execution and NDJSON logs are documented with HTTP bearer authentication. REST execute optionally accepts a command timeout up to 5 hours, independent of wait; this is not the session maximum or a documented default command limit.",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command",
+        "https://vercel.com/docs/rest-api/sandboxes/stream-command-logs"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "sandbox CLI",
+      "notes": "Docs describe it for manual testing and one-off commands.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Linux images; default image includes current Node.js LTS and Python 3.14",
+      "notes": "Default image is vercel/sandbox/universal. Other Linux distributions can be used. SDK language does not limit the guest.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Firecracker microVM",
+      "notes": "Docs say each sandbox has its own filesystem and network.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux, including Ubuntu and Arch",
+      "notes": "Docs say Ubuntu, Arch, or any other Linux distribution you need.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "1 vCPU, or an even number from 2 to the plan maximum. Default 2",
+      "notes": "Current pricing resource table, product marketing FAQ and official comparison agree: Hobby maximum 4 vCPUs, Pro 8, Enterprise 32. Repository README's Hobby/Pro 8 sentence is inconsistent with those product-specific sources; retain discrepancy as apparently stale README wording, not an unknown current Hobby cap or permission to use 8. No entitlement call made. Active CPU billing is not wall-clock time.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/sandbox",
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b",
+        "https://github.com/vercel/sandbox/blob/main/README.md"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Pricing says each vCPU includes 2 GB of memory. The persistence page says memory auto-scales to 2048 MB per vCPU.",
+      "notes": "Both units are kept and were not collapsed. Hobby maximum 8GB. Pro maximum 16GB. Enterprise maximum 64GB on the pricing page, which uses GB.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "64 GB ephemeral NVMe; September 11 release explicitly includes deprecated runtimes",
+      "notes": "Current vendor-announced size is 64 GB in every Sandbox, including managed/custom images and deprecated runtime property, per September 11 release. Pricing last_updated September 10 still says legacy runtimes32 GB; preserve discrepancy as older wording superseded by explicit later expansion, not an unqualified unknown or measured allocation. No runtime call made. Drives/root snapshots independent mechanisms; GB not GiB.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/changelog/vercel-sandbox-64-gb-storage"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for GPU allocation inside Vercel Sandbox",
+      "notes": "Broad review of current public Sandbox marketing, pricing, resource APIs and released client menus found no documented guest-GPU allocation, SKU, region or entitlement as of 2026-10-08. This is a bounded public-offering inference, not vendor denial or hardware impossibility. Remote AI Gateway and sibling Functions/build GPU are excluded. See audit E01.",
+      "source_urls": [
+        "https://vercel.com/sandbox",
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/runtimes",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-1",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/changelog/vercel-sandbox-now-supports-up-to-32-vcpu-64-gb-ram-configurations"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Dockerfile-built OCI images in Vercel Container Registry (VCR), plus managed/shared/public images",
+      "notes": "Public beta (June 30; August 12 guide still says beta). VCR images must be Ready and linux/amd64; Preparing is not usable. Private by default; share or publish for cross-project use. Current limits: compressed layers 2 GB, total layers/config 15 GB (gzip/zstd); older guide's 500 MB is stale. ENTRYPOINT/CMD do not run; set start command and WORKDIR. VCR storage: Hobby 10 GB/month included, Pro $0.10/GB-month, Enterprise custom; optimization charges beyond storage unknown. ARM64 requires API v3/v4 without runtime plus team access; general guide still says amd64, so not ungated.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/images",
+        "https://vercel.com/docs/container-registry/limits-and-pricing",
+        "https://vercel.com/pricing",
+        "https://vercel.com/kb/guide/how-to-use-vercel-container-registry",
+        "https://vercel.com/changelog/vercel-sandbox-now-support-custom-images",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox",
+        "https://vercel.com/kb/guide/test-container-image-vercel-sandbox"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Supported",
+      "notes": "System packages can be built into an image. Downloaded package data is described as free network usage.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox",
+        "https://vercel.com/docs/vercel-sandbox/pricing"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "The default Ubuntu image has full root access; execute sudo defaults to false",
+      "notes": "Product docs say full root access and that system-privileged processes are supported. The REST execute body has a sudo boolean, default false, described as root privileges. Both sentences are kept.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker and other container engines inside the sandbox with sudo",
+      "notes": "Privileges are guest-only, not host privileges. Egress still follows the sandbox firewall. Containers do not inherit its proxy CA/trust variables; mount and trust the CA for HTTPS transformed or forwarded by the firewall.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "SDK detached commands and asynchronous REST command execution",
+      "notes": "REST returns a command ID immediately; wait true streams status. Detached services run only within the live session: stopping terminates all processes and that session cannot restart. Use onResume to restart services in a fresh session. Optional REST command timeout is 100 ms to 5 hours; not a documented default. Session lifetime is separately capped by plan.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command",
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "SDK writeFiles/readFile/downloadFile and CLI sandbox copy",
+      "notes": "SDK methods upload and retrieve files; CLI copy transfers one file per invocation, so archive directories before copying. Manual export is separate from filesystem snapshot recovery.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/sandbox/run-commands-in-sandbox"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Default persistent creation with filesystem auto-snapshot on stop/timeout, restore in a new session",
+      "notes": "persistent:false discards root unless snapshotted; resume boots from a usable filesystem snapshot, not live memory. Retention differs by interface: JS SDK guide 30-day last-use/1-10 or no expiry; REST v4 defaults7 days/latest; Python guide says up to100 vs REST max10. Non-resumable entities are removed after14 days. REST DELETE retains/bills snapshots by default; true removes unreferenced snapshots asynchronously. Python create/fork context managers clean up unless destroy=False; awaited calls are caller-managed and resume context only stops. Failed captures cannot restore; region/failover limits apply. Drives are separate mounted storage.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/sandbox/concepts/snapshots",
+        "https://vercel.com/docs/rest-api/sandboxes/delete-a-sandbox",
+        "https://vercel.com/kb/guide/vercel-sandbox-duration-and-persistence",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-1",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/docs/sandbox/python-sdk-reference",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/api-client/api-client.ts"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Drives in public beta on Hobby, Pro and Enterprise",
+      "notes": "Mount up to 4 per run with absolute non-overlapping paths. One read-write mount per drive; many read-only point-in-time snapshot mounts after an initial write. Data persists until drive deletion; mount it in another sandbox to reuse. Drive region is immutable and must match sandbox main region; failover can read remotely with higher latency. Default size 1 TiB (1 GiB Hobby), default maximum quota 16 TiB, byte sizes multiple of 4096. Storage/read/write charges separate; deleting a drive removes data and cannot occur while attached to a running sandbox. S3/FUSE is external storage, not a Vercel Drive.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/drives",
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/regions"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Filesystem-based stop and automatic resume, not live process resume",
+      "notes": "Stopping releases allocated resources and terminates all processes. Persistent sandboxes boot a new session from the latest usable snapshot on an SDK operation; stop/update do not auto-resume. Each session receives a fresh timeout. Non-persistent sandboxes cannot resume. While stopped there is no running compute allocation, but retained snapshots/Drives keep storage billing. Waiting in a running session still bills allocated memory.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session",
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "Documented stop/resume does not preserve running processes",
+      "notes": "REST stop explicitly terminates all running processes and says a stopped session cannot restart. Persistent resume boots a new VM session from a filesystem snapshot; onResume restarts background services. This establishes absence of live process restoration for these documented transitions, not absence of every conceivable future memory feature.",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/sandbox/concepts/snapshots"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Filesystem/package snapshots, automatic on stop and manual snapshot()",
+      "notes": "Manual capture stops the session and saves filesystem/packages, not memory; uncached restore can take longer and failed captures cannot restore. Retention conflicts: JS SDK guide30-day last-use; REST v4 default7-day/latest and max10; Python guide says up to100. REST delete retains/bills snapshots unless orphan cleanup is explicitly enabled. Python create/fork contexts clean up unless destroy=False; awaited calls are caller-managed. Region availability/no migration and plan-gated failover apply. Storage: $0.08/GB-month daily-average metering, Enterprise custom; Hobby 15 GB lifetime. April latency figures are historical/cache-specific, not SLA.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/snapshots",
+        "https://vercel.com/docs/sandbox/concepts/regions",
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/rest-api/sandboxes/delete-a-sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/docs/sandbox/python-sdk-reference",
+        "https://vercel.com/changelog/vercel-sandbox-now-calculates-snapshot-storage-costs-daily",
+        "https://vercel.com/blog/optimizing-vercel-sandbox-snapshots",
+        "https://vercel.com/kb/guide/vercel-sandbox-duration-and-persistence"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Sandbox.fork / sandbox fork from the source's current filesystem snapshot",
+      "notes": "Fork creates independent files from saved filesystem/config, not unsaved changes or live memory; no snapshot means a fresh source image. It is not shared Drive. Region/snapshot/failover limits apply. Current SDK fork copies source environment unless overridden; CLI --env replaces the map, not merges it. Python inherits configuration except mounts (pass mounts explicitly). Python create/fork contexts clean up unless destroy=False; awaited calls are caller-managed. REST v3 defaults7-day/latest only when omitted; current SDK uses v2. No reset/fork latency guarantee. Older clients/runtime behavior unverified.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/sandbox/cli-reference",
+        "https://vercel.com/docs/rest-api/sandboxes/fork-a-named-sandbox",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/commands/fork.ts",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/api-client/api-client.ts",
+        "https://vercel.com/docs/sandbox/concepts/regions",
+        "https://vercel.com/docs/sandbox/python-sdk-reference",
+        "https://vercel.com/docs/rest-api/sandboxes/fork-a-named-sandbox-1"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Available",
+      "notes": "Downloads from the internet are free. Data sent to the internet is billable.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox/pricing"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Default allow-all; deny-all including DNS; custom default-deny domain/CIDR policies with live updates",
+      "notes": "Full firewall is available on Hobby too. Denied CIDRs override allows. Domain rules use TLS SNI (including TLS Postgres; GSSAPI unsupported), not plaintext HTTP or HTTP Host; domain fronting may reach other virtual hosts at an allowed endpoint. Allowed CIDRs bypass domain matching/brokering/proxying; broad ranges override domain scope and CIDR-only policies leave DNS unrestricted. Transform/forwardURL rules terminate TLS, but matchers only select handling, never block: unmatched requests still pass unchanged. Catch-all * permits domain-less traffic without brokering/forwarding. To pin Host or enforce paths, apply transform/forwardURL without match and enforce policy in the proxy. No per-port policy control established. Egress controls are separate from public ingress.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/firewall",
+        "https://vercel.com/changelog/full-sandbox-egress-firewall-now-available-on-hobby-plan"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "Up to 15 registered ports (1024-65535) exposed via public HTTPS URLs",
+      "notes": "Declare ports at creation/update; domain(port) needs a registered route. Released SDK documents full HTTPS domain, example https://subdomain.vercel.run. Web-service previews, not arbitrary raw TCP/SSH. Official app-builder starts Next.js on 0.0.0.0:3000; anyone with URL can reach it, builder password does not protect it. Not an all-protocol/all-port guarantee. Stop/snapshot ends serving session; restart on resume. Both request/response port traffic billable. Exact hostname derivation/continuity across sessions, TLS internals and general built-in preview authorization remain unknown; control-plane bearer auth does not automatically protect routes.",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/sandbox.ts",
+        "https://vercel.com/kb/guide/v0-clone-openai-agents-vercel-sandbox",
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "Public HTTPS web previews via sandbox.domain(port), example https://subdomain.vercel.run",
+      "notes": "Released SDK domain() explicitly returns a full HTTPS URL; registered guest port, not caller-machine tunnel. Running session/service required, up to 15 ports, REST 1024-65535. Official app-builder binds 0.0.0.0:3000, embeds domain(3000) in iframe, URL accessible without builder password. Stable-preview marketing does not specify exact cross-session continuity; TLS internals/general auth options remain unknown. Add application protection as needed; not raw TCP/SSH ingress.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/sandbox.ts",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox",
+        "https://vercel.com/kb/guide/v0-clone-openai-agents-vercel-sandbox"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Purchased Enterprise Secure Compute network: static egress IPs and AWS VPC peering",
+      "notes": "Requires an existing team network; self-service provisioning is not available to all Enterprise teams (contact account team). networkId at creation attaches immediately; updates take effect next session. Firewall still applies; deny-all removes Internet and Secure Compute access. This is connectivity to customer resources, not execution in the customer cloud or documented private sandbox-to-sandbox connectivity. Network pricing is contact-account-team; public-internet Private Data Transfer $0.15/GB, AWS peering transfer has no charge.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/secure-compute",
+        "https://vercel.com/docs/networking/secure-compute",
+        "https://vercel.com/docs/sandbox/concepts/firewall"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Hobby 10; Pro 10,000; Enterprise 10,000 concurrent sandboxes",
+      "notes": "vCPU allocation rate is separate and ramps with sustained usage.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox/pricing"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Hobby 45 minutes; Pro 24 hours; Enterprise 24 hours",
+      "notes": "This is one session. Stopping and resuming resets it, so a persistent sandbox is not capped at that lifetime. Default timeout is 5 minutes unless extended.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox/pricing"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "unknown",
+      "value": null,
+      "notes": "No vendor inactivity-based Sandbox shutdown timer was documented in the reviewed lifecycle, pricing, SDK/CLI, marketing and API sources as of 2026-10-08. Keep this numeric duration unknown/null, not zero/free/unlimited; that search-based scope is not an explicit denial. The documented five-minute default is an elapsed session deadline, not idle detection; Cron cleanup and allocation reset differ. See audit E05.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/extend-session-timeout"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Control plane: Hobby 1,000 requests/minute; Pro 10,000; Enterprise 100,000. Deletions: 20 requests/second/team on all plans",
+      "notes": "Deletion also consumes control-plane quota. Dynamic vCPU allocation per minute: Hobby starts 20, ramps 20/minute to 40; Pro/Enterprise start 150, ramp 500/minute to 5,000. After 10 minutes without creation the rate returns to starting value. These are allocation-throughput quotas, not sandbox concurrency or startup latency. Enterprise increases require sales; resource and quota restrictions may limit repeated CPU rollouts even when concurrency fits.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "19 regions, default iad1",
+      "notes": "Codes on the regions page: arn1, bom1, cdg1, cle1, cpt1, dub1, fra1, gru1, hkg1, hnd1, iad1, icn1, kix1, lhr1, pdx1, sfo1, sin1, syd1, and yul1. Failover regions are unavailable on Hobby and Pro trial. Active CPU, memory, data transfer, and drive rates vary by region. Creation and snapshot storage rates do not.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/regions"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "NDJSON command logs",
+      "notes": "GET /v2/sandboxes/sessions/{sessionId}/cmd/{cmdId}/logs streams stdout, stderr, and error. Execute can also set logs true when wait is true.",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/sandboxes/stream-command-logs",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Logs are listed as available from a sandbox",
+      "notes": "Product page mentions access to logs, file edits, and live previews.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "sandbox connect interactive shell; exec/run --interactive --tty with terminal sizing/resizing",
+      "notes": "Published CLI 4.6.1 uses SDK openInteractive() to obtain WebSocket URL/token; start frame includes terminal columns/rows and SIGWINCH sends resize frames. This resolves terminal size/resize mechanism, not a raw public SSH listener or preview-auth contract. CLI periodically extends session unless --no-extend-timeout; not idle detection. Python SDK explicitly lacks interactive PTY shells; its console commands delegate to JS CLI through npx and require Node.js. No paid runtime test.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/cli-reference",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/interactive-shell/interactive-shell.ts",
+        "https://vercel.com/docs/sandbox/python-sdk-reference"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Firewall credential brokering injects HTTP headers on egress; credentials stay outside the guest",
+      "notes": "Available on Hobby too. HTTP handling on allowed domains; unmatched requests lack credentials. TLS/SNI needed, catch-all/CIDR bypasses and Postgres transforms ignored. HTTP interception uses a per-sandbox CA at /usr/local/share/ca-certificates/sandbox-proxy-ca.crt. Default guest runtimes preconfigure trust, but nested Docker containers, independent trust stores or certificate-pinned clients must also trust that CA or HTTPS brokering can fail; Node clients can use NODE_EXTRA_CA_CERTS. Brokered credentials distinct from guest-visible sandbox/command env. No general guest vault/rotation/per-secret IAM established. Current CLI 4.6.1/SDK 3.5.1 server-side fork inherits source env unless overridden; CLI --env replaces whole map. CLI reference says not copied, but released code and REST server-copy contract establish current inheritance, so treat guest env secrets as propagated, not automatically removed. No paid runtime test.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/firewall",
+        "https://vercel.com/docs/sandbox/concepts",
+        "https://vercel.com/changelog/full-sandbox-egress-firewall-now-available-on-hobby-plan",
+        "https://vercel.com/docs/rest-api/sandboxes/fork-a-named-sandbox",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/commands/fork.ts",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/api-client/api-client.ts",
+        "https://vercel.com/docs/sandbox/cli-reference"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Control-plane project OIDC or scoped access token; private-beta Sandboxes read/read-write project permissions",
+      "notes": "Local OIDC expires12h, Vercelproduction manages expiry. External SDK callers use team/project IDs and authorized access token. Sign in with Vercel permission table explicitly offers project Sandboxes Read Only or Read and Write, but API/team-resource permission grants are private beta; do not imply general availability or a per-action/per-secret matrix. General team RBAC Pro/Enterprise and contributor project roles Enterprise are documented, without Sandbox action mapping in retrieved role references. These authenticate management, not automatically public preview URLs; built-in preview authorization remains unknown.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/authentication",
+        "https://vercel.com/docs/sign-in-with-vercel/scopes-and-permissions",
+        "https://vercel.com/docs/rbac/access-roles",
+        "https://vercel.com/docs/sandbox/sdk-reference"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Coding agents in the default image, plus an ecosystem page",
+      "notes": "The default image includes coding agents. Named integrations were not copied from the ecosystem page.",
+      "source_urls": [
+        "https://vercel.com/docs/vercel-sandbox"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for the vercel/sandbox SDK/CLI repository",
+      "notes": "LICENSE read directly on 2026-10-08; repository also publishes managed image sources. This does not establish an open-source hosted Sandbox server or self-hostable control plane.",
+      "source_urls": [
+        "https://github.com/vercel/sandbox/blob/main/LICENSE",
+        "https://github.com/vercel/sandbox"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Separate network namespace plus firewall: default allow-all, deny-all including DNS, custom default-deny. Egress policy does not disable separately exposed public ingress; SNI/domain-fronting and CIDR/DNS bypass qualifications apply.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts",
+        "https://vercel.com/docs/sandbox/concepts/firewall"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "Custom default-deny domain/CIDR allowlists on all plans; deny CIDRs override. SNI is not HTTP Host enforcement; CIDR allows bypass domains/brokering and can leave DNS unrestricted. Matchers never block; catch-all permits unhandled domain-less traffic.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/firewall"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "Up to 15 ports (REST 1024-65535), public web URLs via domain(port) and HTTPS route examples; running service/session required. Official Next.js example binds 0.0.0.0:3000, URL accessible to anyone with it. Not raw TCP/SSH or a general preview-auth/URL continuity guarantee.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox",
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/kb/guide/v0-clone-openai-agents-vercel-sandbox"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "Purchased Enterprise Secure Compute network required; not all teams can provision self-service. Static egress and AWS VPC peering, not BYOC. networkId changes require next session. Contact-account-team network fee and Private Data Transfer apply.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/secure-compute",
+        "https://vercel.com/docs/networking/secure-compute"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Filesystem/manual-stop. JSguide30day TTL vs RESTv4 default7day/latest; RESTcountmax10 vs Pyguide100. RESTdelete retains bydefault/optionalorphan cleanup. Python create/fork asynccontexts clean unless destroy=False; resumecontext onlystops. Regions/storage/daily-average metering apply; failed capture cannot restore.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/snapshots",
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/rest-api/sandboxes/delete-a-sandbox",
+        "https://vercel.com/kb/guide/vercel-sandbox-duration-and-persistence",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/docs/sandbox/python-sdk-reference",
+        "https://vercel.com/changelog/vercel-sandbox-now-calculates-snapshot-storage-costs-daily"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "Documented stop terminates all running processes; stopped sessions cannot restart. Resume creates a fresh VM from filesystem state and onResume restarts services, not live memory/process restoration.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/sandbox/concepts/snapshots",
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session"
+      ]
+    },
+    "pause_resume": {
+      "value": true,
+      "note": "Filesystem-based stop/resume resets session duration; releases compute and terminates processes. Non-persistent sandboxes cannot resume; usable retained snapshot required. Storage still bills while stopped; waiting in a live session bills memory.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "Latest saved filesystem/config, not unsaved live state; no snapshot fresh image. Current CLI 4.6.1/SDK 3.5.1 call server fork API, which copies env; --env replaces whole map. Released source resolves inheritance despite stale CLI exclusion wording. Region/retention restrictions remain; not memory clone.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/sandbox/cli-reference",
+        "https://vercel.com/docs/sandbox/concepts/snapshots",
+        "https://vercel.com/docs/rest-api/sandboxes/fork-a-named-sandbox",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/commands/fork.ts",
+        "https://github.com/vercel/sandbox/blob/85d53ffdea333cd529398a1264d8cc604736f077/packages/vercel-sandbox/src/api-client/api-client.ts"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "Default persistent create/file-based restore, not memory; JSguide30day TTL vs RESTv4 default7day/latest. RESTdelete retains unless optionalorphancleanup. Python create/fork asynccontexts destroy/clean unless destroy=False, resumecontext onlystops. Expiry/failure can lose restore; sudden-failure guarantee unknown, storage separate.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/rest-api/sandboxes/delete-a-sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/docs/sandbox/python-sdk-reference"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "Drives public beta on all plans; up to 4 mounts, one writer per drive and many initialized read-only snapshots. Region match required except failover. Persists until drive deletion, must remount to reuse; logical storage/read/write charges are separate from root snapshots.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/drives"
+      ]
+    },
+    "custom_images": {
+      "value": "partial",
+      "note": "Custom images publicly beta per release/current VCR guide; prepared Ready linux/amd64 in project-scoped VCR. Sharing needed cross-project; no ENTRYPOINT/CMD. Current limits 2 GB/layer,15 GB total; older guide500 MB differs. Pro VCR $0.10/GB-month, Hobby10 GB/month included, Enterprise custom. ARM64 gated, not general support.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/images",
+        "https://vercel.com/docs/container-registry/limits-and-pricing",
+        "https://vercel.com/pricing",
+        "https://vercel.com/kb/guide/how-to-use-vercel-container-registry",
+        "https://vercel.com/changelog/vercel-sandbox-now-support-custom-images"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Docker engines supported with guest sudo; firewall remains applicable. Containers need their own proxy CA trust for transformed/forwarded HTTPS; no host privilege implied.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "The default Ubuntu image is described as having full root access, and the execute API sudo flag defaults to false.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for guest GPU allocation after Q01/Q06/Q07/Q09/Q21/Q22 and full marketing/pricing/runtime/API/client review. False is conservative comparison eligibility, not a vendor denial or impossible-hardware claim. Remote inference is not guest GPU; scope/URLs/access log in audit E01.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "Official Sandbox vs E2B comparison updated 2026-09-04 explicitly says Vercel Sandbox does not currently offer self-hosting; open SDK/CLI/images are not a self-hostable service. Product-specific negative, not missing-doc inference.",
+      "source_urls": [
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b",
+        "https://vercel.com/sandbox"
+      ]
+    },
+    "byoc": {
+      "value": "unknown",
+      "note": "Sandbox-specific comparison says no BYOC, but newer company platform/pricing markets Enterprise AWS BYOC without establishing Sandbox inclusion/control-plane/access model. Product-scope uncertainty retained; Secure Compute peering is not BYOC; linked docs/byoc404.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/secure-compute",
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b",
+        "https://vercel.com/platform",
+        "https://vercel.com/pricing"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "The vercel/sandbox repository license is Apache-2.0; that file is not the hosted sandbox service.",
+      "source_urls": [
+        "https://github.com/vercel/sandbox/blob/main/LICENSE"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Detached SDK/asynchronous REST commands run in a live session. Stop terminates all processes; restart services onResume. Optional REST command timeout up to 5 hours is separate from session limits.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/rest-api/sandboxes/execute-a-command",
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Published CLI 4.6.1 starts authenticated WebSocket interactive shell with cols/rows and SIGWINCH resize frames. --tty terminal features, optional timeout extension not idle detection. Python API lacks PTY; its console command delegates to Node.js CLI. Not raw public SSH ingress.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/cli-reference",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/interactive-shell/interactive-shell.ts",
+        "https://vercel.com/docs/sandbox/python-sdk-reference"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "The REST reference includes GET .../cmd/{cmdId}/logs to stream command logs.",
+      "source_urls": [
+        "https://vercel.com/docs/rest-api/sandboxes/stream-command-logs"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "HTTP egress broker outside guest, not generic vault: SNI/handling/CIDR/catch-all/Postgres restrictions. HTTPS interception requires trust in /usr/local/share/ca-certificates/sandbox-proxy-ca.crt; default guest trust is configured, but nested Docker, independent trust stores or certificate-pinned clients need compatible CA trust (for Node, NODE_EXTRA_CA_CERTS). Env is guest-visible; current published CLI/SDK server fork inherits env unless overridden, despite stale CLI reference. --env replaces map. Treat env secrets as copied, not automatically stripped.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/firewall",
+        "https://vercel.com/docs/sandbox/concepts",
+        "https://vercel.com/docs/rest-api/sandboxes/fork-a-named-sandbox",
+        "https://github.com/vercel/sandbox/blob/7c0a8cf63825a7ae52e5416dfd1ed29878270ae8/packages/sandbox/src/commands/fork.ts"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "The sandbox nav lists a Python SDK that uses vercel.sandbox from the vercel package.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "The sandbox nav lists a JavaScript SDK at @vercel/sandbox.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for an official Go Sandbox client SDK after Q15/Q28, product docs, ecosystem, general TypeScript REST SDK and official repo inspection. False is documented-support audit eligibility, not vendor denial; JS/TS/Python, HTTP clients and guest Go execution are distinct. Scope/access log in audit E02.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/rest-api/sdk",
+        "https://github.com/vercel/sandbox"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The sandbox nav lists a sandbox CLI for manual testing and one-off commands.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "The default image includes coding agents, and the sandbox nav has an Ecosystem section for agent frameworks.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/sandbox/concepts"
+      ]
+    },
+    "max_vcpu": {
+      "value": 32,
+      "note": "Pricing, product FAQ and comparison agree Enterprise32/Pro8/Hobby4. README Hobby/Pro8 appears stale; discrepancy preserved without treating current Hobby4 cap as unknown. No live entitlement test.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://github.com/vercel/sandbox/blob/main/README.md",
+        "https://vercel.com/sandbox",
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "Pricing maximum is Enterprise 64GB, Pro 16GB, Hobby 8GB; SDK/persistence say 2048 MB per vCPU. Sources do not establish a GiB maximum; no GB-to-GiB normalization is made.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": 86400,
+      "note": "Pro and Enterprise maximum session duration is 24 hours; Hobby is 45 minutes, and stopping and resuming resets the session.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for inactivity-based shutdown after Q12. Numeric duration remains unknown/null, not false/zero/unlimited. No idle feature eligibility inferred. Default5-minute creation timeout is a session deadline, not idle detection; audit inference distinct from vendor denial (E05).",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    }
+  },
+  "pricing_summary": "Published USD Sandbox rates in iad1: $0.128/Active CPU hour, $0.0212/GB-hour allocated memory (including wait/idle, 1-minute minimum), $0.60/1M creations, $0.08/GB-month snapshots and Drive storage/reads/writes $0.05/GB-month, $0.0015/GB, $0.004/GB. Regional rates vary except creation/snapshots. Pro requires $20/month platform fee with one deploying seat and shared $20/month usage credit. Transfer included only in enabled/eligible Flat Rate CDN with capacity tiers; Enterprise pricing/quotas are negotiated/custom, not guaranteed table rates. Personal non-commercial Hobby hard quotas, no overage; reset wording conflicts. Default persistence creates billable snapshots unless opted out. Marketing pricing resolves beta VCR storage: Pro $0.10/GB-month, Hobby 10 GB/month included, Enterprise custom; reference omits period. Enterprise Secure Compute purchased/contact-price plus $0.15/GB Internet Private Data Transfer, peering uncharged. No computed workload bill/latency benchmark inferred.",
+  "pricing": [
+    {
+      "item": "Active CPU",
+      "plan": "Hobby",
+      "published_price": "5 hours/month included",
+      "conditions": "Non-commercial personal Hobby use only, no overage charge. Active CPU excludes I/O wait, not allocated memory costs. Creation pauses at quota: one paragraph says until next billing cycle, another says 30 days since first use; Hobby plan page says no billing cycles. Reset wording unresolved.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby"
+      ]
+    },
+    {
+      "item": "Active CPU",
+      "plan": "Pro and Enterprise reference table",
+      "published_price": "Table rate $0.128/Active CPU hour in iad1",
+      "conditions": "Marketing pricing explicitly says Enterprise Custom, corroborating docs custom terms: the Enterprise table number is a published reference, not a guaranteed negotiated contract. Pro rate at iad1, other regions differ. Active CPU excludes I/O waiting. Official comparison describes millisecond Active CPU granularity but does not establish minimum rounding increment; memory separately has 1-minute minimum, so do not apply millisecond billing to all meters. No counterfactual workload bill or 95% savings assumed.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/pricing",
+        "https://vercel.com/kb/guide/vercel-sandbox-vs-e2b"
+      ]
+    },
+    {
+      "item": "Provisioned memory",
+      "plan": "Hobby",
+      "published_price": "420 GB-hours/month included",
+      "conditions": "Non-commercial personal Hobby only, hard quota/no paid overage. Allocated memory includes idle/I/O waiting with 1-minute minimum increments. GB is not GiB.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby"
+      ]
+    },
+    {
+      "item": "Provisioned memory",
+      "plan": "Pro and Enterprise",
+      "published_price": "$0.0212/GB-hour",
+      "conditions": "iad1 table rate; regional rates vary and Enterprise terms are custom. Pricing says 2 GB per vCPU; SDK/persistence say 2048 MB per vCPU, not collapsed into GiB. Allocated memory bills while running, including idle/I/O wait, in 1-minute minimum increments. No running compute allocation after stop; retained storage charges remain.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/rest-api/sandboxes/stop-a-session"
+      ]
+    },
+    {
+      "item": "Sandbox creations",
+      "plan": "Hobby",
+      "published_price": "5,000/month included",
+      "conditions": "Each Sandbox.create() counts as one. Non-commercial personal Hobby only, hard quota; no paid overage. Creation throughput and concurrency quotas also apply.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby"
+      ]
+    },
+    {
+      "item": "Sandbox creations",
+      "plan": "Pro and Enterprise",
+      "published_price": "$0.60/1M",
+      "conditions": "Table rate same in every Sandbox region; each Sandbox.create counts regardless of duration. Enterprise pricing/quotas custom. No numeric separate fork/resume/snapshot operation charge established.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    {
+      "item": "Data transfer",
+      "plan": "Hobby",
+      "published_price": "20 GB/month included",
+      "conditions": "Non-commercial personal Hobby only, hard quota/no paid overage. Internet downloads free; sends plus both request and response traffic through exposed ports count. Do not interpret all ingress as free.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby"
+      ]
+    },
+    {
+      "item": "Data transfer",
+      "plan": "Pro",
+      "published_price": "Included in Flat Rate CDN",
+      "conditions": "Sandbox pricing table; not unconditional unlimited transfer. Flat Rate CDN must be enabled and workload eligible. Lowest capacity tier included with Pro: 1M requests and 1 TB/month, shared across covered resources. Higher $20/$100/$300 monthly tiers and capacity limits apply; out-of-scope bulk/file/media distribution may be excluded. Disabled Flat Rate CDN moves to on-demand rates; no standalone Pro Sandbox on-demand transfer rate established here. Downloads from the Internet are free, but both directions of exposed-port traffic are billable.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/pricing/flat-rate-cdn",
+        "https://vercel.com/docs/plans/pro-plan"
+      ]
+    },
+    {
+      "item": "Snapshot storage",
+      "plan": "Hobby",
+      "published_price": "15 GB lifetime included",
+      "conditions": "Non-commercial personal Hobby only. Lifetime allowance not a monthly GB-month rate. Default persistence produces snapshots automatically; opt out with persistent:false. Snapshot expiry/deletion controls retained storage.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes"
+      ]
+    },
+    {
+      "item": "Drive storage",
+      "plan": "Pro and Enterprise",
+      "published_price": "$0.05/GB-month",
+      "conditions": "iad1 table rate, regional rates vary; Enterprise terms custom. Drives public beta. Billed logical used size measured hourly, not provisioned size; persists and bills until drive deletion. Hobby 15 GB lifetime is a different allowance, not paid storage rate.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/drives"
+      ]
+    },
+    {
+      "item": "Drive reads",
+      "plan": "Pro and Enterprise",
+      "published_price": "$0.0015/GB",
+      "conditions": "iad1 table rate, regional rates vary; Enterprise custom terms. Public-beta Drive logical read usage, separate from compute/storage. Hobby includes 30 GB/month under non-commercial personal-use quotas.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/drives"
+      ]
+    },
+    {
+      "item": "Drive writes",
+      "plan": "Pro and Enterprise",
+      "published_price": "$0.004/GB",
+      "conditions": "iad1 table rate, regional rates vary; Enterprise custom terms. Public-beta Drive logical write usage, separate from compute/storage. Hobby includes 30 GB/month under non-commercial personal-use quotas.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/sandbox/concepts/drives"
+      ]
+    },
+    {
+      "item": "Pro credit",
+      "plan": "Pro",
+      "published_price": "$20/month recurring usage credit included in the paid Pro platform fee",
+      "conditions": "Shared across managed infrastructure, not $20 dedicated to Sandbox or promotional signup credit. Expires/reset monthly; on-demand usage after exhaustion. The $20/month platform fee remains payable; additional deploying seats $20/month each.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/pro-plan"
+      ]
+    },
+    {
+      "item": "Pro platform fee",
+      "plan": "Pro",
+      "published_price": "$20/month; additional deploying seats $20/month each",
+      "conditions": "One deploying seat and $20/month shared infrastructure usage credit included. USD excludes applicable taxes. This is the required Pro subscription, not a separate Sandbox-only fee; do not count credit as an independent free plan.",
+      "source_urls": [
+        "https://vercel.com/docs/plans/pro-plan"
+      ]
+    },
+    {
+      "item": "Data transfer",
+      "plan": "Enterprise",
+      "published_price": "$0.15/GB in the iad1 table",
+      "conditions": "Sandbox sends to Internet plus both directions of exposed-port traffic; Internet downloads free. Regional transfer rates vary. Enterprise section separately says custom pricing/quotas and contact sales: table is not a guaranteed negotiated rate.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing"
+      ]
+    },
+    {
+      "item": "Snapshot storage",
+      "plan": "Pro and Enterprise reference rate",
+      "published_price": "$0.08/GB-month",
+      "conditions": "Same reference rate across Sandbox regions, Enterprise negotiated terms custom. August 31 release: each day's average usage added to monthly invoice, effective next billing period, not a whole-month retention minimum. Default persistence snapshots on stop/timeout; persistent:false opts out. REST delete retains snapshots by default; optional deleteOrphanSnapshots:true asynchronously removes unreferenced ones. TTL version matters: current persistence guide 30-day last-use expiry versus REST v4 7-day default/only-latest retention; configure explicitly. Python retention count 1-100 conflicts with REST v3/v4 max10; do not promise100. No separate snapshot creation/restore or root-disk rate established; missing price is not free.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/changelog/vercel-sandbox-now-calculates-snapshot-storage-costs-daily",
+        "https://vercel.com/docs/rest-api/sandboxes/delete-a-sandbox",
+        "https://vercel.com/docs/sandbox/concepts/persistent-sandboxes",
+        "https://vercel.com/docs/rest-api/sandboxes/create-a-named-sandbox-2",
+        "https://vercel.com/docs/sandbox/python-sdk-reference"
+      ]
+    },
+    {
+      "item": "Hobby eligibility and storage/I/O allowances",
+      "plan": "Hobby",
+      "published_price": "Free within quotas; 15 GB snapshot storage lifetime, 15 GB Drive storage lifetime, 30 GB/month Drive reads, 30 GB/month Drive writes",
+      "conditions": "Non-commercial personal use only. Lifetime storage allowance wording is distinct from monthly compute/I/O allowances and is not normalized into GB-months. No overage charge; creation pauses. Pricing conflicts on next billing cycle versus 30 days since first use; Hobby plan page says there are no billing cycles. Drives public beta.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/pricing",
+        "https://vercel.com/docs/plans/hobby",
+        "https://vercel.com/docs/sandbox/concepts/drives"
+      ]
+    },
+    {
+      "item": "Custom-image VCR storage",
+      "plan": "Pro",
+      "published_price": "$0.10 per GB-month",
+      "conditions": "Official marketing pricing explicitly supplies the missing period for Vercel Container Registry Image Storage (Beta), used by Functions and Sandbox; VCR reference/guide shorten to $0.10 per GB (guide says across all plans), so preserve their less-specific wording rather than silently infer it. No dedicated Pro allowance specified in VCR row; do not assume free storage beyond shared platform credit. CLI build local Docker/Podman/Buildah; VCR prepares optimized snapshots in background without user spinning up a Sandbox. Separate optimization/build charges not established, not assumed free.",
+      "source_urls": [
+        "https://vercel.com/pricing",
+        "https://vercel.com/docs/container-registry/limits-and-pricing",
+        "https://vercel.com/kb/guide/how-to-use-vercel-container-registry",
+        "https://vercel.com/changelog/vercel-sandbox-now-support-custom-images",
+        "https://vercel.com/docs/container-registry"
+      ]
+    },
+    {
+      "item": "Secure Compute network and transfer",
+      "plan": "Enterprise purchase",
+      "published_price": "Network: contact account team; Private Data Transfer $0.15/GB",
+      "conditions": "Sandbox attachment needs an existing Enterprise Secure Compute network. Public-internet traffic leaving the private network bills Private Data Transfer; traffic over AWS VPC peering has no transfer charge. Do not treat this as free BYOC or assume how it stacks with ordinary Sandbox transfer without confirmation.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox/concepts/secure-compute",
+        "https://vercel.com/docs/networking/secure-compute"
+      ]
+    },
+    {
+      "item": "Custom-image VCR storage",
+      "plan": "Hobby",
+      "published_price": "10 GB / month included",
+      "conditions": "Exact marketing VCR Image Storage (Beta) allowance wording; do not convert it into monthly transfer or invent a GB-month maximum. Hobby non-commercial personal-use restrictions and no purchasable usage overages apply. Older VCR guide says $0.10 per GB across all plans, less precise/inconsistent with marketing's included Hobby allocation.",
+      "source_urls": [
+        "https://vercel.com/pricing",
+        "https://vercel.com/docs/plans/hobby",
+        "https://vercel.com/kb/guide/how-to-use-vercel-container-registry"
+      ]
+    },
+    {
+      "item": "Custom-image VCR storage",
+      "plan": "Enterprise",
+      "published_price": "Custom",
+      "conditions": "Marketing VCR Image Storage (Beta) table explicitly says Custom. No public negotiated rate or allowance; shortened reference $0.10 per GB does not establish Enterprise contract pricing.",
+      "source_urls": [
+        "https://vercel.com/pricing",
+        "https://vercel.com/docs/container-registry/limits-and-pricing"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Startup (vendor-reported, unqualified)",
+      "published_claim": "Sandboxes start in milliseconds",
+      "conditions": "Overview/concepts wording, no numeric percentile for generic startup. Cold/warm/cache/resources/image/region/sample/operation boundary unspecified. SDK ready includes snapshot restore and uncached snapshots take longer. April engineering blog's measured vendor restore percentiles are recorded separately, not generalized to current cold creation/ready/reset/fork/resume or an independent benchmark. No sibling Function/build speed claim substituted.",
+      "source_urls": [
+        "https://vercel.com/docs/sandbox",
+        "https://vercel.com/docs/sandbox/concepts",
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/sandbox/concepts/snapshots"
+      ]
+    },
+    {
+      "metric": "Fork versus creation (vendor-reported, qualitative)",
+      "published_claim": "A fork takes about the same time as creating a sandbox, with the same limits",
+      "conditions": "July 28, 2026 official release, no numeric latency, percentile, image/resource/region/cache conditions. Fork uses latest saved filesystem snapshot, not live in-memory state; no snapshot falls back to fresh creation. Does not establish faster RL reset/clone or memory resume.",
+      "source_urls": [
+        "https://vercel.com/changelog/vercel-sandbox-supports-forking",
+        "https://vercel.com/docs/sandbox/sdk-reference"
+      ]
+    },
+    {
+      "metric": "Snapshot restore (vendor-reported marketing, unqualified)",
+      "published_claim": "Snapshots with Instant Environment Restore; restore filesystem and installed packages instantly",
+      "conditions": "Product marketing, not a measured duration/percentile. SDK reference explicitly warns uncached snapshot restoration can take longer and is included in creation readiness. Filesystem/package state only, not live memory. Image size/cache/region/resource/sample/ready endpoint unspecified; instant is qualitative and not zero-latency guarantee.",
+      "source_urls": [
+        "https://vercel.com/sandbox",
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/docs/sandbox/concepts/snapshots"
+      ]
+    },
+    {
+      "metric": "Filesystem snapshot restore latency (historical vendor-reported percentiles)",
+      "published_claim": "April 2, 2026 engineering report: p75 snapshot restore dropped from 40 seconds to sub-second; p95 from 50 seconds to 5 seconds; reported cache hit rate 95%",
+      "conditions": "Vendor production engineering claim, not independent benchmark or current SLA. Parallel download/decompression and decompressed-image NVMe cache; most customers reuse base snapshots, hits skip download/decompression. Snapshots described 200 MB to a few GB, but no exact test image/resources/region/sample/date range or defined external SDK-ready endpoint. Cache miss remains a distinct slower path. Chart caption says p95 under10s while text says5s; do not erase caption. Applies to filesystem restore/new session, not live memory, cold generic create or numeric reset/fork guarantee. Blog's Automatic Persistence beta label is historical, superseded by May26 GA release.",
+      "source_urls": [
+        "https://vercel.com/blog/optimizing-vercel-sandbox-snapshots",
+        "https://vercel.com/docs/sandbox/sdk-reference",
+        "https://vercel.com/changelog/sandbox-persistence-is-now-ga"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Active CPU price cannot be read as a wall-clock vCPU-hour price. The page's own examples assume 10% utilization, which is their example, not a general rule.",
+    "Regional rates other than iad1 were behind a selector and were not copied.",
+    "Memory is published in GB and separately 2048 MB/vCPU. Drive defaults are TiB/GiB. max_memory_gib is null, not a guessed conversion.",
+    "The 5-minute default is a session deadline, not idle detection. Process-memory recovery is explicitly absent for documented stop/resume; filesystem state is separate.",
+    "Second official-source pass resolves or narrows earlier uncertainty: Hobby4 corroborated despite README8; current CLI4.6.1/SDK3.5.1 serverfork inherits env; RESTdelete retains bydefault/optionalorphan cleanup; Python create/fork asynccontexts destroy/clean unless destroy=False, resumecontext onlystops, awaitedcreate caller-managed; configuredtimeout accessor/expirydeadline not remainingtime; Enterprisecustom reference table; VCRPro0.10/GB-month/Hobby10GB/month included/EnterpriseCustom; CLI WebSocket sizing/resize; historical vendorrestore p75<1s/p95=5s/cache95%; snapshot daily-average metering. Preserve contrarywording, versions/modes and experimentalconditions."
+  ]
+}

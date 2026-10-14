@@ -1,0 +1,65 @@
+{
+  "file": "judge-jev-v1.png",
+  "width": 1254,
+  "height": 1254,
+  "frames": [
+    {
+      "x": 14,
+      "y": 11,
+      "w": 392,
+      "h": 396
+    },
+    {
+      "x": 431,
+      "y": 13,
+      "w": 391,
+      "h": 394
+    },
+    {
+      "x": 857,
+      "y": 12,
+      "w": 389,
+      "h": 395
+    },
+    {
+      "x": 14,
+      "y": 420,
+      "w": 393,
+      "h": 405
+    },
+    {
+      "x": 455,
+      "y": 430,
+      "w": 375,
+      "h": 395
+    },
+    {
+      "x": 844,
+      "y": 423,
+      "w": 398,
+      "h": 402
+    },
+    {
+      "x": 14,
+      "y": 841,
+      "w": 392,
+      "h": 398
+    },
+    {
+      "x": 431,
+      "y": 841,
+      "w": 392,
+      "h": 398
+    }
+  ],
+  "poses": [
+    "Neutral",
+    "Studying scorecard",
+    "Skeptical",
+    "Impressed",
+    "Deliberating",
+    "Announcing verdict",
+    "Half blink",
+    "Closed blink"
+  ]
+}

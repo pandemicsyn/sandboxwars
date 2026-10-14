@@ -1,0 +1,888 @@
+{
+  "id": "prime-intellect",
+  "name": "Prime Intellect",
+  "product_name": "Prime Sandboxes",
+  "website": "https://www.primeintellect.ai/sandboxes",
+  "docs_url": "https://docs.primeintellect.ai/sandboxes/overview",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Hosted Prime Sandboxes",
+      "notes": "Vendor-operated microVMs accessed with a permitted API key. Billing is tracked in the Prime Billing dashboard; the SDK raises PaymentRequiredError for insufficient balance. The product page says no subscriptions or minimum spend. GPU access is separately coming soon and grant-gated, not implied by CPU RL support.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://www.primeintellect.ai/sandboxes"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "No documented support found for a self-hosted Prime Sandboxes runtime/service",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: full Sandbox docs/navigation, product/launch marketing, released SDK/source/samples, public OpenAPI, and targeted self-host/on-premise searches (audit Q1/Q7/P1). Conservative documented-support audit inference, not an explicit vendor denial. Standalone CLI/SDK access and MIT clients do not establish a deployable runtime/server.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://www.primeintellect.ai/blog/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md",
+        "https://api.primeintellect.ai/openapi.json"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unsupported",
+      "value": "No documented support found for customer-cloud Prime Sandboxes execution/control plane",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: full Sandbox docs/navigation, product/launch marketing, released creation model/client/source/samples, public OpenAPI, and targeted BYOC/bring-your-own-cloud searches (audit Q1/Q7/P1). Conservative documented-support audit inference, not an explicit vendor denial. Bring Your Own Environment means images, not customer-cloud execution; self-managed prime-rl/training does not establish Sandbox BYOC.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://www.primeintellect.ai/blog/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://api.primeintellect.ai/openapi.json"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python",
+      "notes": "Package prime_sandboxes, with SandboxClient and AsyncSandboxClient. TypeScript and Go: NO DOCUMENTED SUPPORT FOUND. No documented support found in the official sources reviewed as of 2026-10-08 across Sandbox docs, marketing, released SDK/repository tree/samples, and targeted official-domain/repository searches (audit Q7/Q10/P3/P5). Conservative documented-support audit inference for those language capabilities, not an explicit vendor denial. JavaScript Inference examples, Go server hiring, and Prime Agent extension/programmatic APIs are not Sandbox lifecycle SDKs.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md",
+        "https://api.github.com/repos/PrimeIntellect-ai/prime/git/trees/v0.9.4?recursive=1",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/README.md"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "The official Sandbox docs and released repository identify the vendor's Python SDK, but this vendor-controlled source set cannot establish whether any third-party community SDK exists. Community environment modules and Prime Agent are not documented Sandbox lifecycle SDKs; no exhaustive ecosystem inventory was established.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://api.github.com/repos/PrimeIntellect-ai/prime/git/trees/v0.9.4?recursive=1",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/README.md"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Bearer-authenticated HTTP management API used by the official SDK",
+      "notes": "Released CLI v0.9.4 / prime-sandboxes 0.4.3 source implements POST /api/v1/sandbox and checkpoint management routes. Execution uses authenticated gateway RPC. The public OpenAPI fetched on 2026-10-08 contains no sandbox routes, so a complete standalone management API reference is not established.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/core/client.py",
+        "https://api.primeintellect.ai/openapi.json"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "prime sandbox",
+      "notes": "Commands shown include create, list, run, and delete. prime login is the auth step.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Runtimes supplied by a compatible Linux Docker or OCI image",
+      "notes": "Examples use python:3.11-slim, node:20-slim, ubuntu:22.04, and pytorch images. The Python SDK does not limit guest languages. VM artifact builds require linux/amd64; an image containing GPU libraries does not establish GPU sandbox access.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/api-reference/images/initiate-image-build"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Hardware-isolated microVM",
+      "notes": "VM sandboxes boot an OCI or Docker image as the root filesystem.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux images from Prime Images or Docker Hub",
+      "notes": "VM artifact builds require linux/amd64 even though the build request enum also lists linux/arm64. Other accepted public registries must be transferred into Prime first. Windows, macOS, and a selectable guest-kernel menu are not established.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/api-reference/images/initiate-image-build"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "1 to 16 vCPUs, default 1",
+      "notes": "Whole vCPUs only. Fractional values are truncated, and anything below 1 becomes 1.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "128 MiB to 64 GiB, default 1 GiB",
+      "notes": "SDK field shown as memory_gb.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "2 GiB to 128 GiB, default 5 GiB",
+      "notes": "Per-sandbox limit table.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "GPU Sandboxes are coming soon; requests above 0 error without an explicit grant",
+      "notes": "The limits table lists 0 to 8 GPUs, default 0, but is not public availability evidence. GPUs are VM-only and require an explicit Prime grant; open tiers, hardware models, pricing, and obtainable access are not established. This is not Prime GPU instances, Hosted Training, or Inference; CPU RL rollouts do not require GPUs.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Dockerfile builds, Prime Images, and Docker Hub images; VM builds require linux/amd64",
+      "notes": "Other public registries are not accepted directly by sandbox create: transfer supported public sources into Prime first. Allowed sources include GHCR, Quay, public ECR, registry.k8s.io, and MCR; Google-hosted registries are rejected. Private-source registry credentials and image/build-context size ceilings are not established. Guides say first VM conversion can take a few minutes in PENDING; Harbor instead says ~10 minutes for first VM builds. Source-image push performs conversion before launch. Docker Hub source builds become PUBLIC platform images and cannot use custom destination/team/private visibility; do not generalize private-by-default Dockerfile images to those imports. Image storage and a one-day-storage upload charge apply separately. Marketing calls task artifacts immutable, but logical image retag/rename is supported; upstream mutable-tag refresh is not specified.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/images",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md",
+        "https://docs.primeintellect.ai/verifiers/v1/harbor",
+        "https://www.primeintellect.ai/blog/sandboxes"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "By baking a Docker image, or by running commands in the sandbox",
+      "notes": "No separate package API was named.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Commands use the configured guest user, normally root",
+      "notes": "Released SDK README explicitly says normally root when user is omitted; this is guest access, not host privilege or guaranteed sudo in every custom image. Per-command user selection requires supporting sandboxd; older guests can ignore the field and execute as their default user, so upgrade or recreate them. Named accounts must already exist.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md",
+        "https://docs.primeintellect.ai/sandboxes/cli"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "VM sandboxes support Docker",
+      "notes": "Overview also names systemd, background services, and kernel-dependent workloads.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Background jobs survive the command connection, not sandbox termination",
+      "notes": "start_background_job runs across API calls until completion or sandbox termination. A start_command process stops the sandbox when it exits; omit it to keep the sandbox available for commands. Lifetime and optional idle timeout still apply. Checkpoint/fork preserves files only, not running jobs or memory.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "upload_file, download_file, and read_file",
+      "notes": "Uploads are limited to 16 MiB per file. Reads are size-limited; download_file is the path for larger files.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Explicit durable filesystem checkpoint and restore into a new sandbox",
+      "notes": "A DURABLE checkpoint outlives its source sandbox; root-disk attachment or automatic latest-file persistence after termination is not established. Keep the source running until DURABLE: deletion or timeout first loses the checkpoint. Restore uses checkpoint_id without docker_image or disk_size_gb, which come from the checkpoint. Files only, not processes/memory. Stored checkpoints incur separate storage and upload charges; retention TTL is not published in the guides.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/cli"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "unsupported",
+      "value": "No documented support found for attachable volumes in public Prime Sandboxes",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: Sandbox docs, product/launch marketing, released creation model/client/samples, and storage/mount searches (audit Q3/Q8 and policy follow-up navigation). Conservative documented-support audit inference, not an explicit vendor denial. No public attachment/mount interface was found. Hosted Training volumes and GPU-instance network disks are sibling features; per-sandbox disk and file checkpoints are not attachable volumes.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md",
+        "https://docs.primeintellect.ai/hosted-training/volumes",
+        "https://www.primeintellect.ai/blog/sandboxes",
+        "https://docs.primeintellect.ai/api-reference/managing-disks"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "unsupported",
+      "value": "No documented support found for in-place Prime Sandbox pause/resume",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: overview/SDK/CLI, product/launch marketing, complete released client method inventory/models/samples, public OpenAPI, and pause/hibernate/resume searches (audit Q3/Q8/P2). Conservative documented-support audit inference, not an explicit vendor denial. PAUSED is a response enum without a public pause/resume method or state-preservation contract, not affirmative feature support. File restore creates a new sandbox; FAQ pause applies to sibling GPU instances. Suspended-state rates remain unknown.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://api.primeintellect.ai/openapi.json",
+        "https://docs.primeintellect.ai/faq"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "No documented support found for process-memory snapshots or live resume in Prime Sandboxes",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for a separate process-memory recovery mechanism. Scope: full recovery docs, product/launch marketing, released client method inventory/models/samples, public OpenAPI, and memory-snapshot/resume searches (audit Q3/Q8/P2). Conservative documented-support audit inference for that separate capability, not an explicit vendor denial. The documented checkpoint/restore/fork mechanism explicitly excludes processes and memory. Roadmap trajectory snapshots, PAUSED enum, agent conversation snapshots, and sibling training warm-start are not current Sandbox memory recovery.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://www.primeintellect.ai/blog/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://api.primeintellect.ai/openapi.json"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Files-only checkpoints of running sandboxes; restore into new sandboxes after DURABLE",
+      "notes": "Files only, not running processes or memory. Wait for DURABLE before deleting or allowing the source to time out; earlier termination loses the checkpoint. A DURABLE checkpoint outlives its source. Restore omits docker_image and disk_size_gb; resources, environment variables, and timeouts can be configured. Storage costs $0.10 per GiB per month billed hourly, plus a one-time upload charge equal to one day of storage when DURABLE. No numeric checkpoint latency, consistency guarantee, or retention TTL is published in the guides. The September 23 launch blog's coming-soon wording predates the released checkpoint feature and current guides.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://www.primeintellect.ai/blog/sandboxes",
+        "https://github.com/PrimeIntellect-ai/prime/releases/tag/v0.9.2"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "prime sandbox fork checkpoints files and starts a new sandbox",
+      "notes": "Fork waits for the checkpoint to be saved; keep the source alive until DURABLE. Files copy, but processes start fresh and memory is not carried over. CPU, memory, and timeout inherit unless overridden; --wait-timeout caps the wait, not a published fork benchmark. Checkpoint storage/upload charges apply; an in-place reset primitive is not documented.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Unrestricted when no policy is set in the released CLI; explicit deny-all includes DNS",
+      "notes": "Released CLI describes unset allowlist/denylist as Unrestricted; SDK network_allowlist=[] denies all egress including DNS. Harbor's no-network integration mode retains framework interception/MCP routes and keeps trusted setup online, so it is not identical to raw Sandbox deny-all. Authorized inference/proxy services can fetch remotely outside the sandbox boundary; network policy is not an end-to-end offline guarantee.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime/src/prime_cli/commands/sandbox.py",
+        "https://docs.primeintellect.ai/verifiers/v1/harbor",
+        "https://www.primeintellect.ai/blog/universal-offline-sandbox-escape"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "VM egress allowlist or denylist, mutually exclusive; deny-all includes DNS",
+      "notes": "Released SDK permits at most 256 entries: exact hostnames, leftmost-label wildcard domains, IPv4/CIDRs; rejects IPv6, schemes, credentials, ports, paths, query strings, and bare '*'. CLI --deny '*' is a special deny-all shortcut, not an SDK list entry. Runtime updates replace the whole list; verify applied state because saved rules may lag. DNS/SNI and protocol enforcement details remain unestablished. Harbor may add framework routes and keeps trusted setup online; authorized remote-fetch services are outside sandbox egress control, not proof of a VM-policy bypass.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://docs.primeintellect.ai/verifiers/v1/harbor",
+        "https://www.primeintellect.ai/blog/universal-offline-sandbox-escape"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "unknown",
+      "value": null,
+      "notes": "Retained unknown for general Sandbox ingress because positive official evidence has unclear applicability, not merely because docs omit it. The official Prime Agent reference (last file commit 2026-09-30, reviewed 2026-10-08) says Tunnel exposes local or in-sandbox services; exact Sandbox/evaluation guides only establish opted-in hosted-evaluation forwarding. General arbitrary-Sandbox eligibility/access and raw TCP remain unresolved after audit Q4/P4 and full API/SDK review. --allow-tunnel-access grants the hosted run's temporary key permissions; SSH explicitly lacks -L/-R forwarding. Do not generalize evaluation-only support into unrestricted general ingress.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/tunnel",
+        "https://docs.primeintellect.ai/tutorials-environments/hosted-evaluations",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/skills/prime-intellect/references/sandboxes.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "unknown",
+      "value": null,
+      "notes": "Retained unknown for general Sandbox preview URLs because official positive scope is unclear: Prime Agent's reference says local or in-sandbox services, while exact product guides affirm only caller-local and opted-in hosted-evaluation HTTPS tunnels. Reviewed 2026-10-08 via audit Q4/P4 and full API/SDK passages; this is not simple absent documentation. Confirmed evaluation tunnels use t-<id>.tunnel.pinfra.io, public by default, optional Basic Auth with a generated password shown once, and an active client. General Sandbox bind/TLS/lifetime/access contract remains unresolved.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/tunnel",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/tutorials-environments/hosted-evaluations",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/skills/prime-intellect/references/sandboxes.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "unsupported",
+      "value": "No documented support found for general Prime Sandbox VPC/peering or inter-sandbox private networking",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: Sandbox network docs, marketing, released creation model/client/samples, public OpenAPI, and private-network/VPC/peering searches (audit Q1/Q5/P4). Conservative documented-support audit inference, not an explicit vendor denial. Enterprise Hosted Training Tailscale joins run env-servers, not arbitrary Sandbox guests; Public Tunnel and outbound allowlists are not a provider-managed private network. No feature inferred from generic microVM/Docker compatibility.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/tunnel",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://docs.primeintellect.ai/hosted-training/advanced-configs",
+        "https://api.primeintellect.ai/openapi.json"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "1,024 active sandboxes, 4,096 vCPUs, 4,096 GiB memory, and 32,768 GiB storage per account",
+      "notes": "Defaults. Support can raise them.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "1 minute to unlimited, default 60 minutes",
+      "notes": "A negative timeout means no lifetime deadline. A finite timeout must be at least as long as the idle timeout.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Disabled by default; 1 to 1,440 minutes when set",
+      "notes": "Command, upload, download, and file-read calls reset it. SSH does not. Long-running execs stay pinned for their duration.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "102,400 sandbox creations per hour, with a burst of 192 per 10 seconds",
+      "notes": "Account defaults, not per-sandbox throughput. The SDK list polling backs off on throttling; other sandbox endpoint rates are not published in the guides. Image builds separately allow 150 requests per 60 seconds per IP and token, with additional unpublished per-image account source-build limits. Tunnel endpoint rates are a separate service.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/api-reference/images/initiate-image-build"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Optional SDK region and CLI --region selector; available-region inventory unknown",
+      "notes": "Released create model accepts region; CLI help gives us and eu-west as examples and uses the backend default when omitted. These examples do not establish currently available regions, residency guarantees, regional capacity, or regional pricing. Overview/product marketing and public OpenAPI do not supply a Sandbox region inventory.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime/src/prime_cli/commands/sandbox.py",
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Released Python SDK open_process streams VM process stdout/stderr and accepts stdin",
+      "notes": "CLI v0.9.4 / prime-sandboxes 0.4.3 source exposes a live process handle with exit wait and terminate/kill. Reattachment does not replay output emitted while detached. Async process stdout/stderr are byte iterators; the protocol has no stdin-EOF operation. This is not process-memory restore after sandbox termination.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/process.py"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "prime sandbox logs / SDK get_logs, command output, and polled background-job output",
+      "notes": "Released SDK GET /api/v1/sandbox/{id}/logs retrieves backend logs. Background-job retrieval returns at most the last 10 MiB of each stream with truncation flags; output errors are independent of exit status. Log retention/search and survival-after-delete guarantees remain unestablished. Hosted-evaluation log storage is a separate workflow.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/examples/README.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "prime sandbox ssh interactive guest shell",
+      "notes": "Requires a RUNNING sandbox and local OpenSSH. The CLI generates an ephemeral key/session and revokes/deletes it on disconnect; shell defaults to /bin/sh as the guest default user. SSH does not reset idle timeout and does not support port/agent forwarding, scp, or sftp. A separate PTY API is not established.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/cli"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Encrypted secrets injected as environment variables",
+      "notes": "Secrets are not returned in API responses. Plain environment variables are separate and are stored in plain text.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Permission-scoped API keys, team context, and admin-scoped bulk deletion",
+      "notes": "API keys can expire and be revoked. CLI --all-users and --user bulk deletion are team-admin-only; --all defaults to the caller's sandboxes. Labels are organizational filters, not authorization boundaries. Full Sandbox role matrix, SSO, and audit-log guarantees are not established.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/cli",
+        "https://docs.primeintellect.ai/api-reference/api-keys"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Vendor-advertised verifiers and prime-rl integration",
+      "notes": "Product page names these integrations for concurrent RL environments; overview also names AI-assisted coding and benchmarking. This does not imply GPU access inside Sandboxes, an MCP server, or every third-party agent plugin.",
+      "source_urls": [
+        "https://www.primeintellect.ai/sandboxes",
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "MIT for the Prime CLI and SDK monorepo, including prime-sandboxes",
+      "notes": "Released repository LICENSE and SDK README establish the client license only. They do not establish an open-source hosted sandbox runtime/server or a self-hosted deployment.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/LICENSE",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Raw VM deny-all includes DNS; verify runtime policy applied state. SDK has at most 256 hostname/IPv4/CIDR rules, not IPv6 or port rules. Harbor may retain framework routes and online setup; proxy remote-fetch is outside the VM boundary. Not an end-to-end offline guarantee.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://docs.primeintellect.ai/sandboxes/cli.md",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://docs.primeintellect.ai/verifiers/v1/harbor"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "At most 256 mutually exclusive hostname/leftmost wildcard/IPv4/CIDR rules. SDK rejects IPv6, URL schemes/paths/credentials/query strings/ports and bare '*'; CLI deny '*' is a deny-all shortcut. Updates replace the whole policy and can lag application; DNS/SNI/protocol details remain unestablished.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://docs.primeintellect.ai/sandboxes/cli.md",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": "partial",
+      "note": "Confirmed partial support: opted-in hosted-evaluation HTTPS forwarding, not a general ingress guarantee. General applicability remains unknown because official Prime Agent notes also say local or in-sandbox services, broader than exact product instructions. Public default/optional Basic Auth; SSH is not port forwarding. Reviewed 2026-10-08, audit Q4/P4.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/tunnel.md",
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/tutorials-environments/hosted-evaluations",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/skills/prime-intellect/references/sandboxes.md"
+      ]
+    },
+    "private_networking": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: Sandbox network docs, marketing, released models/client/samples, OpenAPI and VPC/peering searches (audit Q1/Q5/P4). Conservative audit inference, not an explicit vendor denial. Hosted Training Tailscale, Public Tunnel and egress rules do not establish general private Sandbox networking.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://docs.primeintellect.ai/sandboxes/tunnel.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://docs.primeintellect.ai/hosted-training/advanced-configs"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Running-sandbox filesystem checkpoints restore into new sandboxes. Wait for DURABLE while keeping the source alive; only then does the checkpoint outlive its source. Files only, not memory; storage and one-day-storage upload charges apply.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for separate memory/live recovery after full recovery docs, marketing, released methods/models/samples, OpenAPI and memory/resume searches (audit Q3/Q8/P2). Conservative audit inference, not an explicit vendor denial of every possible mechanism. Current file checkpoints/forks explicitly exclude processes and memory.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py"
+      ]
+    },
+    "pause_resume": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 after full Sandbox recovery docs, marketing, released methods/models/samples, OpenAPI and pause/hibernate/resume searches (audit Q3/Q8/P2). Conservative audit inference, not an explicit vendor denial. PAUSED enum alone is not a public pause/resume operation; FAQ pause concerns GPU instances.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://docs.primeintellect.ai/sandboxes/cli.md",
+        "https://docs.primeintellect.ai/faq.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "prime sandbox fork checkpoints files, waits for durability, and starts a new sandbox. Processes start fresh; CPU/memory/timeout inherit unless overridden. Source must remain alive until DURABLE; checkpoint storage/upload charges apply.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/cli.md"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Explicit DURABLE filesystem checkpoints outlive their source and restore into new sandboxes. Automatic root-disk persistence after termination is not established; keep the source alive until DURABLE. Files only; storage/upload charges apply.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md"
+      ]
+    },
+    "volumes": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08. Scope: Sandbox docs, marketing, released models/client/samples, storage/mount searches and disk API navigation (audit Q3/Q8 and policy follow-up). Conservative audit inference, not an explicit vendor denial. Per-sandbox disk/checkpoints, Hosted Training volumes and GPU-instance disks do not count.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Dockerfile or accepted public-registry source builds create linux/amd64 VM artifacts. Other registries need transfer into Prime; Google-hosted registries are rejected. Docker Hub source builds force PUBLIC platform scope, unlike private-by-default Dockerfile builds. First conversion can take minutes; storage/upload charges apply.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/images.md",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "VM sandboxes, the default runtime, support Docker, systemd, and background services.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "Released SDK says commands use the configured guest user, normally root. Not host access or guaranteed sudo in every image. Per-command user selection requires supporting sandboxd; older guests can ignore it and run as the default user.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/cli.md",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "No open GPU Sandbox tier is established: coming soon, VM-only, explicit Prime grant required, and >0 errors without access. The 0-to-8 table is not availability; sibling GPU compute/training/inference does not count.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 after full Sandbox docs, marketing, released SDK/source/samples, OpenAPI and self-host/on-premise searches (audit Q1/Q7/P1). Conservative audit inference, not an explicit vendor denial. MIT CLI/SDK and standalone hosted access are not a self-hosted Sandbox server.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "byoc": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 after full Sandbox docs, marketing, released create model/client/samples, OpenAPI and BYOC/customer-cloud searches (audit Q1/Q7/P1). Conservative audit inference, not an explicit vendor denial. Bring Your Own Environment is image packaging, not customer-cloud Sandbox execution.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/models.py"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "Prime CLI/SDK monorepo and prime-sandboxes client are MIT. No open hosted runtime/server or self-host deployment is established.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/LICENSE",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Background jobs survive API calls until completion or sandbox termination, not checkpoint/fork memory restore. A start_command exit stops the sandbox; lifetime and optional idle timeout still apply.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "prime sandbox ssh opens an interactive guest shell on a RUNNING sandbox with local OpenSSH and an ephemeral key/session revoked on disconnect. SSH does not reset idle timeout; no SSH port/agent forwarding, scp, or sftp. Separate PTY API unestablished.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/cli.md"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "Released prime-sandboxes 0.4.3 open_process streams VM stdout/stderr, writes stdin, waits for exit, and signals processes. Output emitted while detached is not replayed; protocol has no stdin-EOF operation. Not memory recovery.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/process.py"
+      ]
+    },
+    "secrets_management": {
+      "value": true,
+      "note": "Secrets are encrypted at rest, injected as environment variables, and not returned in API responses.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "The official client is the Python package prime_sandboxes, with sync and async clients.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md"
+      ]
+    },
+    "typescript_sdk": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 after docs, marketing, official released SDK/tree/samples and TypeScript/JavaScript searches (audit Q7/Q10/P3/P5). Conservative audit inference, not an explicit vendor denial. Prime Agent programmatic/extension APIs and Inference JavaScript samples do not establish a Sandbox lifecycle SDK.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://api.github.com/repos/PrimeIntellect-ai/prime/git/trees/v0.9.4?recursive=1",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime-agent/main/README.md"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 after docs, marketing, released SDK/tree/samples and Go/golang client searches (audit Q7/Q10/P3/P5). Conservative audit inference, not an explicit vendor denial. Go control-plane/node-runtime hiring is server implementation, not a public Sandbox Go SDK.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/sdk.md",
+        "https://www.primeintellect.ai/sandboxes",
+        "https://api.github.com/repos/PrimeIntellect-ai/prime/git/trees/v0.9.4?recursive=1",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/README.md"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The prime sandbox CLI creates, lists, runs, and deletes sandboxes.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/cli.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Product page advertises verifiers and prime-rl integration for RL environments. An MCP server or generic third-party plugin catalog is not established; GPU access is not implied.",
+      "source_urls": [
+        "https://www.primeintellect.ai/sandboxes",
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "max_vcpu": {
+      "value": 16,
+      "note": "The per-sandbox limit table lists a maximum of 16 whole vCPUs.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 64,
+      "note": "The per-sandbox limit table lists a maximum of 64 GiB.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "The timeout maximum is unlimited, and any negative timeout means no lifetime deadline.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "Idle timeout is disabled by default; when set it is 1 to 1,440 minutes.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview.md",
+        "https://docs.primeintellect.ai/sandboxes/sdk.md"
+      ]
+    }
+  },
+  "pricing_summary": "Prime Sandboxes running launch rates are valid through December 22, 2026: CPU $0.02 per vCPU per hour, memory $0.0125 per GiB per hour, and disk $0.0002 per GiB per hour. The overview prints 1 vCPU, 2 GiB RAM, 5 GiB disk as $0.046/hour. Product marketing states no subscriptions or minimum spend. VM images/checkpoints cost $0.10 per GiB per month, billed hourly while they exist, plus a one-time upload charge equal to one day of storage when an image build completes or checkpoint becomes DURABLE. Running includes waiting/idle time; active-CPU metering and pause are not established. Compute rounding/minimum increments, egress/ingress/storage I/O, additional build charges, allowances, and post-launch rates remain unknown. Insufficient account balance raises PaymentRequiredError.",
+  "pricing": [
+    {
+      "item": "CPU",
+      "plan": "Launch rates valid through December 22, 2026",
+      "published_price": "$0.02 per vCPU per hour",
+      "conditions": "Billed while the sandbox is running.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "item": "Memory",
+      "plan": "Launch rates valid through December 22, 2026",
+      "published_price": "$0.0125 per GiB per hour",
+      "conditions": "Billed while the sandbox is running.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "item": "Disk",
+      "plan": "Launch rates valid through December 22, 2026",
+      "published_price": "$0.0002 per GiB per hour",
+      "conditions": "Billed while the sandbox is running.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "item": "Published example",
+      "plan": "Launch rates valid through December 22, 2026",
+      "published_price": "1 vCPU, 2 GiB RAM, and 5 GiB disk is $0.046/hour",
+      "conditions": "The overview prints this running-compute example. Separate image/checkpoint storage and upload charges are not included; it is not a monthly estimate or complete workload bill.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Tier-free Sandboxes",
+      "published_price": "No subscriptions or minimum spend",
+      "conditions": "Sandbox-specific marketing statement, not a promise of free compute. The SDK raises PaymentRequiredError for insufficient balance. Minimum top-up amount and recurring allowances are not established.",
+      "source_urls": [
+        "https://www.primeintellect.ai/sandboxes",
+        "https://docs.primeintellect.ai/sandboxes/sdk"
+      ]
+    },
+    {
+      "item": "Egress",
+      "plan": "Unknown",
+      "published_price": "unknown",
+      "conditions": "No Sandbox egress rate or included transfer allowance is published in the reviewed overview, SDK, CLI, images, or product page. Missing price is not free.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://www.primeintellect.ai/sandboxes"
+      ]
+    },
+    {
+      "item": "VM image and filesystem checkpoint storage",
+      "plan": "Sandboxes storage",
+      "published_price": "$0.10 per GiB per month",
+      "conditions": "Billed hourly while the image or checkpoint exists, separately from running disk. This storage rate has no separate validity date printed; the December 22, 2026 deadline explicitly accompanies running launch rates. Retention TTL and size-measurement basis are not published in the guides. Released SDK delete_checkpoint stops its billing, may retain data for descendants, and returns HTTP 409 while pending or the active tip of a running sandbox.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://raw.githubusercontent.com/PrimeIntellect-ai/prime/v0.9.4/packages/prime-sandboxes/src/prime_sandboxes/sandbox.py"
+      ]
+    },
+    {
+      "item": "VM image and filesystem checkpoint upload",
+      "plan": "Sandboxes storage",
+      "published_price": "One-time charge equal to one day of storage",
+      "conditions": "Applied when an image build completes or a checkpoint becomes DURABLE. Preserve the published relative unit; no per-upload dollar amount or monthly-to-daily divisor is specified. Separate from running compute and retained storage; failed preparation charges and other build CPU charges are not established.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview"
+      ]
+    },
+    {
+      "item": "Running, idle, I/O, and billing increments",
+      "plan": "Sandboxes",
+      "published_price": "Running compute rates apply while running; minimum increment unknown",
+      "conditions": "No active-CPU discount is documented, so waiting or I/O while running is not free. Compute billing precision, rounding/minimum duration, separate create fees, and charging during PENDING image conversion are not specified. No sandbox pause or suspended-state billing is established; GPU-instance FAQ minute deductions are not Sandbox billing evidence.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/sdk",
+        "https://docs.primeintellect.ai/sandboxes/images"
+      ]
+    },
+    {
+      "item": "Ingress, storage I/O, and additional build charges",
+      "plan": "Unknown",
+      "published_price": "unknown",
+      "conditions": "Reviewed Sandbox sources publish storage/upload charges but do not establish ingress, storage read/write I/O, or additional image-build/preparation compute rates. Do not assume those are zero or borrow sibling GPU/Training/Inference rates.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/images"
+      ]
+    },
+    {
+      "item": "Allowances and credits",
+      "plan": "Account-scoped grants; public allowance unknown",
+      "published_price": "unknown",
+      "conditions": "Wallet API documents sandbox-category credit grants consumed before wallet balance, with amount, remaining amount, expiration, and revocation metadata. This establishes a grant mechanism, not a published recurring free tier, promotional amount, or eligibility. No subscriptions/minimum spend is not free compute. Regional price alternatives and post-December-22 compute rates remain unknown; wallet amounts are USD and published dollar/GiB units are preserved.",
+      "source_urls": [
+        "https://www.primeintellect.ai/sandboxes",
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/api-reference/billing/wallet-balance-+-most-recent-billing-rows"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Fleet startup throughput, not per-sandbox latency",
+      "published_claim": "Thousands of concurrent sandboxes can start in seconds",
+      "conditions": "Vendor statement for VM Sandboxes accessed 2026-10-08; overview sitemap lastmod 2026-10-06, not a benchmark date. Image-aware scheduling is stated, but no exact seconds, percentile, image/resources, region, or cold/warm statistic is supplied. First VM-image conversion can take a few minutes in PENDING; source-image push converts before launch. No numeric ready/reset/clone/fork/resume latency is established; throughput cannot substitute for per-sandbox latency.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/images"
+      ]
+    },
+    {
+      "metric": "Prime runtime image preparation and subsequent same-reference startup in Harbor",
+      "published_claim": "First VM image build can take ~10 minutes; later sandboxes on the same reference start in seconds",
+      "conditions": "Official Verifiers v1 Harbor integration claim, accessed 2026-10-08; sitemap lastmod 2026-10-07, not a measured statistic. No percentile, resources, region, or exact subsequent latency. Sandbox overview/images guides instead say first conversion can take a few minutes. Harbor's broad 'any pullable image' wording conflicts with Sandbox create's direct-registry restrictions; preserve the documented registry transfer rules rather than infer arbitrary private-registry support. This is image build/preparation versus image-reused launch, not reset/fork/resume latency.",
+      "source_urls": [
+        "https://docs.primeintellect.ai/verifiers/v1/harbor",
+        "https://docs.primeintellect.ai/sandboxes/overview",
+        "https://docs.primeintellect.ai/sandboxes/images"
+      ]
+    }
+  ],
+  "research_notes": [
+    "The published CPU, memory, and disk rates are explicitly limited to December 22, 2026.",
+    "GPU count appears in the limits table, but GPU Sandboxes remain coming soon and >0 requests error without an explicit Prime grant. Sibling GPU instances, Hosted Training, and Inference do not establish Sandbox GPU eligibility.",
+    "Filesystem checkpoint/restore/fork is now documented and released (CLI 0.9.2 / prime-sandboxes 0.4.2, 2026-10-02); CLI 0.9.4 / prime-sandboxes 0.4.3 adds checkpoint deletion. Wait for DURABLE while keeping the source alive; files survive, processes/memory do not.",
+    "Official overview, SDK, CLI, images, tunnel, hosted-evaluation scope, public OpenAPI, product marketing, and released client source were audited on 2026-10-08. SDK license and guest root/streaming evidence do not establish a self-hosted server.",
+    "The 2026-10-08T03:44Z capability eligibility policy was applied per field after additional official docs/marketing/SDK/API searches. NO DOCUMENTED SUPPORT FOUND audit inferences classify self-host/BYOC, community/TypeScript/Go SDKs, general private networking, attachable volumes, pause/resume and separate memory recovery as unsupported/false, not explicit vendor denials. General HTTPS ingress/preview remains unknown because official Prime Agent in-sandbox tunnel wording has unclear general-product applicability; confirmed hosted-evaluation forwarding remains partial. Numeric pricing/limits/retention, available-region inventory, checkpoint consistency and undisclosed restrictions remain unknown. No paid API execution or independent benchmark was performed.",
+    "The September 23, 2026 launch blog still calls snapshots/forks forthcoming; current overview (sitemap lastmod October 6) and released CLI/SDK document filesystem checkpoints. Current file-only recovery supersedes that dated roadmap, not the blog's possible future memory/shared-workspace features. GPU examples in the released examples README do not override the explicit coming-soon/grant gate."
+  ]
+}

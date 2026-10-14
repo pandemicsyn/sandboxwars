@@ -1,0 +1,5 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "daytona-v2.png",
+  "prompt": "Use case: precise-object-edit. The attached atlas is Daytona v2. Output ONLY the full-body BATTERED VICTORY pose from the BOTTOM MIDDLE cell as a SINGLE isolated transparent PNG. Preserve that exact adult character, cyan-edged spiky dark-blue hair, face, black/cyan jacket, white tank, cargos, shoes, cheek bandage, torn sleeves and pose (near hand hanging down, other gloved fist at shoulder height). Keep same direction, anatomy, pixel-art rendering and expression. Do NOT redesign or add detail. Remove all neighboring frame fragments, particularly the thin horizontal shoe fragments floating ABOVE the head in the atlas crop. All output pixels belong to the one victory figure. Center full body in square image with at least 10% clear transparent padding on every side including hair and shoes. True alpha transparent, no background, floor, shadow, labels, lines, text, other figures, or loose debris."
+}

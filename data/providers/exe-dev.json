@@ -1,0 +1,898 @@
+{
+  "id": "exe-dev",
+  "name": "exe.dev",
+  "product_name": "exe.dev Standalone VMs",
+  "website": "https://exe.dev/",
+  "docs_url": "https://exe.dev/docs/standalone-vms",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Hosted standalone VMs (sandboxes) with separately reserved vCPU and memory",
+      "notes": "An active subscription is required: Personal starts at $15/month; Work is $75/month with a restricted first-subscription intro. Work and Enterprise standalone creation is off until an admin enables admins-only or all-users. Legacy Individual and Team plans do not include standalone VMs. These are not shared-capacity pool VMs.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/billing/overview.md",
+        "https://exe.dev/docs/billing/work.md"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for customer-installed standalone VM runtime/control plane",
+      "notes": "Conservative documented-support audit classification, not a vendor denial. Reviewed docs/marketing/API and public Bold Software repositories. Open guest images, agents, SSH clients and the execonnect private-service tunnel do not establish self-hosting the sandbox service; exedev-flue describes a private exe.dev server. Enterprise BYOC is separately listed, not a public self-host installer. Search scope is recorded in the dated official-source review",
+      "source_urls": [
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://exe.dev/pricing",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "Bring your own cloud is listed for Enterprise only",
+      "notes": "Pricing explicitly excludes BYOC on Personal/Work and lists AWS/GCP VPC support for Enterprise. Exact standalone execution/control-plane placement, cloud coverage and contract access are not established. The official execonnect daemon tunnels private services to hosted workloads; it does not establish running the sandbox in the customer's cloud. Conditional positive support is retained, not treated as a public-plan entitlement.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/enterprise.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript source connector for Flue; no general standalone lifecycle SDK established",
+      "notes": "The official exedev-flue connector uses SSH/SFTP for a supplied VM host. Its auto-create/clone helpers issue new/cp without --standalone, so they do not establish standalone creation by default. API explorer Python/JavaScript/Go examples are direct HTTP, not SDKs. The Python exe-ssh project is an experimental interactive terminal client, not a Python sandbox SDK; execonnect is a Go private-service connector, not a Go sandbox SDK.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/exedev.ts",
+        "https://exe.dev/docs/_static/explorer/app.js?v=54f9d3cf30",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "The reviewed official sources do not name community standalone-VM SDKs. That source omission does not establish that community clients do not exist; retain unknown until a positive community-client example or an explicit scoped negative is verified. Official first-party client and integration scope is recorded separately in the dated official-source review",
+      "source_urls": [
+        "https://exe.dev/llms.txt",
+        "https://exe.dev/docs/https-api.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/README.md"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "POST https://exe.dev/exec",
+      "notes": "The body is the same command you would type over SSH, and JSON output is always enabled. Bearer tokens are generated with ssh-key generate-api-key. The request body limit is 64KB.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "ssh exe.dev",
+      "notes": "Commands include new, rm, cp, resize, restart, ls, stat, share, and pool. --sandbox is an alias for --standalone. The old cli-*.md references redirect to the API explorer; its command-tree artifact is dated 2026-08-21 and omits newer standalone flags, so current standalone docs govern those flags.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/api.md",
+        "https://exe.dev/api?cmd=help+new"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Whatever the VM image can run",
+      "notes": "The default image is exeuntu. new --image accepts other container images, including the example ubuntu:22.04. The how-it-works page says you do not choose the kernel.",
+      "source_urls": [
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/docs/faq/how-exedev-works.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "VM on Cloud Hypervisor, described as an implementation detail that may change",
+      "notes": "The VM starts from a container image plus a block device, on bare metal that exe.dev rents. VMs in one account are isolated from each other.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://exe.dev/docs/faq/cross-vm-networking.md"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Default exeuntu is Ubuntu 24.04; other Linux container images are accepted",
+      "notes": "The Dockerfile uses ubuntu:24.04, and the API tour offers ubuntu:22.04. The guest kernel is not selectable; this is not arbitrary kernel/Windows VM support. Image architecture limits are not specified.",
+      "source_urls": [
+        "https://exe.dev/docs/customization.md",
+        "https://raw.githubusercontent.com/boldsoftware/exeuntu/main/Dockerfile",
+        "https://exe.dev/api?cmd=help+new",
+        "https://exe.dev/docs/faq/how-exedev-works.md"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Standalone default 2 vCPUs; maximum 16 on Personal and 32 on Work",
+      "notes": "Enterprise limits are custom. new --cpu and resize --cpu configure guest allocation. The 512 vCPU ceiling and approval above 32 vCPU refer to shared Work pools, not an individual standalone VM.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Standalone default 2 vCPUs / 8 GiB; maximum 32 GiB on Personal and 64 GiB on Work",
+      "notes": "Current pricing explicitly uses GiB. The metered capacity unit is 2 vCPU / 4 GiB; the default-size row is 2 vCPU / 8 GiB. How independently sized CPU and memory map to billable units is not explained; do not infer a default VM bill. CLI examples and the Personal capacity doc still use GB; no conversion was made. Pool maxima are not standalone maxima.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/billing/personal.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "--disk accepts sizes such as 50GB; resize only grows the VM disk",
+      "notes": "The disk-usage FAQ meters used ext4 filesystem space, not simply provisioned size, and describes exeuntu as about 4 GB. A production standalone disk default or maximum was not established; the explorer's 20 GB default is simulated. Pricing includes 100 GiB per 2 vCPU; billing docs still say 100 GB. Disk allowances are not disk-size maxima and units were not converted.",
+      "source_urls": [
+        "https://exe.dev/api?cmd=help+new",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/docs/faq/disk-usage.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/usage.md"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for GPUs inside standalone VMs",
+      "notes": "Conservative documented-support audit classification, not an explicit vendor denial. Current standalone sizing/pricing, docs index, custom-image/runtime references, public client artifacts and GPU-targeted searches establish CPU VMs but no GPU allocation mechanism, hardware or access tier. Enterprise custom resource limits and nested virtualization are not GPU support.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "new --image boots a VM from a published Docker/container image, including private registries",
+      "notes": "Custom images are included on current plans. --registry-auth=USERNAME:PASSWORD supplies host-side boot pull credentials; integration hostnames are unavailable before the VM exists. In-guest registry integrations are separate. exe.dev/login-user sets the SSH user. Guest kernel selection, image architecture/size limits, build/preparation charges and readiness timing are not established by this mechanism.",
+      "source_urls": [
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/docs/private-image.md",
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Install packages over SSH with guest privileges or bake them into a custom image",
+      "notes": "exeuntu runs /exe.dev/setup once at first boot. The explorer command-tree reference specifies a 10KiB setup-script maximum; use indirection. Setup completion is not included in a measured readiness claim.",
+      "source_urls": [
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Guest root access; default exeuntu user exedev has passwordless sudo",
+      "notes": "The homepage says SSH users are root; exeuntu's Dockerfile actually configures login-user=exedev and exedev ALL=(ALL) NOPASSWD:ALL. Custom images can select a different login user. This is guest privilege, not host/root access to exe.dev infrastructure; share --root is a collaborator access level.",
+      "source_urls": [
+        "https://exe.dev/",
+        "https://raw.githubusercontent.com/boldsoftware/exeuntu/main/Dockerfile",
+        "https://exe.dev/docs/customization.md"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker runs inside the VM",
+      "notes": "The Docker FAQ shows docker run on the exeuntu image. Nested virtualization (KVM) is marked included on Enterprise and not included on Personal or Work.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/docker.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Detached processes and systemd/cron workloads can keep running in the VM",
+      "notes": "The HTTPS guide detaches with setsid nohup and writes /tmp/build.log. /exec has a 30-second request timeout, not a 30-second VM lifetime. The 2026-03-03 persistence post says lack of traffic/SSH does not quiesce VMs. A running idle standalone VM retains reserved-capacity billing; stopping retains disk, not documented process memory.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://exe.dev/docs/https-api.md",
+        "https://blog.exe.dev/persistent",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "scp, rsync, ssh and SFTP",
+      "notes": "The copy-files FAQ documents SSH-based transfer, and the official Flue connector implements SFTP reads/writes. The HTTPS example cats a file through /exec; its request limits are separate from SSH/SFTP. Transfer/export is not a VM snapshot or post-delete restore guarantee.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/copy-files.md",
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/exedev.ts"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Persistent VM disk survives guest reboot and stop/restart",
+      "notes": "Stopped standalone VMs keep their disk and count toward limits. rm deletes the VM; no post-delete restore or retention guarantee is established. cp captures files into a new VM. Regional NVMe replication is described as a backup a few seconds behind the source, not zero-loss recovery, a user snapshot API, or process-memory preservation. Separate attachable volumes are unverified.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/pools",
+        "https://blog.exe.dev/persistent",
+        "https://exe.dev/docs/architecture.md"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for separate attachable standalone VM volumes",
+      "notes": "Audit documented-support inference, not vendor denial. Persistent root disks, cp disk clones, regional disk replication and S3 integrations are different mechanisms. Docs/marketing/storage/API and public-repository searches did not establish volume create/attach/detach support; search ledger is in the dated official-source review",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/architecture.md",
+        "https://exe.dev/docs/integrations.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/pools"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Disk-preserving guest stop and restart, not established memory-preserving pause",
+      "notes": "The pools marketing page documents ssh <vm>.exe.xyz sudo poweroff, then ssh exe.dev restart <vm> to boot the same disk. It separately confirms stopped standalone VMs keep disk and incur no vCPU/memory billing, matching standalone docs. They still consume VM slots; retained disk can incur storage charges and subscription continues. No hibernate/live-resume API is established.",
+      "source_urls": [
+        "https://exe.dev/pools",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/billing/usage.md"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for standalone VM process-memory snapshots or live resume",
+      "notes": "Audit documented-support inference, not vendor denial. poweroff/restart boots the same disk; cp copies disk/configuration. Neither establishes RAM capture. Idle persistence is not a suspend/resume transition. Experimental exe-ssh named terminal sessions reconnect after a dropped client link, not VM poweroff/replacement. Lifecycle, marketing, API and official source rechecks found no VM memory-save/restore mechanism.",
+      "source_urls": [
+        "https://exe.dev/pools",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://blog.exe.dev/persistent",
+        "https://exe.dev/api?cmd=help+cp",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Filesystem cloning via cp: copy-on-write disk capture into a new VM",
+      "notes": "The 2026-02-08 January Update describes copy-on-write cp; the current API tour says it duplicates the whole disk. cp --standalone is documented. This supports file cloning, not RAM capture, a named snapshot/restore API, or restore after source deletion. Application consistency, retention, clone disk accounting and separate snapshot/clone fees are not specified. Custom boot images are a different mechanism.",
+      "source_urls": [
+        "https://blog.exe.dev/jan26-update",
+        "https://exe.dev/api?cmd=help+cp",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/production"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "cp copies an existing VM's disk into a new VM, including cp --standalone",
+      "notes": "Copy-on-write is documented; the command-tree reference offers CPU, memory, disk and copy-tags options. New standalone copies reserve their own capacity and are subject to plan/creation gates and VM limits. Do not infer process-memory forking, an in-place reset operation, application-consistent snapshots, or free clone storage.",
+      "source_urls": [
+        "https://exe.dev/api?cmd=help+cp",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://blog.exe.dev/jan26-update"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Outbound bandwidth is metered",
+      "notes": "Outbound is any traffic that leaves exe.dev. Inbound does not count toward the allowance.",
+      "source_urls": [
+        "https://exe.dev/docs/billing/usage.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Default all egress; optional integrations-only outbound policy",
+      "notes": "Enable the account feature yourself with defaults write dev.exe feature.egress-policy true, then egress <vm> integrations. This blocks public internet but retains metadata and attached integration endpoints; it is not deny-all. New VMs use DNS 169.254.169.254; older VMs need manual resolv.conf configuration. HTTP integrations can target configured services, but arbitrary domain/IP/CIDR rules, protocol/port coverage, DNS/SNI enforcement and bypass resistance are not established. No blanket network-isolation guarantee.",
+      "source_urls": [
+        "https://exe.dev/docs/internet-access.md",
+        "https://exe.dev/docs/integrations-http-proxy.md"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "Vendor HTTPS proxy to a service inside the VM; no dedicated VM public IP",
+      "notes": "EXPOSE prefers port 80, otherwise the smallest exposed TCP port >=1024; share port changes target. Default exeuntu exposes 8000 and 9999. HTTPS ports 3000-9999 are private to authorized users; only one selected service port can be public. This is HTTP(S) proxying, not arbitrary raw TCP/UDP or a caller-machine tunnel. SSH is separately brokered. Team admins can restrict public/external sharing. The migration guide permits localhost:8000.",
+      "source_urls": [
+        "https://exe.dev/docs/proxy.md",
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://exe.dev/docs/migrating-to-exe.md",
+        "https://exe.dev/docs/teams/sharing-controls.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "https://vmname.exe.xyz/ reaches the VM's configured HTTP service through managed TLS",
+      "notes": "Private by default with exe.dev login; share set-public exposes one selected port, subject to team sharing policy. VM-scoped bearer tokens support programmatic private access; X-Exedev-Authorization is preferred, Authorization deprecated. Endpoint availability depends on the VM/service running. General sharing docs describe collaborator access, but pricing marks Personal Sharing / Access controls not included; Personal collaborator-sharing entitlement remains conflicting, not a reason to negate documented HTTPS service ingress.",
+      "source_urls": [
+        "https://exe.dev/docs/proxy.md",
+        "https://exe.dev/docs/sharing.md",
+        "https://exe.dev/docs/https-tokens-for-vms.md",
+        "https://exe.dev/docs/teams/sharing-controls.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "No general inter-VM private network per FAQ; scoped peer HTTPS and external private-service connectors; Enterprise AWS/GCP VPC listed",
+      "notes": "VM-to-VM integrations proxy to authorized target VMs, not private IP routing. Official execonnect source documents outbound-only tunnels from private services to authorized exe.dev workloads, with published TCP/HTTP/HTTPS endpoints; it does not move VM execution into the caller's cloud or establish public VM ingress. Its setup UI requires login, so public-plan availability and standalone applicability remain unresolved. Enterprise VPC/BYOC topology is unverified; Tailscale is user-installed.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/cross-vm-networking.md",
+        "https://exe.dev/docs/integrations-vm-to-vm.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/enterprise.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/api/exe/connect/v1/connect.proto"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Standalone VM count limits: 50 on Personal, 100 on Work, Enterprise custom",
+      "notes": "Stopped standalone VMs still count. Personal caps all VMs at 50. Work pool limits (25 VMs per vCPU, up to 1,000 per pool) are not standalone concurrency. No separate simultaneous-exec or numeric creation-rate limit is established; HTTPS requests have per-SSH-key 429 throttling without a published quota.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/personal.md",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "unknown",
+      "value": null,
+      "notes": "No numeric standalone VM lifetime maximum was established after lifecycle/API/marketing rechecks; do not infer unlimited. Running VMs bill reserved capacity while waiting or idle. /exec has a separate 30-second request timeout, with detached work documented. rm deletes the VM; stopped VMs keep disk and consume a slot without compute billing.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://exe.dev/pools"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "unknown",
+      "value": null,
+      "notes": "No numeric standalone idle timer was established. The 2026-03-03 persistence post explicitly says no quiescing merely for absent traffic/SSH. Current standalone docs meter reserved capacity while running, not active CPU only. Stopped VMs are a separate state. Search-discovered devbox/usage-pricing pages returned 404; their stale autosleep/per-second snippets are not current standalone evidence.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://blog.exe.dev/persistent",
+        "https://exe.dev/pools"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "HTTP 429 when one SSH key sends too many requests",
+      "notes": "No numeric quota was printed. The limit is per key.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "LAX, NYC, DAL, FRA, TYO, SYD, SGP, and LON accept new placement; PDX does not accept new accounts",
+      "notes": "Each account has a region. Pool VMs use the pool's region. The lobby is in the United States. Personal pool placement is the user's region. Work can place a pool in any region.",
+      "source_urls": [
+        "https://exe.dev/docs/regions.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Interactive SSH output and an experimental HTTPS/WebSocket terminal client",
+      "notes": "Official exe-ssh source streams terminal output messages over the VM xterm WebSocket endpoint and reconnects named shells after client-network drops. It is explicitly experimental, requires an interactive local TTY and does not establish VM memory snapshots. POST /exec separately documents combined stdout/stderr plus X-Exe-Exit, no stdin/PTY and a 30-second timeout; its incremental-output guarantees are not established. Do not infer them from served-app SSE support.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/src/exe_ssh/cli.py",
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/docs/https-api-run-on-vm.md"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Command output in /exec; guest log files; stat VM metrics",
+      "notes": "The detached-work example writes /tmp/build.log. stat ranges are 24h, 7d, 30d; these are metric windows, not an application-log retention promise. No separate managed application-log retention/export SLA was established.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/docs/serverful.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "SSH, and a browser terminal for Root collaborators",
+      "notes": "The HTTPS /exec API explicitly has no PTY.",
+      "source_urls": [
+        "https://exe.dev/docs/sharing.md",
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Attached integrations store credentials server-side and inject them at the network edge",
+      "notes": "VM processes use attached service endpoints without receiving durable integration credentials; HTTP proxy integrations inject headers and S3 integrations sign requests. This is service-scoped secret mediation, not an established arbitrary guest-secret vault/injection API. new --env is ordinary VM environment configuration, not managed secrets. Boot --registry-auth is separate; token permissions JSON is plaintext and must not contain secrets.",
+      "source_urls": [
+        "https://exe.dev/docs/integrations.md",
+        "https://exe.dev/docs/integrations-http-proxy.md",
+        "https://exe.dev/docs/private-image.md",
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "API token command permissions, VM proxy authentication, Web/Root sharing and team roles",
+      "notes": "Token cmds limits command names, generally not arguments; ssh <vm> can restrict VM command execution. Default tokens do not grant every lifecycle command and there is no built-in nonce/replay protection. Root collaboration grants guest SSH/Terminal/Shelley, not host access. Team standalone creation is off until an admin enables it; admins may restrict external/public sharing. Pricing marks Personal Sharing / Access controls not included while general sharing docs give no plan gate; Personal collaborator-sharing entitlement is unresolved.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/docs/sharing.md",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/teams/sharing-controls.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Shelley, MCP at https://exe.dev/mcp, default-image coding agents and official TypeScript Flue connector",
+      "notes": "new --prompt requires Shelley in the image. exeuntu includes Shelley at port 9999; the Running Agents guide names preinstalled claude, codex and pi. Other images need their own agents. MCP authenticates through the browser. Flue supports an existing standalone VM host over SSH/SFTP, but its auto new/cp helpers omit --standalone. Agent/model access is separate from resource billing; current plans include no recurring monthly Shelley credit.",
+      "source_urls": [
+        "https://exe.dev/docs/mcp.md",
+        "https://exe.dev/docs/shelley/intro.md",
+        "https://exe.dev/docs/use-case-agent.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://exe.dev/docs/billing/overview.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/exedev.ts"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for the exeuntu image repository",
+      "notes": "The LICENSE file in github.com/boldsoftware/exeuntu is Apache License 2.0, copyright 2026 Bold Software, Inc. The hosted service is not that file.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/boldsoftware/exeuntu/main/LICENSE"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": "partial",
+      "note": "Default egress is all. Self-enable the account egress-policy flag and choose integrations to block public internet but retain metadata and attached integrations. Older VMs require DNS configuration at 169.254.169.254. Protocol/port enforcement and bypass resistance are not specified; HTTPS/SSH ingress remains separately controlled.",
+      "source_urls": [
+        "https://exe.dev/docs/internet-access.md"
+      ]
+    },
+    "egress_allowlist": {
+      "value": "partial",
+      "note": "Opt-in integrations policy permits metadata and attached integration endpoints while blocking public internet. HTTP proxy integrations can target configured services. This is restricted service-mediated access, not an established arbitrary domain/IP/CIDR allowlist or deny-all mechanism; omission of those rules is not proof they are unsupported.",
+      "source_urls": [
+        "https://exe.dev/docs/internet-access.md",
+        "https://exe.dev/docs/integrations-http-proxy.md"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "Vendor-managed HTTPS reaches an in-VM HTTP service at https://vmname.exe.xyz/. Private by default; one chosen port can be public subject to team policy. Alternate HTTPS ports 3000-9999 stay private; VM tokens authenticate private callers. Not arbitrary raw TCP/UDP or a caller-machine tunnel.",
+      "source_urls": [
+        "https://exe.dev/docs/proxy.md",
+        "https://exe.dev/docs/faq/how-exedev-works.md"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "No general inter-VM private network per FAQ; scoped peer HTTPS exists. Official execonnect source tunnels private TCP/HTTP/HTTPS services to authorized exe workloads, not sandbox execution into BYOC or general public VM ingress. Setup UI is login-gated; exact standalone/public-plan availability and Enterprise VPC topology remain unresolved.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/cross-vm-networking.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/enterprise.md",
+        "https://exe.dev/docs/integrations-vm-to-vm.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md"
+      ]
+    },
+    "snapshots": {
+      "value": "partial",
+      "note": "cp captures the VM disk as a copy-on-write new VM and cp --standalone is documented. File cloning, not process-memory capture or a named snapshot/restore API. Application consistency, post-delete retention and clone storage accounting/fees are unverified.",
+      "source_urls": [
+        "https://blog.exe.dev/jan26-update",
+        "https://exe.dev/api?cmd=help+cp",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for VM RAM/process snapshots or live resume. Audit inference, not vendor denial. cp and poweroff/restart retain files only as documented; exe-ssh reconnection preserves a still-running terminal shell, not VM memory across stop/replacement. See the audit search ledger.",
+      "source_urls": [
+        "https://exe.dev/pools",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md"
+      ]
+    },
+    "pause_resume": {
+      "value": "partial",
+      "note": "Documented guest sudo poweroff followed by lobby restart boots from the same disk. Stopped standalone VMs incur no vCPU/memory billing, but retain disk, consume a slot and retain subscription/storage obligations. This is stop/start, not documented hibernate/live memory resume.",
+      "source_urls": [
+        "https://exe.dev/pools",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/llms.txt"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "cp is a copy-on-write copy of an existing VM, and cp --standalone makes the copy a standalone VM.",
+      "source_urls": [
+        "https://exe.dev/api?cmd=help+cp",
+        "https://blog.exe.dev/jan26-update",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "VM disk survives reboot and stop/restart. rm deletes the VM; post-delete restore is unverified. Regional disk backups lag by a few seconds, not zero-loss guarantees; cp can clone files into a new VM.",
+      "source_urls": [
+        "https://blog.exe.dev/persistent",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/architecture.md"
+      ]
+    },
+    "volumes": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for separate attachable volumes. Audit inference, not vendor denial; persistent root disk, replication, cp and S3 integrations are not volume attachment. See the audit storage/API search ledger.",
+      "source_urls": [
+        "https://exe.dev/docs/what-is-exe.md",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "new --image accepts a container image, including a private registry with --registry-auth, and the pricing table marks custom Docker images included.",
+      "source_urls": [
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/docs/private-image.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "The Docker FAQ says the exeuntu image can run docker run.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/docker.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "Guest root is advertised; default exeuntu login user exedev has passwordless sudo in its Dockerfile. Custom-image login user is configurable. This is not root access to the exe.dev host or control plane.",
+      "source_urls": [
+        "https://exe.dev/",
+        "https://raw.githubusercontent.com/boldsoftware/exeuntu/main/Dockerfile"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for GPUs inside standalone VMs. Audit documented-support inference, not vendor denial; Enterprise custom limits/nested VMs do not establish GPU allocation. See the audit search ledger.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/faq/docker.md"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a customer-installed standalone VM runtime/control plane. Audit inference, not vendor denial. Public guest/client/agent/external-service connector code is not self-hosting the private exe.dev server; Enterprise BYOC is distinct. See the audit ledger.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "BYOC is listed Enterprise-only, explicitly excluded on Personal/Work. Standalone execution/control-plane placement and cloud/contract access details are unresolved. execonnect private-service tunnels are not customer-cloud sandbox execution.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/enterprise.md"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "The exeuntu image repository LICENSE is Apache-2.0, copyright 2026 Bold Software, Inc., and that file is not the hosted service.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/boldsoftware/exeuntu/main/LICENSE"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "The HTTPS example detaches a command with setsid nohup, while the /exec call itself returns when the command finishes or hits 30 seconds.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://exe.dev/docs/https-api.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": "partial",
+      "note": "SSH and a browser terminal for Root collaborators exist, and the HTTPS /exec API explicitly has no PTY.",
+      "source_urls": [
+        "https://exe.dev/docs/sharing.md",
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/docs/faq/how-exedev-works.md"
+      ]
+    },
+    "command_streaming": {
+      "value": "partial",
+      "note": "SSH interactive output and official experimental exe-ssh HTTPS/WebSocket terminal streaming are evidenced. exe-ssh requires a local TTY and reconnects still-running named shells. /exec incremental-output guarantees remain unverified and it has no stdin/PTY with a 30-second timeout; do not generalize terminal behavior to that API.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/docs/https-api-run-on-vm.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/src/exe_ssh/cli.py"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "Integration credentials are stored server-side and injected/signed at the network edge for attached service endpoints. Ordinary --env is not managed secrets; arbitrary guest secret-vault injection is unverified, and token permissions JSON must not contain secrets.",
+      "source_urls": [
+        "https://exe.dev/docs/integrations.md",
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/llms.txt"
+      ]
+    },
+    "python_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a Python standalone VM SDK. Audit inference, not vendor denial: stdlib HTTP examples and the experimental Python exe-ssh terminal client are not a sandbox SDK. Official repo/API search scope is in the audit ledger.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/llms.txt",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exe-ssh/README.md"
+      ]
+    },
+    "typescript_sdk": {
+      "value": "partial",
+      "note": "Official TypeScript Flue connector source can operate a supplied standalone VM host over SSH/SFTP. Its automatic new/cp helpers do not pass --standalone, so they default to ordinary placement rather than establish standalone lifecycle SDK support. Direct JavaScript fetch examples are not a SDK.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/llms.txt",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/exedev.ts"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a Go standalone VM SDK. Audit inference, not vendor denial: net/http examples, the Flue prompt-serving handler and execonnect private-service connector are not a sandbox lifecycle SDK. See the audit official-repository/API ledger.",
+      "source_urls": [
+        "https://exe.dev/docs/https-api.md",
+        "https://exe.dev/llms.txt",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/execonnect/README.md"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "Lifecycle commands run over ssh exe.dev, and --sandbox is an alias for --standalone.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/docs/api.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "MCP at https://exe.dev/mcp, image-dependent Shelley/new --prompt, and an official TypeScript Flue connector. Flue's auto-create/clone helpers omit --standalone; a supplied existing standalone host is the scoped path. These are agents/clients, not self-hosted sandbox servers.",
+      "source_urls": [
+        "https://exe.dev/docs/mcp.md",
+        "https://exe.dev/docs/_static/explorer/command-tree.js",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/README.md",
+        "https://raw.githubusercontent.com/boldsoftware/exe.dev/main/exedev-flue/exedev.ts"
+      ]
+    },
+    "max_vcpu": {
+      "value": 32,
+      "note": "The standalone max size is 32 vCPUs on Work and 16 vCPUs on Personal; Enterprise is Custom, and the 512 vCPU figure is a pool size.",
+      "source_urls": [
+        "https://exe.dev/pricing"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 64,
+      "note": "Current pricing explicitly publishes a standalone maximum of 64 GiB on Work and 32 GiB on Personal; Enterprise is custom. This is not a GB-to-GiB conversion or the pool maximum. Personal capacity/CLI docs still use GB separately.",
+      "source_urls": [
+        "https://exe.dev/pricing"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "A standalone VM is billed by the hour while it runs, and no maximum lifetime was printed.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "The standalone page does not describe an idle shutdown.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    }
+  },
+  "pricing_summary": "An active subscription is compulsory: Personal $15/$35/$75/$155 per month, with standalone compute additional; Work $75/month includes 2 vCPU + 4 GiB across pools and standalone VMs, with eligible first-team subscriptions $37.50/month for 3 months. Standalone reserved capacity is $0.105 per 2 vCPU / 4 GiB unit-hour while running, not active-CPU consumption. Stopped VMs keep disk and incur no vCPU/memory charges but retain storage/subscription obligations. Extra used disk is $0.08/GiB/month averaged over the cycle; extra outbound bandwidth is $0.05/GiB, not a monthly bandwidth rate; inbound does not count. Allowance docs still use GB while pricing uses GiB. Default size is 2 vCPU / 8 GiB, so its mapping to 2 vCPU / 4 GiB billing units remains unverified, as do minimum rounding increments and unlisted creation/image/clone/I/O charges. Enterprise is contract-priced; dated September launch pricing differs from current Work docs.",
+  "pricing": [
+    {
+      "item": "Plan fee",
+      "plan": "Personal",
+      "published_price": "$15/mo, $35/mo, $75/mo, or $155/mo",
+      "conditions": "Compulsory active subscription, prepaid monthly. Personal doc capacities are 2/4/8/16 vCPU with 4/8/16/32 GB memory and 100/200/400/800 GB disk; 200 GB outbound and 50 total VMs. Current pricing labels corresponding memory/disk/bandwidth GiB; the unit conflict is not converted. Included pool compute is shared, but standalone compute is charged additionally. No recurring monthly Shelley credit.",
+      "source_urls": [
+        "https://exe.dev/docs/billing/personal.md",
+        "https://exe.dev/docs/billing/overview.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Work",
+      "published_price": "$75/month; eligible first subscription $37.50/month for 3 months",
+      "conditions": "Whole-team base subscription, prepaid, includes 2 vCPU + 4 GiB across pools and standalone VMs together; no per-seat fee. Intro applies once per team billing account with no past subscription, including canceled Work or legacy Team; canceling does not restart it. Usage, disk, bandwidth, credits and taxes are not discounted. The 2026-09-28 launch post still says $150 minimum with 4 vCPU / 8 GB; current billing docs and pricing agree on $75 and 2 vCPU + 4 GiB, but existing-account transition terms are not established.",
+      "source_urls": [
+        "https://exe.dev/docs/billing/work.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/subscriptions.md",
+        "https://blog.exe.dev/pools-our-newest-primitive"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Enterprise",
+      "published_price": "Custom",
+      "conditions": "Contract pricing. Pool capacity, standalone VMs, disk, and bandwidth are covered by the contract. Dedicated hardware is listed.",
+      "source_urls": [
+        "https://exe.dev/docs/billing/enterprise.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "item": "Standalone VM",
+      "plan": "Personal and Work",
+      "published_price": "$0.105 per 2 vCPU / 4 GiB unit-hour",
+      "conditions": "Reserved capacity billed while running, including waiting/idle and I/O time; not measured active CPU. Personal pays on top of subscription; Work includes 2 vCPU + 4 GiB across pools and standalone VMs together. Vendor example is a 2 vCPU VM running 10 hours costing $1.05, without stating its RAM. Default-size row says 2 vCPU / 8 GiB; independently sized CPU/RAM mapping and sub-hour rounding/minimum are not explained. Stopped VMs incur no vCPU/memory billing, keep disk and consume slots; subscription and retained disk remain relevant. rm deletes VM and capacity. No invented workload bill.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/usage.md"
+      ]
+    },
+    {
+      "item": "Standalone size",
+      "plan": "Personal and Work pricing table",
+      "published_price": "Default 2 vCPUs / 8 GiB memory (size, not a separate charge)",
+      "conditions": "Maximum 16 vCPUs / 32 GiB on Personal and 32 vCPUs / 64 GiB on Work; Enterprise custom. Standalone VM limits 50/100/custom. Pool ceilings do not apply to each standalone VM. The metered unit is 2 vCPU / 4 GiB, not the default size; no default-size bill inferred.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    {
+      "item": "Extra disk",
+      "plan": "Personal and Work",
+      "published_price": "$0.08 / GiB / month",
+      "conditions": "Average extra used storage over the monthly billing cycle, not peak or simply provisioned capacity. FAQ measures ext4 filesystem usage and notes periodic fstrim; exeuntu itself is about 4 GB. Stopped VMs retain disk, not free storage. Allowance docs still say GB while current pricing uses GiB; no conversion. Clone sharing/deduplication accounting and snapshot retention fees are unverified.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/usage.md",
+        "https://exe.dev/docs/faq/disk-usage.md",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    {
+      "item": "Extra bandwidth",
+      "plan": "Personal and Work",
+      "published_price": "$0.05 / GiB",
+      "conditions": "Extra outbound traffic accumulated over the billing cycle, measured in GiB (1,073,741,824 bytes). Inbound does not count. This is a per-data-volume rate, not $/GiB/month. Allowance docs use GB and pricing uses GiB; allowances are not silently converted. Metered usage is billed when the plan renews.",
+      "source_urls": [
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/usage.md"
+      ]
+    },
+    {
+      "item": "Included allowances",
+      "plan": "Work",
+      "published_price": "Docs: 100 GB disk per 2 vCPU and 50 GB bandwidth per vCPU; pricing: corresponding GiB",
+      "conditions": "Disk allowance averaged over billing period; bandwidth per billing period prorated by capacity lifetime. A running standalone VM carries its own size-based allowance, unlike a VM sharing a pool's allowance. Allowances do not transfer between pools; stopped standalone allowance details are not further specified. Personal instead shares its account allowance, including a flat 200 GB in docs / 200 GiB on pricing. Units conflict; no normalization.",
+      "source_urls": [
+        "https://exe.dev/docs/billing/work.md",
+        "https://exe.dev/docs/billing/usage.md",
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/pricing"
+      ]
+    },
+    {
+      "item": "Billing qualification",
+      "plan": "Standalone Personal and Work",
+      "published_price": "Hourly reserved compute; separate creation/build/clone/storage-I/O fees and minimum rounding increment not specified",
+      "conditions": "The official rate is per unit-hour, but sources do not establish a one-hour minimum or per-second rounding. No separate published CPU-only/RAM-only standalone rates, image build/pull/preparation, creation/reset/clone, snapshot or storage-I/O fees were verified; missing prices are not free. Current homepage/blog navigation says by the second, but /sandbox now redirects to hourly standalone docs and /usage-pricing returns 404; old usage-pricing snippets are not a current offer. Enterprise contract terms are separate.",
+      "source_urls": [
+        "https://exe.dev/docs/standalone-vms.md",
+        "https://exe.dev/pricing",
+        "https://exe.dev/docs/billing/overview.md",
+        "https://exe.dev/docs/customization.md",
+        "https://exe.dev/"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "VM creation",
+      "published_claim": "About two seconds",
+      "conditions": "Vendor-reported generic VM creation from a container image plus block device; FAQ has no publication date, percentile, hardware, region, image cache, cold/warm definition or standalone-specific measurement. Does not establish dependency/setup completion, command readiness, reset, clone or resume latency. API tour separately says roughly a second; illustrative VPS outputs show 0.8s/0.6s. These are not a unified benchmark.",
+      "source_urls": [
+        "https://exe.dev/docs/faq/how-exedev-works.md",
+        "https://exe.dev/api?cmd=help+new",
+        "https://exe.dev/vps"
+      ]
+    },
+    {
+      "metric": "VM disk clone via cp",
+      "published_claim": "A couple of seconds",
+      "conditions": "Vendor January Update published 2026-02-08: copy-on-write cp of a configured base VM into a new VM. No percentile, image/disk size, resources, cache state or region specified. Predates the 2026-09-28 standalone launch; current docs establish cp --standalone, not a standalone-specific latency test. Not memory fork, in-place reset or resume.",
+      "source_urls": [
+        "https://blog.exe.dev/jan26-update",
+        "https://exe.dev/docs/standalone-vms.md"
+      ]
+    },
+    {
+      "metric": "Illustrative Enterprise VM clone",
+      "published_claim": "Created customer-1842 from customer-base in 0.4s",
+      "conditions": "Marketing command-output example on the Enterprise production/pool page, undated and not an independent benchmark or standalone-specific SLA. No statistic, VM resources, disk size, region, cache conditions or application-readiness boundary specified. Do not substitute for cold creation or resume latency.",
+      "source_urls": [
+        "https://exe.dev/production"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Current pricing uses GiB for standalone memory, disk and bandwidth and publishes $0.05/GiB outbound, not per month. Personal/Work allowance docs retain GB. Default standalone 2 vCPU / 8 GiB differs from the 2 vCPU / 4 GiB billing unit. Exact sizing-to-unit mapping and sub-hour rounding remain unresolved; no workload bill invented.",
+    "Disk persistence, cp copy-on-write file cloning and guest poweroff/restart are documented. They do not establish process-memory snapshots/live resume, separate attachable volumes, post-delete restore or zero-loss infrastructure recovery. Replicated disk backup may lag a few seconds. Clone consistency, retention and storage accounting remain unverified.",
+    "Egress all is default. The account can self-enable egress-policy and use integrations-only, retaining metadata/attached services; older VMs need DNS configuration. Arbitrary domain/IP/CIDR rules, protocol/port enforcement and bypass resistance are unverified. Ingress is vendor HTTPS proxying, not raw TCP or a caller tunnel. Enterprise VPC/BYOC topology is not established.",
+    "Old cli-*.md sources redirect to the API explorer. Its command-tree artifact says generated 2026-08-21 and omits newer standalone flags; current standalone docs take precedence. Search-discovered devbox and usage-pricing pages return 404; snippets suggesting autosleep/peak-consumption/per-second pricing were not adopted. Homepage navigation still says by the second while the live standalone page says hourly; minimum rounding is unknown.",
+    "Guest sudo is verified in exeuntu's Dockerfile, not inferred from share --root. Managed integration credentials are service-scoped and held off-VM; --env is ordinary environment configuration. General sharing docs and Personal's pricing entitlement conflict. Official source recheck found TypeScript Flue connector support (existing VM only for this product), experimental exe-ssh terminal streaming, and execonnect external private-service tunnels with login-gated availability; none implies self-hosted sandbox execution or VM memory restore."
+  ]
+}

@@ -1,0 +1,925 @@
+{
+  "id": "cloudflare",
+  "name": "Cloudflare",
+  "product_name": "Cloudflare Sandbox SDK",
+  "website": "https://www.cloudflare.com",
+  "docs_url": "https://developers.cloudflare.com/sandbox/",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Cloudflare-operated Containers, reached through an application Worker; Workers Paid plan required",
+      "notes": "Scope is Linux sandboxes with @cloudflare/sandbox and Containers, not Dynamic Workers or Workers AI. SDK 1.0 uses a customer-written Durable Object with the public-beta durable_object scheduling policy; the package supplies file, backup, and mount helpers, not a hosted shared management API. SDK 0.x is maintained for bug/security fixes through 2026-12-31, with no new features. Deployment/image preparation and application lifecycle/auth code are required; no paid deployment was tested.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "No production self-hosted Sandbox runtime; execution infrastructure is Cloudflare-operated only",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for a customer-installed production Sandbox runtime. Search scope: official Sandbox/Containers indexes, deployment/bridge guides, marketing, releases and SDK source; Q2/Q9/Q12 in the dated official-source review This is conservative documented-support eligibility under the 03:44Z policy, not an explicit vendor denial. Separately, the user confirmed Cloudflare-only production hosting on 2026-10-08. Local wrangler dev with Docker is development only, and the 0.x bridge also deploys on Cloudflare.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/sandbox/get-started/",
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unsupported",
+      "value": "No bring-your-own-cloud or bring-your-own-cluster deployment; Sandbox runs on Cloudflare infrastructure only",
+      "notes": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for an external customer-cloud/cluster Sandbox execution data plane. Search scope: official deployment/scheduling/API, docs indexes, Sandbox/Containers marketing and SDK source; Q2/Q9/Q10 in the dated official-source review Classification is conservative documented-support eligibility under the 03:44Z policy, not a vendor denial quotation. Separately, the user explicitly confirmed no bring-your-own-cluster option. Customer Cloudflare accounts, custom/imported Docker images and external storage are not AWS/GCP/Azure or customer-cluster execution.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript/JavaScript Worker package @cloudflare/sandbox",
+      "notes": "Current 1.0 exports Files, DirectoryBackup, and S3Mount; direct container.start/exec comes from the Durable Object Container API. getSandbox and the Sandbox class belong to 0.x. NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for Cloudflare-maintained Python or Go Sandbox SDKs after index/reference, marketing, migration, package/exports and Q11/Q12/Q13/Q16 searches (report ledger). That is an audit eligibility inference, not an explicit vendor denial. The positively documented third-party Python 0.x bridge client is separate and retained; guest Python/Go is not a client SDK.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/sandbox/sdk/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/package.json",
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/src/index.ts"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "Third-party Python CloudflareSandboxClient in the OpenAI Agents SDK, for the 0.x bridge only",
+      "notes": "The migration guide names this external client and says it works only with a 0.x bridge Worker. It is not a Cloudflare-maintained Python SDK or a ready-made 1.0 client. Other community languages remain unestablished.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "SDK 0.x self-deployed bridge HTTP API; SDK 1.0 requires application-written Worker routes",
+      "notes": "0.x bridge is deployed in your Cloudflare account, not a hosted shared API. Bearer SANDBOX_API_KEY guards /v1/sandbox create/exec/delete and file routes; exec streams SSE. 1.0 has no bridge: implement and authenticate each Worker route over Durable Object methods. The bridge guide additionally lists Containers/Sandbox beta enabled as a prerequisite.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "Wrangler development/deploy/image tooling and authenticated Containers SSH debugging",
+      "notes": "wrangler containers ssh connects to a running instance after account authentication and authorized ssh-ed25519 key setup; it does not expose a public SSH port or a generic Sandbox API. Custom Dockerfile builds need a running Docker-compatible engine. Image-management docs use wrangler containers images delete; limits docs still say wrangler containers delete. No deployment or SSH was executed.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/get-started/",
+        "https://developers.cloudflare.com/containers/guides/image-management/",
+        "https://developers.cloudflare.com/changelog/product/containers/"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Full Linux environment; run languages and tools installed in the image",
+      "notes": "Not limited to the SDK language. Managed cloudflare/debian-trixie includes Node.js 24.20.0; Python and other dependencies require an appropriate custom image/setup. exec starts argv directly, not a shell; use an installed sh/bash explicitly for shell syntax. Current package helpers are linux/amd64.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/containers/guides/image-management/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/reference/"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Each Container instance is a microVM with its own kernel and network",
+      "notes": "The sandbox is the trust boundary, not each command or Linux user: processes share files, localhost and credentials. With durable_object scheduling every process has root capabilities. Network egress policy is a separate explicit configuration, not implied by microVM isolation.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux; managed Debian Trixie or custom Linux images",
+      "notes": "SDK 1.0 sandbox-shim is a statically linked linux/amd64 binary; copy it from the image tag matching the installed package and enable nodejs_compat in the Worker. No Windows/macOS guest support is established. SDK 0.x image/server requirements differ.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/containers/guides/image-management/"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "SDK 1.0 runtime sizes: lite 1/16, standard-1 1/2, standard-2 1, standard-3 2, standard-4 4 vCPU; custom 1-4 vCPU",
+      "notes": "durable_object runtime does NOT accept basic (1/4 vCPU) or dev/standard aliases, although platform/default-policy tables list them. Runtime custom keys are vcpu, memoryMib, diskMb; default-policy Wrangler keys are vcpu, memory_mib, disk_mb. Custom memory minimum is 3 GiB per vCPU. CPU is billed by active usage, not allocated capacity; public-beta policy and Workers Paid apply.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "SDK 1.0 runtime presets: 256 MiB, 4 GiB, 6 GiB, 8 GiB, 12 GiB; custom up to 12 GiB",
+      "notes": "basic's 1 GiB preset exists in the platform/default-policy table but is not accepted by durable_object start(). Custom sizes require at least 3 GiB per vCPU. No predefined 1 vCPU/1 GiB shape. Provisioned memory is billed while running, including idle/I/O waits. No swap; OOM restarts the instance.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "SDK 1.0 runtime presets: 2, 8, 12, 16, 20 GB; custom up to 20 GB",
+      "notes": "basic's 4 GB disk preset is not a durable_object runtime size. Image size cannot exceed instance disk; account image storage is 50 GB. Disk units are GB, memory units GiB/MiB. Provisioned disk is billed while running and is ephemeral on stop; snapshots and external object storage are separate recovery mechanisms.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No documented support found for currently available GPUs inside Cloudflare Sandbox in the official sources reviewed as of 2026-10-08",
+      "notes": "NO DOCUMENTED SUPPORT FOUND. Conservative documented-support eligibility under the 03:44Z audit policy, not an explicit vendor denial or proof of physical impossibility. Search scope: Sandbox/Containers indexes, hardware limits, native API, changelog, SDK source and official marketing; Q1/Q9/Q10/Q14 in the dated official-source review Current Containers marketing says coming soon; that is a roadmap, not positive current Sandbox hardware/attachment/plan/access. The 2024 internal Workers AI container GPU platform is a different deployment scope. Current guest GPU support is ineligible; undisclosed numeric GPU limits are not replaced with zero.",
+      "source_urls": [
+        "https://www.cloudflare.com/products/containers/",
+        "https://blog.cloudflare.com/container-platform-preview/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "SDK 1.0 custom Dockerfiles or digest-pinned images in Cloudflare's managed registry; public-beta durable_object policy",
+      "notes": "Up to 100 named images (names 1-128 characters). Direct Docker Hub/ECR/GAR references are NOT supported for this policy: pull/push them to Cloudflare first, or use them in Dockerfile FROM with local authentication for private bases. SDK helpers need matching-version linux/amd64 sandbox-shim and nodejs_compat. Image size is limited by instance disk, max 20 GB; total account image storage 50 GB. Image preparation/build is separate from startup latency; 0.x extends its matching-version server image.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/",
+        "https://developers.cloudflare.com/containers/guides/image-management/",
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/containers/platform/limits/"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Install dependencies in custom Dockerfiles or execute the package manager present in the guest",
+      "notes": "SDK 1.0 supports custom Linux images, not a universal preinstalled pip/npm/apt menu. Network installs need explicit egress/intercept rules or enableInternet true. Installed local files are lost on stop unless saved/restored; durable_object guest root capabilities do not provide host administration.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Guest root capabilities on the public-beta durable_object scheduling policy",
+      "notes": "Every deployed process has root Linux capabilities regardless of exec user and can switch back to root; user IDs only affect file ownership. This is guest privilege, not host privilege or unrestricted kernel/network administration. default-policy non-root users have no capabilities and file permissions apply. Containers cannot manipulate iptables; durable_object cannot enable IP forwarding.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Root-run Docker-in-Docker with a custom docker:dind image; rootless Docker does not start",
+      "notes": "Disable iptables, ip6tables and, for durable_object, IP forwarding. docker run and networked docker build require --network=host; inner containers share the outer sandbox network, not independent network isolation. SDK 1.0 migration replaces the older docker:dind-rootless base (which still used USER root). Built images/local container state are ephemeral unless separately saved. Pulls require allowed network access; the migration example enables Internet.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://developers.cloudflare.com/sandbox/sdk/guides/docker-in-docker/"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "SDK 1.0 exec processes can outlive requests, but guest execution alone does not keep the instance alive",
+      "notes": "Application code must maintain Durable Object activity or alarms; the guide checks processes every minute and resets the timeout after DO restarts. Inactivity can stop an active build/agent. Canceling a caller request does not stop exec; kill/signal targets only the original process, so use process groups for descendants. Main-process exit or destroy stops all work. SDK 0.x startProcess/keepAlive are version-specific. Waiting instances still incur provisioned memory/disk charges.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/commands/run-background-processes/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "SDK 1.0 Files.readFile/writeFile stream file content through a running container",
+      "notes": "Requires matching-version sandbox-shim and nodejs_compat; methods do not start the container. Paths follow Linux rules and symlinks, without workspace containment; validate caller paths. A failed write can leave partial/truncated files. SDK 0.x readFile/writeFile API has a different return shape.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/files/",
+        "https://developers.cloudflare.com/sandbox/reference/"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Root disk is ephemeral on stop; explicit snapshot/archive restore or remounted object storage recovers saved files",
+      "notes": "Stop, timeout, destroy, replacement or failure ends local disk/processes; same name/DO storage does not persist that disk. Public-beta root snapshots require durable_object, same image, max 20 GB, 30-day TTL refreshed on restore; app saves handle and restores explicitly, not automatically. SDK 1.0 DirectoryBackup stores tar+zstd in R2 and can restore to a newer image, unlike 0.x squashfs overlays. Mounted R2/S3 objects outlive instances but must be remounted, are excluded from snapshots, and lack local disk semantics. Unsaved changes and process memory are not recovered; storage/operation costs apply separately.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/sandbox/reference/directory-backups/",
+        "https://developers.cloudflare.com/sandbox/reference/s3-mounts/"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "S3-compatible object-storage FUSE mounts, not documented persistent block volumes",
+      "notes": "SDK 1.0 S3Mount needs fuse3/s3fs plus sandbox-shim, S3Gateway export and an S3 endpoint/credentials (not an R2 binding); gateway holds real credentials outside the container and scopes bucket/prefix/read-write access. Remount on each new instance. Locks, hard links, ownership, permissions and atomic replacement differ from local files; default metadata caching is 900 seconds and interrupted writes can leave incomplete uploads. Mounts consume outbound intercept entries and must be registered before a catch-all. Separate bucket storage/I/O billing applies.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/s3-mounts/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/r2/pricing/"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Keep an instance running during an inactivity window; stopped instances restart rather than live-resume",
+      "notes": "setInactivityTimeout is greater than 0 and up to 6 hours after DO inactivity, not a suspend operation or maximum lifetime. Activity can extend running time. Without a configured timeout, stop follows shortly after inactivity; reset timeout after DO restarts. Local files/memory remain only while the same instance runs, with running charges. After stop use a new instance and explicit file restore; no process-memory restoration. SDK 0.x sleepAfter/keepAlive differs.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "Stopped-instance restart and filesystem-snapshot restore do not restore process memory or running processes",
+      "notes": "A snapshot excludes memory/processes and a restored instance reruns its entrypoint. Requests within the inactivity window use an already-running instance; this is not pause/resume. No independent memory snapshot or suspended live-resume mechanism was established in the API/lifecycle/migration sources.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/guides/snapshots/"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Public-beta writable-root filesystem snapshots: durable_object policy only, same-image restore, max 20 GB, 30-day renewable TTL",
+      "notes": "snapshotContainer saves a running instance's writable root, excluding mounted filesystems, /run, memory and processes. Store returned handle/id (no API list method) and pass containerSnapshot instead of image on start. Snapshots are immutable; subsequent writes require another snapshot; restore from another DO is documented. No custom TTL or explicit snapshot price was found. Separate SDK 1.0 DirectoryBackup tar+zstd archives in R2 can cross image versions; backup is consistent only with no concurrent writers and restore needs space for old/new directories. SDK 0.x uses squashfs overlays, not the 1.0 mechanism.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/reference/directory-backups/",
+        "https://developers.cloudflare.com/sandbox/sdk/concepts/backup-restore/"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "File-state cloning by restoring a snapshot handle into another Durable Object's new instance",
+      "notes": "Partial cloning, not a live process fork. Public-beta durable_object snapshot requires original image, max 20 GB and 30-day TTL refreshed on restore; excludes mounted filesystems/memory/processes. No clone/fork/reset latency, fan-out quota or atomic live fork guarantee was found. Each restored instance consumes account resource quotas and running charges; handle reuse can expose the original user's files/credentials.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "SDK 1.0 start requires an explicit enableInternet choice; sandbox examples use false; legacy Container class/0.12 defaults allow Internet",
+      "notes": "Security prose calls false the Container default, while the class outbound guide calls Internet allowed by default. Direct API requires enableInternet when options are passed; do not generalize defaults across APIs. With true, connections without matching intercepts reach Internet directly. With false, public access is blocked except configured intercepted/allowed destinations. Standard handlers cover HTTP 80/HTTPS 443; direct HTTPS API also documents explicit alternate ports. Denied-host rules are not all-port firewall rules.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/containers/configuration/outbound-traffic/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Explicit deny-by-default egress with enableInternet false and trusted HTTP/HTTPS handlers; version-specific host/IP/CIDR/glob rules",
+      "notes": "1.0 uses interceptOutboundHttp (hostname/glob/IP/IP:port/CIDR), interceptOutboundHttps (hostname/glob, optional port; trust ephemeral CA), and Worker handlers that allow/deny requests. 128 shared intercept entries: hostname costs 2 per protocol, IP/CIDR 1; no removal while running, re-register on new instance, and catch-all ordering matters. With Internet off DNS uses local placeholder answers only for covered names (catch-all resolves every name), not public resolvers; bare-IP HTTPS fails under a * HTTPS intercept. Legacy Container-class allowedHosts/deniedHosts are separate helpers. With Internet on, unhandled ports bypass policy; HTTPS interception is opt-in. No blanket protocol/SNI/domain-fronting guarantee is established.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/configuration/outbound-traffic/",
+        "https://developers.cloudflare.com/sandbox/network/"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "External HTTPS reaches a sandbox HTTP service through an application Worker; not a public raw TCP/UDP port",
+      "notes": "SDK 1.0 getTcpPort().fetch proxies HTTP/WebSocket traffic; service must bind 0.0.0.0, not localhost. Worker terminates external HTTPS and forwards http internally. Implement authentication/routes and readiness checks; examples use 8080, not an all-port guarantee. A pass-through WebSocket does not keep the instance alive unless the DO accepts/bridges it. SDK 0.x exposePort allows 1024-65535 except reserved 3000, with custom-domain wildcard DNS/TLS and URL tokens; raw TCP/UDP/custom protocols are not supported by those preview URLs.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/previews/",
+        "https://developers.cloudflare.com/sandbox/previews/serve-previews-on-their-own-hostnames/",
+        "https://developers.cloudflare.com/sandbox/sdk/concepts/preview-urls/"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "SDK 1.0 application-written HTTPS preview/share routes; SDK 0.x exposePort URLs or in-sandbox tunnels",
+      "notes": "1.0 workers.dev path previews need no custom domain; separate per-preview hostnames need Cloudflare-managed wildcard DNS/routes, with first-level Universal SSL or extra certificates for deeper names. Auth is application code; share example uses expiring tokens, anyone holding link has access, revoke by deleting stored token. Service binds 0.0.0.0 and ends on stop unless restarted. 0.x exposePort production requires custom-domain wildcard DNS/TLS, token and Worker proxy; unexpose revokes. 0.x tunnels require RPC transport and run cloudflared inside sandbox: quick URLs rotate on restart, no extra auth/uptime guarantee/SSE; named tunnels require API token/account/zone and persist hostname, not process. Tunnels API documents named production support while older preview concept still calls it forthcoming.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/previews/",
+        "https://developers.cloudflare.com/sandbox/previews/serve-previews-on-their-own-hostnames/",
+        "https://developers.cloudflare.com/sandbox/sdk/concepts/preview-urls/",
+        "https://developers.cloudflare.com/sandbox/sdk/api/tunnels/"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "unknown",
+      "value": null,
+      "notes": "Retained unknown under the 03:44Z policy because positive private-service/service-mesh evidence exists but exact guest-network applicability is unresolved, not because of a first-page omission. Q3/Q9/Q10/Q15/Q16 plus full official pages establish Sandbox outbound Worker handlers accessing any bindings/other Containers and private-service auth examples; 1.0 migration preserves those bindings via WorkerEntrypoint. Workers VPC positively supports Worker-bound private Tunnel/Mesh access (beta, connectivity roles and active on-ramp), not an explicitly documented Sandbox guest VPC attachment or joined sandbox-to-sandbox network. This affirmative mediated-access evidence prevents an absence-only false classification for the broad private_networking field, but cannot justify true for direct guest networking. Preserve proxy support and narrower topology uncertainty; report records full search/access scope.",
+      "source_urls": [
+        "https://blog.cloudflare.com/cloudflare-containers-coming-2025/",
+        "https://blog.cloudflare.com/sandbox-auth/",
+        "https://developers.cloudflare.com/sandbox/sdk/guides/workers-connections/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/workers-vpc/configuration/vpc-networks/"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Account aggregate caps: 1,500 concurrent vCPU, 6 TiB memory, 30 TB disk; not a fixed sandbox-count quota",
+      "notes": "Higher limits/larger sizes require support/account-team approval. durable_object policy does not support max_instances; running instances consume account quotas. Image storage is 50 GB; no sandbox creation-per-second or clone fan-out guarantee was found. SDK 0.x/default-policy max_instances is a configured application ceiling, not this aggregate account limit.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "No fixed maximum Container runtime; uninterrupted runtime is not guaranteed",
+      "notes": "Current FAQ explicitly says no fixed maximum runtime, but irregular host/platform events can stop an active instance and no set running period is guaranteed. SDK 1.0 requires DO activity or an inactivity timeout/alarms; guest work alone does not count as activity. Main entrypoint exit/destroy/timeout stops processes and loses unsaved root files. Host shutdown sends SIGTERM to main process and waits up to 15 minutes before SIGKILL; destroy is immediate. 0.x keepAlive sends 30-second heartbeats but does not establish immunity from platform stops.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/sandbox/sdk/configuration/sandbox-options/"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "SDK 1.0: application-set DO inactivity timeout >0 to 6 hours, no universal 10-minute default; SDK 0.x sleepAfter defaults to 10 minutes",
+      "notes": "1.0 stops shortly after DO inactivity if timeout is unset. Requests, alarms, streaming and accepted WebSockets keep DO active; guest CPU/background work does not. Reapply timeout after DO restart/deploy. 0.x sleepAfter accepts duration strings or seconds and is ignored with keepAlive true (30-second heartbeats); pre-v0.2.17 option bug was fixed. Waiting/I/O still incurs provisioned memory/disk billing while container runs; stopping loses local state unless saved.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/sdk/configuration/sandbox-options/",
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Sandbox-specific create/exec RPS unestablished; Workers Paid subrequest default 10,000/invocation conflicts with 0.x Sandbox page's 1,000",
+      "notes": "Second pass: Workers limits (updated 2026-09-05) states 10,000/request, configurable up to 10M; 0.x Sandbox limits (2026-09-30) still prints 1,000. Preserve conflict; do not assert an enforced sandbox rate from either. 0.x HTTP operation uses one subrequest; RPC multiplexes over one connection. Free's 50 does not make Containers free. Account CPU/RAM/disk caps, 128 egress intercept entries, and marketing 100,000 starts/5.387 seconds are not public create/exec RPS quotas. API create schema concerns applications, not per-command sandbox rates.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/sdk/platform/limits/",
+        "https://developers.cloudflare.com/workers/platform/limits/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/create/",
+        "https://blog.cloudflare.com/faster-agent-sandboxes/"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "SDK 1.0 durable_object uses capacity near its Durable Object; application placement constraints do not apply",
+      "notes": "Second pass: Containers create API explicitly excludes deployment/scaling/placement constraints for durable_object. Latest marketing says search same host, then same location, favoring cached image/snapshot; no fixed sandbox region or caller co-location guarantee. Platform placement codes ENAM/WNAM/EEUR/WEUR/APAC/SAM/ME/OC/AFR and eu/us/fedramp constraints describe default scheduling, not 1.0 entitlement; ME/OC/AFR exclusive default-policy constraints need support access. FAQ's pre-initialized nearest-instance description is general, while latest native policy has different placement. After stop a new instance may be placed elsewhere. DO name suffixes do not select region; egress price regions are separate.",
+      "source_urls": [
+        "https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/create/",
+        "https://blog.cloudflare.com/faster-agent-sandboxes/",
+        "https://developers.cloudflare.com/containers/concepts/placement/",
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "SDK 1.0 exec exposes stdout/stderr ReadableStreams; application can forward them",
+      "notes": "output() buffers in DO memory and is one-use; consume both streams concurrently for large output. With PTY or combined stderr, both channels arrive on stdout without guaranteed cross-stream ordering. 0.x bridge SSE is a separate route implementation.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Optional Containers integration with Workers Logs, seven-day retention on Paid",
+      "notes": "Enable observability at Worker or container level; container setting overrides Worker setting. Current Paid rate: 20 million log events/month included, then $0.60/additional million; pricing changes to Cloudflare Observability on 2026-12-01. Guest background log files are ephemeral and can fill disk; exporting/persisting them is separate.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/",
+        "https://developers.cloudflare.com/workers/platform/pricing/",
+        "https://developers.cloudflare.com/sandbox/commands/run-background-processes/"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "SDK 1.0 exec pty option supports an interactive pseudo-terminal",
+      "notes": "Default true is 80 columns by 24 rows; process supports resize, stdin and combined output. Browser terminal requires application WebSocket bridging/auth. An accepted WebSocket keeps DO/container active and can incur duration charges; this is not hibernated process-memory recovery. SDK 0.x terminal method is not in 1.0.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/durable-objects/platform/pricing/"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Worker Secrets/Secrets Store can supply guest env values or trusted outbound credential injection; application-managed scope",
+      "notes": "Containers example explicitly reads managed secrets in DO and passes start.env. Any code in the sandbox can read injected env/arguments/files; no per-process secret boundary. exec does not inherit start/image env except PATH, so pass process env explicitly. Running processes retain old startup values after rotation until restarted; trusted HTTPS outbound handler can instead retain credential outside sandbox and scope allowed requests. This is a documented integration, not a standalone sandbox secret vault. Never add credentials to public plain-HTTP requests.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/examples/env-vars-and-secrets/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/sandbox/network/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Application Worker authenticates callers and binds sandbox names/snapshot handles to identity",
+      "notes": "Names are routing identifiers, not authentication. Reusing names or snapshots across users exposes earlier files/secrets. SDK 1.0 preview auth/share tokens are application-written; anyone holding share URL can use it until expiry/revocation, and separate origins are needed to protect app cookies. 0.x bridge uses Bearer SANDBOX_API_KEY; exposePort uses URL token; quick tunnel hostname alone is not authenticated identity.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/sandbox/previews/",
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/",
+        "https://developers.cloudflare.com/sandbox/sdk/api/tunnels/"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Container coding-agent guides for Claude Code, Codex, OpenCode, Pi, Cursor, Devin and OpenAI Agents API",
+      "notes": "These are deployable integrations/templates, not included model subscriptions or permission to run paid inference. Container agent examples may retain vendor credentials in guest; only the trusted outbound pattern keeps tokens outside it. 0.x OpenAI Shell/Editor and bridge helpers are replaced with application code in 1.0. Dynamic Workers examples are excluded from this dossier's execution scope.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/coding-agents/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for packages/sandbox in cloudflare/sandbox-sdk",
+      "notes": "The SDK component license is not an open-source license or self-host install for the hosted Containers runtime. License text was retrieved directly from the official repository.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/LICENSE"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Per-instance microVM/kernel/network plus explicit egress policy. Same-sandbox processes share localhost/files/root capabilities; Internet-on unhandled ports bypass HTTP policy. Not a blanket security guarantee.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "1.0: explicit enableInternet false plus HTTP/HTTPS intercepts and trusted allow/deny handlers; HTTP hostname/glob/IP/CIDR and HTTPS hostname/glob rules, CA trust, 128 entries and DNS/port limits. Legacy allowedHosts is not a built-in 1.0 helper; Internet-on bypasses remain.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/configuration/outbound-traffic/"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "1.0 external HTTPS through application Worker to HTTP service bound 0.0.0.0; auth and token routes written by app, not raw TCP/UDP ingress. 0.x exposePort requires custom-domain wildcard DNS/TLS and URL tokens.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/previews/",
+        "https://developers.cloudflare.com/sandbox/sdk/concepts/preview-urls/"
+      ]
+    },
+    "private_networking": {
+      "value": "unknown",
+      "note": "Retained unknown as of 2026-10-08: positive official Sandbox private-service/any-binding proxy and service-mesh evidence exists (Q3/Q9/Q10/Q15/Q16), but exact direct guest VPC or joined sandbox-network applicability is unresolved. 1.0 preserves bindings in trusted WorkerEntrypoint; separate Workers VPC needs beta/roles/on-ramp. Not an absence-of-evidence eligibility case and not a blanket denial of mediated access.",
+      "source_urls": [
+        "https://blog.cloudflare.com/sandbox-auth/",
+        "https://developers.cloudflare.com/sandbox/sdk/guides/workers-connections/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://developers.cloudflare.com/workers-vpc/configuration/vpc-networks/"
+      ]
+    },
+    "snapshots": {
+      "value": "partial",
+      "note": "Public-beta durable_object root snapshots, same image, max 20 GB, 30-day TTL renewed on restore; excludes mounted filesystems/memory/processes. Store handle and restore explicitly. Separate 1.0 R2 tar+zstd directory archives can cross image versions; snapshot rate unestablished.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/sandbox/reference/directory-backups/"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "Stopped-instance/snapshot restore starts new processes, not saved memory. Reusing an already-running instance during timeout is not suspended live resume.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    "pause_resume": {
+      "value": "partial",
+      "note": "Only running-instance reuse within DO inactivity window, not suspension. Timeout >0 to 6 hours; unset stops shortly after inactivity, reapply after DO restart. Stop loses processes; file restore is explicit and waiting instances remain billed.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    "cloning_forking": {
+      "value": "partial",
+      "note": "Restore file-state snapshot into another DO's new instance: public beta, same image, max 20 GB, 30-day renewable TTL. No live process fork or documented clone/reset latency.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/platform/limits/"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Root disk ephemeral on stop/failure; app must explicitly snapshot/archive and restore, or remount durable R2/S3 objects. Snapshot same-image/30-day limits and object-FUSE semantics apply, with separate storage/I/O billing.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/sandbox/reference/s3-mounts/",
+        "https://developers.cloudflare.com/containers/guides/snapshots/"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "S3Mount object-storage FUSE paths, not persistent block volumes. Requires s3fs/fuse3/helper/gateway; remount each instance, no local lock/ownership/atomic semantics, cache and partial-upload limits; separate storage/I/O charges.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/s3-mounts/",
+        "https://developers.cloudflare.com/r2/pricing/"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Workers Paid/public-beta durable_object: Dockerfiles or Cloudflare registry digest-pinned named images (up to 100); external registry images must be imported first. Helpers require matching linux/amd64 shim/nodejs_compat. Max disk/image 20 GB, account images 50 GB.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/",
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/containers/platform/limits/"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": "partial",
+      "note": "Root-run docker:dind only, rootless does not start. Disable iptables/ip6tables/IP forwarding; run/build networking uses --network=host, sharing sandbox network. Images/local state ephemeral unless saved, pulls need egress.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/"
+      ]
+    },
+    "root_sudo": {
+      "value": "partial",
+      "note": "durable_object guest processes have root capabilities regardless of user; default-policy non-root users do not. Not host root; no iptables or durable_object IP-forwarding control.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for currently available Sandbox guest GPUs. Q1/Q9/Q10/Q14 reviewed docs/indexes/limits/API/changelog/SDK/marketing. Coming soon and internal Workers AI GPUs are not current support. Conservative documented-support eligibility, not explicit vendor denial, and no invented zero hardware limit.",
+      "source_urls": [
+        "https://www.cloudflare.com/products/containers/",
+        "https://blog.cloudflare.com/container-platform-preview/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for production runtime installation on customer infrastructure (Q2/Q9/Q12; indexes/deploy/bridge/marketing/releases/SDK). Conservative audit eligibility inference, not a vendor denial. Separately user-confirmed Cloudflare-only hosting; local Docker development/customer-account bridge is not self-hosting.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/get-started/",
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/"
+      ]
+    },
+    "byoc": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for customer-cloud/cluster execution (Q2/Q9/Q10; official deployment/API/indexes/marketing/SDK). Conservative audit eligibility inference, not vendor denial. Separately user explicitly confirms Cloudflare supplies the cluster; custom images/accounts/external storage are not BYOC.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/",
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "SDK packages/sandbox Apache-2.0; hosted Containers runtime not licensed/self-hosted by that file.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/LICENSE"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "1.0 exec can outlive requests, with application process bookkeeping and DO alarms to keep instance active. Guest work alone is not activity; stop/failure ends processes. 0.x startProcess is version-specific.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/commands/run-background-processes/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "1.0 exec pty and resize; browser terminal requires application WebSocket bridge/auth, accepted connection keeps instance active and billable.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "1.0 exec stdout/stderr streams; app forwards output, avoids buffering large data in DO memory.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "Documented Worker Secrets/Secrets Store integration into container env, or trusted HTTPS outbound injection retaining credentials outside guest. Application scopes access/rotation; all guest code can read injected values, start.env not inherited by exec except PATH, no sandbox-specific vault.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/examples/env-vars-and-secrets/",
+        "https://developers.cloudflare.com/sandbox/concepts/security/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    "python_sdk": {
+      "value": "partial",
+      "note": "Affirmative conditional support: Cloudflare's official migration docs name third-party OpenAI Agents SDK for Python CloudflareSandboxClient, which works only with a self-deployed maintained 0.x bridge Worker, not 1.0. This broad Python SDK flag is partial, not a claim of a Cloudflare-maintained SDK. NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for a Cloudflare-maintained Python Sandbox SDK (Q11/Q12/Q13/Q16; indexes/reference/marketing/migration/package/exports). That narrower absence is an audit inference, not vendor denial. Guest Python is separate.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://developers.cloudflare.com/sandbox/sdk/bridge/",
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/package.json"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "@cloudflare/sandbox 1.0 provides Files/DirectoryBackup/S3Mount for a TypeScript/JavaScript Worker; application DO controls Containers. 0.x Sandbox/getSandbox APIs differ.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/sandbox/sdk/"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for a Go Sandbox client SDK. Q11/Q12/Q13/Q16 inspected Sandbox indexes/reference/migration, marketing, SDK package and exports; no affirmative Go client found. Conservative documented-support eligibility inference, not an explicit vendor denial or inability to write a Go HTTP client. Guest Go execution and generic bridge HTTP routes do not establish a Go SDK.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/llms.txt",
+        "https://developers.cloudflare.com/sandbox/reference/",
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/other-features/",
+        "https://www.cloudflare.com/products/sandboxes/",
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/package.json",
+        "https://raw.githubusercontent.com/cloudflare/sandbox-sdk/main/packages/sandbox/src/index.ts"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "Wrangler development/deploy/image tooling and Containers SSH debugging, requiring account auth and authorized ed25519 key, not public SSH ingress or generic Sandbox API.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/get-started/",
+        "https://developers.cloudflare.com/changelog/product/containers/"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Container guides/templates for Claude Code, Codex, OpenCode, Pi, Cursor, Devin and OpenAI Agents API; vendor accounts/credentials/setup remain separate, no generic MCP support inferred.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/coding-agents/"
+      ]
+    },
+    "max_vcpu": {
+      "value": 4,
+      "note": "Published public instance maximum 4 vCPU, minimum runtime lite 1/16; custom 1-4. Larger sizes require support, not a published entitlement.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 12,
+      "note": "Published public maximum 12 GiB; custom minimum 3 GiB per vCPU. Runtime does not accept basic's 1 GiB preset; no GB-to-GiB conversion.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/configuration/scheduling-policy/"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "FAQ explicitly has no fixed maximum runtime, but no guaranteed uninterrupted period; host/platform stops remain possible. Null is not zero or infinity, and 6-hour inactivity bound is not a session cap.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "No single SDK-wide default: 1.0 application configures >0 to 6 hours in milliseconds and reapplies after DO restart; unset stops shortly after inactivity. 600 seconds is only the 0.x sleepAfter default, ignored with keepAlive. Guest work alone is not activity.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/",
+        "https://developers.cloudflare.com/sandbox/sdk/configuration/sandbox-options/"
+      ]
+    }
+  },
+  "pricing_summary": "Linux Sandbox on Containers requires Workers Paid, minimum $5 USD/account/month. Monthly included Containers usage: 375 vCPU-minutes, 25 GiB-hours, 200 GB-hours; excess $0.000020/vCPU-second active CPU, $0.0000025/GiB-second provisioned memory, $0.00000007/GB-second provisioned disk, billed every 10ms while running. Idle/I/O/waiting keeps memory/disk billing until stop. Regional Containers egress rates/allowances and Workers/Durable Objects charges also apply, plus logs and R2 storage/I/O if those optional integrations are used. Snapshot retention, image storage/preparation and creation-specific prices are not established as free. Dynamic Workers pricing is excluded as a separate execution product.",
+  "pricing": [
+    {
+      "item": "Plan",
+      "plan": "Workers Paid",
+      "published_price": "Minimum $5 USD per account per month",
+      "conditions": "Required for Sandbox/Containers; no Containers Free entitlement. One recurring account plan fee, not a separate $5 fee per Worker or Durable Object. Public-beta durable_object scheduling and snapshot gates remain. Monthly allowances are recurring, not promotional credits. Enterprise contracts may differ.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/workers/platform/pricing/",
+        "https://developers.cloudflare.com/sandbox/"
+      ]
+    },
+    {
+      "item": "CPU",
+      "plan": "Workers Paid",
+      "published_price": "375 vCPU-minutes/month included, then $0.000020 per additional vCPU-second",
+      "conditions": "Active CPU usage only, not allocated wall-clock vCPU. Containers billed every 10ms while running, charges begin on request/manual start and stop on sleep. Waiting/I/O is not free overall: provisioned memory/disk and active control-plane usage can still bill. No extra creation/image-preparation fee or floor beyond stated increment established; unknown does not mean free.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "item": "Memory",
+      "plan": "Workers Paid",
+      "published_price": "25 GiB-hours/month included, then $0.0000025 per additional GiB-second",
+      "conditions": "Provisioned instance memory while running, including idle/I/O/waiting; same 10ms Containers increment, stops when instance sleeps. GiB, not GB. Sleeping releases instance and memory; no suspended-memory recovery meter is established.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    {
+      "item": "Disk",
+      "plan": "Workers Paid",
+      "published_price": "200 GB-hours/month included, then $0.00000007 per additional GB-second",
+      "conditions": "Provisioned instance disk while running, including idle waits, same 10ms increment. GB, not GiB. Local disk ends on stop; this rate does not establish pricing for retained snapshots, images or object-storage mounts/backups.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/sandbox/concepts/lifetime/"
+      ]
+    },
+    {
+      "item": "Egress",
+      "plan": "Workers Paid",
+      "published_price": "North America and Europe $0.025/GB with 1 TB included; Oceania, Korea, and Taiwan $0.05/GB with 500 GB included; everywhere else $0.04/GB with 500 GB included",
+      "conditions": "Included allotments per month, regional Containers egress, not Worker/R2 egress. No currency/unit conversion or assumed deployment region; underlying page uses dollar rates. No separate Containers ingress or storage-I/O rate established on this table.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/"
+      ]
+    },
+    {
+      "item": "Workers",
+      "plan": "Workers Paid Standard",
+      "published_price": "10 million requests/month included, then $0.30/additional million; 30 million CPU milliseconds/month included, then $0.02/additional million CPU milliseconds",
+      "conditions": "Required application control plane, additive to Containers; shares the account's minimum $5 plan fee, not a duplicate subscription. Worker has no duration charge, subrequests are not billed as additional Worker requests; container CPU/memory/disk and DO duration remain distinct. Enterprise/legacy usage models may differ. No sandbox workload bill calculated.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/workers/platform/pricing/"
+      ]
+    },
+    {
+      "item": "Durable Objects compute",
+      "plan": "Workers Paid",
+      "published_price": "1 million requests/month included, then $0.15/million; 400,000 GB-s/month included, then $12.50/million GB-s",
+      "conditions": "Each container has a DO. Active or idle-but-ineligible-for-hibernation wall time bills at allocated 128 MB, not guest RAM; eligible idle objects do not incur duration. HTTP, RPC sessions and alarms count; incoming WebSocket messages use billing-only 20:1 ratio. Accepted WebSockets keep duration billing. Excess usage rounds up to next billable unit. Shared $5 account plan, not another subscription.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/durable-objects/platform/pricing/"
+      ]
+    },
+    {
+      "item": "Durable Objects SQLite storage",
+      "plan": "Workers Paid, SQLite-backed DO",
+      "published_price": "First 25 billion rows read/month included + $0.001/million rows; first 50 million rows written/month included + $1.00/million rows; 5 GB-month included + $0.20/GB-month",
+      "conditions": "Application/snapshot-handle metadata, not sandbox root disk or snapshot payload. Key-value get/put/delete/list use hidden SQLite rows; setAlarm is one row written, deletes count as writes. Stored metadata remains billable until removed. Legacy key-value-backed DO rates are separate, not applied to the new SQLite configuration.",
+      "source_urls": [
+        "https://developers.cloudflare.com/durable-objects/platform/pricing/"
+      ]
+    },
+    {
+      "item": "Logs",
+      "plan": "Workers Paid / Workers Logs",
+      "published_price": "20 million log events/month included, then $0.60 per additional million; seven-day retention",
+      "conditions": "Optional observability for Worker/Containers. Current rates as of 2026-10-08; changes to Cloudflare Observability pricing on 2026-12-01. Guest log files and external export/storage can have separate resource charges.",
+      "source_urls": [
+        "https://developers.cloudflare.com/workers/platform/pricing/",
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    {
+      "item": "R2 retained backups and mounted objects",
+      "plan": "R2 Standard storage (optional)",
+      "published_price": "$0.015/GB-month; $4.50/million Class A requests; $0.36/million Class B requests; monthly free tier 10 GB-month, 1 million Class A, 10 million Class B; R2 egress free",
+      "conditions": "Applies when using R2 for directory archives/mounts, not the native Container snapshot SKU. Standard has no minimum storage duration; peak daily storage averaged over 30 days, usage rounds up to next billing unit. Multipart backup parts and mount operations can incur I/O; delete/abort multipart are free. Other connected metered services may still charge, and no free Containers egress inferred. External S3-compatible storage has its own vendor charges.",
+      "source_urls": [
+        "https://developers.cloudflare.com/r2/pricing/",
+        "https://developers.cloudflare.com/sandbox/reference/directory-backups/",
+        "https://developers.cloudflare.com/sandbox/reference/s3-mounts/"
+      ]
+    },
+    {
+      "item": "R2 Infrequent Access (alternative retained storage)",
+      "plan": "R2 Infrequent Access (optional)",
+      "published_price": "$0.01/GB-month; $9.00/million Class A requests; $0.90/million Class B requests; $0.01/GB retrieval; R2 egress free",
+      "conditions": "No Standard free tier; 30-day minimum storage duration even if deleted/moved/replaced earlier. Usage rounds up to next billable unit. Applies only if that storage class is chosen for objects; not a Sandbox subscription or native snapshot rate.",
+      "source_urls": [
+        "https://developers.cloudflare.com/r2/pricing/"
+      ]
+    },
+    {
+      "item": "Unpublished Sandbox billing dimensions",
+      "plan": "Sandbox SDK on Containers / Workers Paid",
+      "published_price": "Native snapshot retention/operations, image storage/build/preparation, and creation-specific fees not separately established",
+      "conditions": "Reviewed Containers pricing/limits, snapshots, SDK migration, image management and R2 prices. No dedicated native-snapshot price or free statement found; max 20 GB, TTL 30 days refreshed on restore. Registry backed by R2 does not establish that its images/snapshots use the customer's R2 Standard meter. No separate Containers ingress/storage-I/O rate or creation minimum beyond 10ms runtime increment found. Preserve these unknowns; do not infer free storage, builds or clone/reset operations.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/platform/pricing/",
+        "https://developers.cloudflare.com/containers/platform/limits/",
+        "https://developers.cloudflare.com/containers/guides/snapshots/",
+        "https://developers.cloudflare.com/containers/guides/image-management/"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Prepared-image start() to first command, vendor-reported median",
+      "published_claim": "Under 600 ms median on SDK 1.0; about 4 s on 0.x",
+      "conditions": "Migration page updated 2026-09-30, accessed 2026-10-08: prepared image, Linux Sandbox/Containers, 1.0 public-beta durable_object policy. Not image build/pull/preparation, application readiness, full cold create, reset, clone or resume latency. Region, size/resources, sample size and cold/warm details not printed. Direct start returns before readiness. Not an independent benchmark.",
+      "source_urls": [
+        "https://developers.cloudflare.com/sandbox/sdk/migrate/",
+        "https://developers.cloudflare.com/containers/api/durable-object-container/"
+      ]
+    },
+    {
+      "metric": "Containers cold start, general vendor-reported range",
+      "published_claim": "Container cold starts can often be in the 1-3 second range",
+      "conditions": "Containers FAQ updated 2026-10-05, accessed 2026-10-08; stopped-state/novel-ID entrypoint startup, depends on image size and code execution among other factors. Not an SDK 1.0-specific statistic or guarantee; percentile, image/resources/region/sample size absent. Kept separate from prepared-image median, not substituted for sandbox readiness, clone/reset/resume, or an independent benchmark.",
+      "source_urls": [
+        "https://developers.cloudflare.com/containers/faq/"
+      ]
+    },
+    {
+      "metric": "Client time-to-interactive under 100-concurrent-sandbox burst, vendor-reported third-party results",
+      "published_claim": "Previous/new path: median 4.049 seconds/648 milliseconds; p95 5.839 seconds/910 milliseconds; p99 6.717 seconds/1129 milliseconds",
+      "conditions": "Official blog published/updated 2026-09-30, accessed 2026-10-08; quotes ComputeSDK Burst TTI Benchmark, 100 concurrent launches measured from client, new public-beta durable_object path. Vendor-reported third-party figures, not independently reproduced or verified from the third-party site in this audit. Image, size, region, repeated-sample count and cache/cold/warm details absent from official passage. Different operation/statistic from migration's prepared-image under-600ms median and FAQ's general 1-3s; not reset/clone/live-resume latency or a production guarantee.",
+      "source_urls": [
+        "https://blog.cloudflare.com/faster-agent-sandboxes/"
+      ]
+    },
+    {
+      "metric": "Preliminary Containers burst creation, vendor-reported throughput",
+      "published_claim": "A single account started 100,000 Containers in 5.387 seconds across six locations",
+      "conditions": "Official blog published/updated 2026-09-30, accessed 2026-10-08; preliminary vendor test on new public-beta durable_object path. Throughput/burst creation, NOT per-sandbox latency, command readiness or customer quota. Test account resources/access, image, size, warm state, location names and readiness criterion not printed. Do not override standard 1,500 concurrent vCPU/6 TiB/30 TB caps or infer public create RPS.",
+      "source_urls": [
+        "https://blog.cloudflare.com/faster-agent-sandboxes/"
+      ]
+    },
+    {
+      "metric": "Historical SDK 0.8.9 directory-backup restore demonstration",
+      "published_claim": "Booting a sandbox, cloning axios, and npm installing takes 30 seconds; restoring from a backup takes two seconds",
+      "conditions": "GA blog published 2026-04-13, modified 2026-07-15, accessed 2026-10-08; captioned demonstration of pre-native-snapshot SDK 0.x backup/restore, not 1.0 native snapshot/live-memory resume. No percentile, sample count, resources, region, repository revision or cache state printed. Vendor demonstration, not an independent benchmark or a general reset/clone latency guarantee.",
+      "source_urls": [
+        "https://blog.cloudflare.com/sandbox-ga/"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Audit scope is Cloudflare Sandbox SDK 1.0 and maintained 0.x on underlying Linux Containers. Dynamic Workers and Workers AI are excluded. Current docs, official package source and npm view metadata establish 1.0.0; GitHub releases listing fetched on 2026-10-08 still labels 0.12.10 Latest, so do not use that listing as the current package-version authority. No install/deploy/paid execution was performed.",
+    "durable_object scheduling and native filesystem snapshots are public beta. Runtime start does not accept basic or legacy dev/standard aliases even though platform tables list them. Public maximum is 4 vCPU/12 GiB/20 GB; custom minimum 3 GiB per vCPU. Units were not converted.",
+    "Snapshots exclude memory/mounts, require same image and app-held handle, and expire after 30 days without restore; max size 20 GB. SDK 1.0 R2 DirectoryBackup is tar+zstd and can cross images; 0.x squashfs overlay restore is different. Native snapshot/image/build/creation-specific charges remain unestablished, not free.",
+    "No fixed maximum runtime does not mean guaranteed uninterrupted execution. DO inactivity, entrypoint exit, explicit destroy, OOM or host/platform events can end work. Guest execution alone is not activity; 1.0 timeout must be reapplied after DO restart. Keeping running is not pause/resume; stopped processes do not recover memory. GA marketing's future live-memory roadmap is not present support.",
+    "Outbound defaults differ by API: 1.0 start explicitly requires enableInternet; sandbox examples choose false, legacy Container class/0.12 allow by default. HTTP/HTTPS proxy policy needs CA trust/explicit rules, has intercept/DNS/protocol limits, and unhandled ports bypass with Internet on. Docker inner containers use host networking and cannot manipulate iptables/IP forwarding.",
+    "Managed secret integration is documented by the Containers env/secrets example, but secrets injected into guest are readable by all guest code. Trusted HTTPS outbound injection keeps them outside; app owns authorization and rotation. No standalone sandbox vault or per-command security boundary inferred.",
+    "workers.dev path previews in 1.0 differ from 0.x wildcard-domain exposePort. 0.x tunnel API documents named production tunnels while its preview concept page still calls production support forthcoming; preserve that source conflict. External HTTPS proxying is not arbitrary public TCP/UDP ingress.",
+    "Mandatory second pass and 03:44Z documented-support policy follow-up searched official docs/marketing/API/SDK; report logs Q1-Q16 and access scope. Currently available guest GPU and Go SDK have no documented support found as of 2026-10-08 and are unsupported/false by conservative audit eligibility inference, not vendor denial. Python SDK is partial because official docs affirm a third-party Python client limited to the maintained 0.x bridge; no provider-maintained Python SDK found. Private networking stays unknown because positive mediated-private-access evidence has unresolved direct guest-network applicability. BYOC/self-hosting remain unsupported with separate user-confirmation and no-documented-support provenance. Numeric prices/limits/latencies remain unknown where unpublished; source conflicts and all positive gated/partial mechanisms are preserved. 0.x subrequest 1,000 conflicts with Workers Paid 10,000; native placement constraints excluded. Startup/throughput/historical restore claims are not generalized to current reset/clone/live resume."
+  ]
+}

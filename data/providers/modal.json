@@ -1,0 +1,959 @@
+{
+  "id": "modal",
+  "name": "Modal",
+  "product_name": "Modal Sandboxes",
+  "website": "https://modal.com",
+  "docs_url": "https://modal.com/docs/guide/sandboxes",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Hosted Modal Sandboxes; gVisor and GA VM runtimes",
+      "notes": "Sandbox.create runs untrusted code on Modal; an App is required when creating outside a Modal container. Billing requires a payment method on file. Starter has no subscription fee. VM runtime became generally available October 1, 2026; nested virtualization requires Team/Enterprise and requested access. Generic scale-to-zero wording does not establish automatic Sandbox suspension: idle_timeout terminates, and an unset idle_timeout does not document idle termination.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/billing",
+        "https://modal.com/pricing",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unknown",
+      "value": null,
+      "notes": "The docs and SDKs reviewed do not publish a customer-deployable Sandbox runtime/install contract. Modal’s May 2026 official Claude Managed Agents announcement nevertheless uses the phrase “self-hosted Modal Sandbox”; in context this appears to describe hosting the agent loop outside Anthropic while Modal runs the Sandbox, not a customer-owned runtime. Because the phrase leaves the deployment meaning ambiguous, keep self-hosting unknown rather than infer unsupported. This does not establish BYOC or a self-hostable Modal service.",
+      "source_urls": [
+        "https://modal.com/blog/introducing-claude-managed-agents-with-modal-sandboxes",
+        "https://modal.com/docs/guide",
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08",
+      "notes": "NO DOCUMENTED SUPPORT FOUND for Modal Sandboxes executing in a customer-owned cloud account/data plane. Conservative documented-support eligibility audit inference as of 2026-10-08, not a vendor denial or assertion of technical impossibility. Reviewed official product/pricing/hosted architecture, CLI cloud selection and Python/JS/Go creation references/source. AWS/GCP marketplace committed spend, Modal cloud selection and external resource credentials do not document BYOC ownership/provisioning/control-plane support. Search scope: the dated official-source review Q03/Q07/Q09 and per-topic BYOC second pass, plus eligibility-policy follow-up. No positive exact-product BYOC model or access plan found.",
+      "source_urls": [
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide",
+        "https://modal.com/docs/cli/latest/shell",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python, JavaScript/TypeScript, and Go",
+      "notes": "All three have Sandbox examples. JavaScript/Go SDKs are labeled Beta and working toward Python feature parity. The next-generation backend is default from Python 1.6.0 and JS/Go 0.11.0; GPU Sandboxes automatically use the previous backend.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sdk-javascript-go",
+        "https://modal.com/docs/guide/sandbox-v2"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "Rust community/unofficial clients",
+      "notes": "Third-party Rust crates provide Modal Sandbox/control-plane clients: modal-rs calls itself an unofficial Rust SDK and documents creating/managing sandboxes; modal-rust-sdk describes a direct Modal control-plane Rust client and attributes its design to modal-rs. These are community artifacts, not official Modal SDKs or evidence of vendor support/maintenance. Official documented SDKs remain Python, JavaScript/TypeScript, and Go.",
+      "source_urls": [
+        "https://docs.rs/modal-rs/latest/modal_rs/",
+        "https://docs.rs/modal-rust-sdk/latest/modal_rust_sdk/",
+        "https://modal.com/docs/guide/sdk-javascript-go",
+        "https://modal.com/docs/sdk/js/latest",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "unsupported",
+      "value": "No public Sandbox-management REST/OpenAPI contract documented",
+      "notes": "Eligibility-scoped conclusion: the official docs/index and Python/JavaScript/Go Sandbox references document public management through SDK/CLI, but no public REST/OpenAPI lifecycle contract. This does not mean Modal has no API or HTTP transport: SDK control-plane RPC exists, and Sandbox Connect documents HTTPS/WebSocket ingress to services inside a running Sandbox. No vendor denial of other/private interfaces is claimed.",
+      "source_urls": [
+        "https://modal.com/llms.txt",
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox",
+        "https://docs.rs/modal-rs/latest/modal_rs/"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "modal CLI",
+      "notes": "modal shell can attach to a running Sandbox by ID; --runtime vm selects a VM shell and --pty/--no-pty controls its PTY. The CLI also manages Secrets and Volumes. The old experimental vm_runtime option is replaced by the documented runtime option.",
+      "source_urls": [
+        "https://modal.com/docs/llms.txt",
+        "https://modal.com/docs/cli/latest/shell",
+        "https://modal.com/docs/sdk/py/releases"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Whatever is in the container image",
+      "notes": "Examples run python, bash, http.server, and dockerd. The docs index has a sandbox example titled for Node.js, Ruby, and more. Guest languages are not limited to the SDK language.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/vm-sandboxes",
+        "https://modal.com/docs/llms.txt"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "gVisor or hardware-isolated Linux VM runtime",
+      "notes": "Select runtime=\"gvisor\" or runtime=\"vm\"; unset lets Modal choose. Python 1.6.0 release notes and the October 1 GA announcement say gVisor is the current default, subject to change. gVisor handles Linux syscalls in userspace; VM isolation uses KVM and a separate Linux kernel. Network controls apply to both. Nested virtualization requires Team/Enterprise plus requested access, not merely VM selection.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/releases",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux/amd64 images; VM runtime has its own Linux kernel",
+      "notes": "Sandbox custom images link to the existing-images guide, which requires linux/amd64. VM supports Docker, FUSE and nested cgroups; nested virtualization is Team/Enterprise with requested access. No Windows, macOS or ARM guest support established. The redirected former VM guide no longer establishes the old vm_init API.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/existing-images"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Physical cores, 1 core = 2 vCPU, default request 0.125 cores",
+      "notes": "The resources page says this default covers Functions and Sandboxes. A sandbox example requests cpu=0.5. A tuple sets request and limit, for example (0.5, 4.0). The default soft limit is 16 physical cores above the request, so 16.125 with the default request. Requests above an unpublished maximum are rejected with InvalidError. The numeric maximum was not printed. Sandboxes can burst above the request and are billed max(request, actual). The modal shell --cpu flag is documented as an integer.",
+      "source_urls": [
+        "https://modal.com/docs/guide/resources",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/cli/latest/shell"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Default container request 128 MiB; Sandbox memory parameter is MiB",
+      "notes": "The Sandbox SDK and resources guide explicitly use MiB; the general guide says megabytes then calls memory=32768 32 GiB. Preserve the wording conflict without unit conversion. Sandboxes can burst above requests when host capacity is available; the October 1 VM GA announcement explicitly includes memory bursting, superseding the old static-VM claim. A request/limit tuple can OOM-kill on exceeding its hard limit. Numeric maximum and a distinct current VM default are not established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/resources",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Default per-container quota 512 GiB; VM root filesystem fixed at 512 GiB",
+      "notes": "Sandbox disk size cannot be increased. Writes are also limited by underlying worker SSD capacity; either limit can cause OSError. The 3.0 TiB ephemeral_disk option and 20:1 disk-to-memory request billing example are Function configuration, not an available Sandbox disk upgrade. Separate snapshot storage/build/I/O charges are not established by the reviewed price pages.",
+      "source_urls": [
+        "https://modal.com/docs/guide/resources",
+        "https://modal.com/docs/guide/sandbox-resources"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "documented",
+      "value": "GPU sandboxes are supported and preemptible; VM sandboxes are CPU only",
+      "notes": "Sandbox.create takes gpu, described as a GPU reservation for the sandbox. The sandbox resources page says sandboxes can run with GPUs and points at the GPU acceleration page for types. That page lists T4, L4, A10, L40S, A100, A100-40GB, A100-80GB, RTX-PRO-6000, H100 or H100!, H200, B200 or B200+, and B300. A count is appended as :n. A GPU requires a payment method. GPU sandboxes are preemptible; CPU sandboxes are not, except when gpu is set. VM sandboxes say GPUs are not supported. Memory snapshots cannot run with GPUs. Per-GPU dollar rates and plan GPU concurrency were not used as the availability source.",
+      "source_urls": [
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/docs/guide/gpu",
+        "https://modal.com/docs/guide/preemption",
+        "https://modal.com/docs/guide/vm-sandboxes",
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Linux/amd64 registry, Dockerfile, method-chained and named images",
+      "notes": "Image.from_registry supports public registries and documented private-registry credentials; Image.from_dockerfile uses Modal's builder, not Docker. EXPOSE, HEALTHCHECK, LABEL, ONBUILD, STOPSIGNAL and VOLUME are unimplemented; USER is ignored and guests run as root. External registry tags are immutable once pulled, including latest: change the tag to update. Prebuild/publish and Image.from_name avoid creation blocking on image rebuilds. Function-only Python/pip requirements must not be imposed on Sandbox images. No numeric image-size ceiling established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/existing-images"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Image build steps and commands inside the sandbox",
+      "notes": "Examples use pip_install, apt_install, and dockerfile RUN lines. The guide also says containers can have arbitrary dependencies and setup scripts.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/vm-sandboxes"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Guest root (uid 0); image USER instruction is ignored",
+      "notes": "The existing-images guide explicitly says Modal containers always run as root, including inherited registry USER instructions; the Sandbox guide links this image mechanism. Programs can reduce privileges with OS setuid features. Guest root is not host root and does not remove gVisor/VM isolation or network controls. Docker and kernel-dependent features require the VM runtime; nested virtualization remains access-gated.",
+      "source_urls": [
+        "https://modal.com/docs/guide/existing-images",
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-networking"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Nested Docker on the GA VM runtime",
+      "notes": "Use runtime=\"vm\", start dockerd as entrypoint and execute docker commands. Docker bridge containers can reach each other; /var/lib/docker is included in root filesystem snapshots. VM supports FUSE and nested cgroups. Nested virtualization is separate and requires Team/Enterprise plus requested access. GPU Sandboxes require gVisor, so this VM mechanism does not establish GPU Docker Sandboxes.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Long-running entrypoint plus exec, then detach",
+      "notes": "Sandbox.create can take a long-running command such as http.server or dockerd. exec returns a ContainerProcess and can set its own timeout. detach leaves the sandbox running after the client drops the connection. from_id and from_name can attach again. A memory snapshot cannot be taken while exec is still running, and background processes started by exec are not properly restored.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-spawn",
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "Sandbox filesystem API, plus files baked into the image",
+      "notes": "Methods include write_text, write_bytes, read_text, read_bytes, copy_from_local, copy_to_local, make_directory, list_files, stat, remove, and watch. The file guide says reads up to 5GB and writes of any size (subject to filesystem capacity/mount permissions). Image.add_local_file/add_local_dir can include reusable files. File guide calls legacy FileIO deprecated; Python 1.6.0 release notes explicitly remove it. CloudBucketMount recursive remove is unsupported in the SDK reference.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-files",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/py/releases"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Explicit root snapshot restoration or reattached durable Volumes, not automatic persistent root",
+      "notes": "Finished Sandboxes cannot execute further commands. Save root files before termination and persist the Image ID, then create a replacement; mounted Volumes are excluded and must be reattached. Filesystem/directory snapshots default to 30 days with custom/no-expiry TTL; deleted or expired snapshots cannot recover. Alpha opt-in exit snapshots can recover root files after terminate/idle/lifetime/OOM/entrypoint exit, but are best effort, 30 days, exclude directory mounts/sidecars/memory and do not cover hardware failure or GPU preemption. Volume commits are periodic with final termination commit; exact unsynced crash loss window is not guaranteed. v2 sync is available but v2 is Beta and not recommended for mission-critical data. No process-memory persistence implied.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-files",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/sandbox-exit-snapshots",
+        "https://modal.com/docs/guide/volumes"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Modal Volumes and CloudBucketMounts",
+      "notes": "Mount via volumes= and reattach on replacement; sub-path and read-only mounts are supported. Background commits run every few seconds with a final commit on termination; reload_volumes sees subsequent commits. Volume v1 has 500,000-inode limit, last-write-wins for shared files, no distributed locking and reload fails with open files. v2 supports sync but is Beta and not recommended for mission-critical data; files must be under 1 TiB and directories at most 262,144 files. VM memory-snapshot-enabled Sandboxes cannot mount Volumes. Old VM reload prohibition is no longer established by the redirected guide. Volumes are billed per GiB-month; deletion can still bill for up to four days.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-files",
+        "https://modal.com/docs/guide/volumes",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "unsupported",
+      "value": "No documented same-ID in-place pause/suspend/resume; replacement restore is supported",
+      "notes": "Conservative documented-support eligibility inference as of 2026-10-08, not vendor denial or impossibility. The lifecycle guide says finished sandboxes cannot execute more commands; long-lived state can be restored from filesystem snapshots into a subsequent Sandbox. Memory capture terminates the source and restores a replacement Sandbox. This negative applies only to pausing and resuming the same Sandbox ID; filesystem and memory replacement recovery remain documented separately.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Alpha memory snapshot/restore creates a new Sandbox; not general live resume",
+      "notes": "Enable _experimental_enable_snapshot; _experimental_snapshot terminates the source and _experimental_from_snapshot restores running processes plus files. No GPUs; no running exec during snapshot; exec-launched background processes are not properly restored. TCP connections close. Restore requires the exact original instance type and can delay scheduling; region cannot be pinned. TTL is seven days, not extendable, and re-snapshot inherits the original expiry. VM memory snapshots require enabled-customer access and cannot mount Volumes. Filesystem/directory/exit snapshots preserve files only. No documented same-ID in-place pause support found as of 2026-10-08: conservative eligibility audit inference, not vendor denial; distinct gated memory restoration remains affirmatively documented.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/sandbox-exit-snapshots"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Root filesystem and directory snapshots; separate alpha memory and best-effort exit snapshots",
+      "notes": "Filesystem Images restore by creating a new Sandbox; mounted Volumes are excluded. Directory Images mount into a running Sandbox at a non-root path. Both default to 30-day TTL (Python 1.5/JS-Go 0.8.0); ttl=None disables expiry. Expired/deleted Images cannot restore; deletion is irreversible; no list-all-snapshots API. Source termination is a memory-snapshot limitation, not a documented filesystem/directory requirement. Alpha exit snapshots opt in at creation, cover terminate/entrypoint completion/idle timeout/lifetime/OOM, retain 30 days, and exclude memory, directory mounts and sidecars; hardware failure/GPU preemption and snapshot failure can lose files. Alpha memory snapshots terminate the source, forbid GPU/running exec, fail to restore exec-launched background processes, expire after seven days, require the same instance type, cannot pin region, and VM access is gated with no Volumes. Snapshot storage/operation price not established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sandbox-exit-snapshots"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Several Sandboxes can start from one saved root filesystem Image",
+      "notes": "Filesystem forking creates independent root copies, not running-process clones; mounted Volumes are excluded and sharing a Volume can share mutable state. Filesystem/directory Image TTL is 30 days by default, configurable/no expiry; expired/deleted Images cannot fork. Alpha memory cloning separately terminates source at snapshot time, excludes GPU/running exec, does not restore exec-launched background processes, closes TCP, expires after seven days and requires same-instance-type/no region pinning; VM memory access is gated and no Volumes. No clone/reset latency guarantee or automatic reset API established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/volumes"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Outbound to any public IP by default",
+      "notes": "block_network true drops all outbound traffic and cannot be combined with the allowlists.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Deny-all, any-protocol CIDR allowlist and Beta TLS-443 domain allowlist",
+      "notes": "CIDR and domain allowlists combine additively; non-TLS/raw TCP/UDP outside allowed CIDRs is blocked. Domain filtering checks SNI and Modal-resolved hostname, not HTTP Host/path/body; *. includes parent and subdomains. ECH matches only outer public SNI; domain fronting is not prevented. block_network forbids outbound/domain/inbound allowlists. Alpha runtime updates require each allowlist type set at creation, cannot use block_network, and terminate disallowed established connections. Experimental sidecar relaying replaces main-container controls on TCP 443 with sidecar egress controls; CIDR policy still governs other ports. Beta secret-injection Outbound Policy cannot combine with either allowlist, block_network, sidecar relaying or memory snapshots. Controls apply to both runtimes, not a blanket security guarantee.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/sandbox-secret-injection"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "No inbound by default; selected TCP tunnels and HTTPS/WebSocket connect tokens",
+      "notes": "encrypted_ports terminates TLS, h2_ports supports HTTP/2+TLS, and unencrypted_ports exposes raw TCP, not HTTPS/SSH automatically. Run a server on the selected port; the OpenCode example binds 0.0.0.0. Tunnel URLs are public to anyone given the URL, so the server must handle authentication unless restricted by inbound CIDRs. Connect-token proxy routes authenticated HTTP/WebSocket to port 8080 by default or a specified port; tokens use Authorization, query or cookie. Service reachability requires a running Sandbox and listening server; no post-termination endpoint persistence established. Custom domains require manual NS delegation/onboarding. As reviewed October 8, 2026, the networking guide and pricing support Team/Enterprise, but JS/Go Sandbox SDK customDomain/CustomDomain descriptions say Enterprise-only; Team eligibility is conflicting, not guaranteed. Opt-in private i6pn reachability is separately documented in JS/Go SDKs for same-workspace, same-specific-region Sandboxes, incompatible with block_network.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/tunnels",
+        "https://modal.com/docs/examples/opencode_server",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "HTTPS tunnel URLs on w.modal.host and authenticated connect-token URLs",
+      "notes": "These reach a service inside a running Sandbox, not a Function or caller-machine tunnel. Encrypted tunnels terminate TLS and are public to URL holders; use application auth or inbound CIDRs. Connect tokens support HTTPS/WebSockets, port 8080 default or a specified port, Authorization/query/cookie credentials and verified user metadata under 512 serialized characters (not secrets). Python/JS/Go token methods and the JS credentials type publish no numeric token TTL or expiry parameter. Custom domains are Beta/manual with NS delegation and automatic certificates; October 8, 2026 networking guide/pricing say Team/Enterprise while JS/Go SDK descriptions say Enterprise-only. Preserve the Team-access conflict pending vendor confirmation. No endpoint survival after Sandbox termination established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/tunnels",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/SandboxCreateConnectCredentials"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Opt-in private IPv6 i6pn for co-located Sandboxes; JS/Go SDKs and experimental Python V2 source API",
+      "notes": "JavaScript SandboxCreateParams.i6pn and Go SandboxCreateParams.I6PN explicitly enable direct private IPv6 at i6pn.modal.local between same-workspace Sandboxes pinned to the same specific region (example us-east-1). Cannot combine with block_network. Official Python source also exposes i6pn=True on Sandbox._experimental_create for V2, but not public Sandbox.create; this is an experimental/main-branch implementation, not unrestricted GA Python parity. JS/Go SDKs are Beta. Python and JS source error messages recommend an empty outbound CIDR allowlist to preserve i6pn while blocking public egress; deny-all block_network instead disables both. The Function-only cluster guide omission does not negate Sandbox-specific evidence; no cross-region/workspace reachability established. V2 Python experimental creation excludes GPUs; no full VM/gVisor/GPU compatibility matrix or numeric plan gate published. Memory snapshots forbid region pinning, so do not assume compatible co-location. Reachability is not workspace API authorization or application authentication.",
+      "source_urls": [
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox",
+        "https://modal.com/docs/guide/private-networking",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sdk-javascript-go",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/py/modal/sandbox.py",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/js/src/sandbox.ts"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Published plan containers: Starter 100/10 GPU; Team 5,000/50 GPU; Enterprise custom",
+      "notes": "Pricing calls these container quotas, not a separate CPU Sandbox quota. Python 1.6.0 release notes say the new backend affords substantially higher CPU Sandbox concurrency without a numeric plan cap. The July 16 million-Sandbox demonstration is infrastructure throughput, not a public account entitlement; that dated post also refers to 50,000 per customer on the old system. Exact new-backend per-plan Sandbox quota remains unresolved; do not substitute million-Sandbox marketing or assume unlimited.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/sdk/py/releases",
+        "https://modal.com/blog/scaling-to-1-million-concurrent-sandboxes-in-seconds"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Default 5 minutes; timeout up to 24 hours",
+      "notes": "The Python SDK default argument is timeout=300. Longer than 24 hours is documented as a filesystem snapshot plus a new sandbox. An exec timeout is separate and bounds that command. A readiness probe runs for at most 5 minutes and does not by itself terminate the sandbox.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Optional idle_timeout; no default duration printed",
+      "notes": "The Python signature default is idle_timeout=None. The sandbox is active while an exec is running, stdin is being written, or a TCP connection is open over a tunnel. The page does not say an idle kill happens when the parameter is unset.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "unknown",
+      "value": null,
+      "notes": "No numeric Sandbox create/exec/account request-rate limit established in the index, guide, resources, SDK reference, pricing or release notes. Python 1.2.3 documents server throttling and configurable retry wait, so unknown is not unlimited. Million-Sandbox throughput is a vendor demonstration, not an API quota.",
+      "source_urls": [
+        "https://modal.com/docs/llms.txt",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/py/releases",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Sandbox.create accepts region, including broad and narrow names",
+      "notes": "Example: region=[\"us-west\"]. Broad names are us, eu, and ap. Narrow names listed are us-east, us-central, us-south, us-west, eu-west, eu-north, eu-south, ap-northeast, ap-southeast, ap-south, ap-melbourne, jp, au, uk, ca, me, sa, af, and mx. Default function routing is us-east. routing_region does not apply to sandboxes the same way: most sandbox operations go direct to the container, with some exceptions through us-east. A defined container region adds 1.15x for a broad region or 1.75x for a narrow region on top of base usage.",
+      "source_urls": [
+        "https://modal.com/docs/guide/region-selection"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "stdout and stderr stream line by line; stdin can be written",
+      "notes": "exec returns a ContainerProcess. stdout is iterable. StreamType can pipe, print, or discard output. The timeout on exec also bounds the stream.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-spawn",
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Command streams and persisted Sandbox entrypoint logs",
+      "notes": "Sandbox.logs.fetch/tail inspect entrypoint logs after termination, excluding exec command logs; release 1.5.5 says this interface does not stream. stdout/stderr on exec do stream. Network denials appear in system output. CLI container logs supports Sandbox IDs and historical access subject to plan retention (release 1.4.0); pricing lists Starter 1 day, Team 30 days, Enterprise custom. Image build output uses modal.enable_output. modal server logs is a sibling Server API, not Sandbox logs.",
+      "source_urls": [
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/py/releases",
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "modal shell, with a PTY flag, including attach by sandbox ID",
+      "notes": "modal shell sb-abc123xyz connects to a running sandbox. --pty and --no-pty choose a PTY. --runtime vm starts a shell in a virtual machine. The Python Sandbox.create signature includes pty, default false. Official JavaScript source defaultSandboxPTYInfo initializes 24 rows and 80 columns, TERM=xterm-256color; this is JS implementation evidence, not a documented universal CLI/Python terminal-size default. PTY multiplexes stderr into stdout.",
+      "source_urls": [
+        "https://modal.com/docs/cli/latest/shell",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/js/src/sandbox.ts"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Managed Modal Secrets in guest environment; separate Beta outbound header injection",
+      "notes": "Sandbox.create and exec accept Secrets; named Secrets are managed via dashboard/CLI/SDK, and the OpenCode Sandbox example uses Secret.from_name. Inline from_dict/fromObject/FromMap are supported. Environment secrets are readable by guest processes, not hidden from untrusted code; OIDC token injection is optional. Beta/experimental Outbound Policy injects named Secret headers outside the guest for HTTPS port 443 HTTP/1.1 only, up to 25 header values; no ephemeral Secrets, HTTP/2/gRPC or ECH injection. Clients must trust the TLS-interception CA at /etc/modal/sandbox-egress-ca.crt; configure their trust store or SSL_CERT_FILE, REQUESTS_CA_BUNDLE, CURL_CA_BUNDLE or NODE_EXTRA_CA_CERTS as appropriate, otherwise HTTPS clients may fail verification. It cannot combine with block_network, CIDR/domain allowlists, sidecar relaying or memory snapshots; main container only, values refresh on creation/policy update rather than automatic Secret rotation. No stronger isolation claim for ordinary env injection.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/secrets",
+        "https://modal.com/docs/examples/opencode_server",
+        "https://modal.com/docs/guide/sandbox-secret-injection"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Team/Enterprise RBAC; Enterprise SSO/audit logs; Sandbox connect-token auth",
+      "notes": "RBAC is explicitly gated to Team/Enterprise, with Workspace Owner/Manager/Member and Environment Contributor/Viewer/No Access roles; service users default No Access until granted roles. Pricing gates SSO, audit logs and HIPAA to Enterprise. Sandboxes have no default access to other Modal workspace resources, unlike Functions, but explicitly injected credentials can grant access. Connect tokens authenticate HTTP/WebSockets and carry verified user metadata; raw tunnels require application auth or inbound CIDRs. Named Sandboxes are unique while running within a deployed App and names shorter than 64 characters.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/rbac",
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Documented Sandbox coding-agent examples, including OpenCode",
+      "notes": "The OpenCode example body runs the guest agent server with a named managed Secret and HTTPS tunnel, optionally injecting Modal credentials. The index also lists Cursor, Claude Agent SDK, LangGraph/GPU and computer-use/VNC examples; their bodies were not individually reviewed. Examples do not establish certification, support SLA or a specific MCP integration.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/llms.txt",
+        "https://modal.com/docs/examples/opencode_server"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for the modal-client repository and declared JavaScript SDK package",
+      "notes": "The repository LICENSE is Apache-2.0, covering the client repository containing Python, Go and JavaScript clients. Official js/package.json declares name=modal, version=0.11.0 and license=Apache-2.0. This is client/package licensing, not an open hosted runtime, server distribution or self-host entitlement.",
+      "source_urls": [
+        "https://github.com/modal-labs/modal-client/blob/main/LICENSE",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/js/package.json"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Both runtimes have default no inbound and configurable outbound deny-all/CIDR/domain policies; public outbound is allowed by default. block_network forbids allowlists and documented JS/Go i6pn. SNI domain fronting is not prevented; sidecar port-443 relaying replaces main-container controls with sidecar egress policy.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    "egress_allowlist": {
+      "value": "partial",
+      "note": "CIDR any-protocol and Beta TLS-443 SNI domain allowlists combine additively. ECH uses outer SNI; HTTP Host/path/body are not inspected and domain fronting is possible. Dynamic updates are Alpha and require creation-time allowlists. Beta secret header injection cannot combine with these policies.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/guide/sandbox-secret-injection"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "Selected encrypted ports yield public HTTPS tunnels; unencrypted ports are raw TCP. Connect tokens authenticate HTTP/WebSockets to port 8080 or a specified port. Requires a listening server and running Sandbox; tunnel URL alone is not application auth. Custom domains require manual onboarding; guide/pricing say Team/Enterprise but JS/Go SDK descriptions say Enterprise-only (October 8, 2026), so Team eligibility is conflicting.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "JS i6pn/Go I6PN enable same-workspace private IPv6 in the same specific region; SDKs are Beta. Python main-branch Sandbox._experimental_create supports V2 i6pn, not public create, and excludes GPUs. block_network disables i6pn; source recommends empty outbound CIDR allowlist for private-only networking. Full runtime matrix/plan gates remain unestablished; memory snapshots forbid region pinning. Reachability is not workspace API authorization or application auth.",
+      "source_urls": [
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sdk-javascript-go",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/py/modal/sandbox.py",
+        "https://raw.githubusercontent.com/modal-labs/modal-client/main/js/src/sandbox.ts"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Root filesystem snapshots create Images for replacement/fork; directory Images can mount into a running Sandbox. Mounted Volumes are excluded; default TTL 30 days with custom/no-expiry choice. Source termination applies to Alpha memory snapshots, not filesystem snapshots. Opt-in Alpha exit snapshots are best effort and do not cover hardware failures/GPU preemption.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/sandbox-exit-snapshots"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": "partial",
+      "note": "Alpha memory snapshots terminate source and restore into a new Sandbox: no GPU/running exec; exec-launched background processes do not properly restore; TCP closes. Seven-day TTL/inherited expiry, same-instance-type scheduling and no region pinning. VM support is enabled-customer-only and cannot mount Volumes; not general live resume.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    "pause_resume": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for same-ID in-place pause/suspend/resume. Conservative documented-support eligibility audit inference, not vendor denial or impossibility claim. Lifecycle/snapshots, product marketing, Python/JS/Go references/source and second-pass Q03/Q12/Q22 (the dated official-source review) document termination and replacement recovery, not pause. Alpha memory restoration/filesystem recovery remain positively supported separately; unknown suspension rates are not zero/free.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "Filesystem forks create independent root copies from an unexpired Image; mounted Volumes are excluded and shared Volumes can share mutable state. Memory cloning is separately Alpha with no GPU, exec restrictions, same-instance-type scheduling, seven-day expiry and gated VM access.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Root recovery requires saved snapshot ID and replacement creation, or opt-in Alpha best-effort exit snapshots; no automatic persistent root. Reattach Volumes and preserve committed data. Snapshot expiry/deletion loses recovery; Volume v2 is Beta, not recommended for mission-critical state.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/sandbox-exit-snapshots",
+        "https://modal.com/docs/guide/volumes"
+      ]
+    },
+    "volumes": {
+      "value": true,
+      "note": "Mount Modal Volumes/cloud buckets explicitly; reattach on replacement. Commits/reloads and last-write-wins shared-file restrictions apply; v2 sync is Beta. VM memory-snapshot-enabled Sandboxes cannot mount Volumes.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/sandbox-files",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/volumes"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Linux/amd64 registry/Dockerfile/method-chained/named Images; private registries use documented credentials. Mutable tags remain cached, USER is ignored and some Dockerfile instructions are unimplemented. Prebuild named Images to avoid rebuilds on creation.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/existing-images"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": "partial",
+      "note": "Nested Docker is documented on the VM runtime, and filesystem snapshots on that runtime include /var/lib/docker.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "The existing-images guide explicitly documents guest uid 0 and ignored USER, including registry images. Root is inside the isolated guest, not the host; kernel-dependent operations require VM and nested virtualization is access-gated.",
+      "source_urls": [
+        "https://modal.com/docs/guide/existing-images",
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "gpu": {
+      "value": "partial",
+      "note": "Sandboxes can run with GPUs on the gVisor runtime and are preemptible; GPU sandboxes are only supported with runtime=\"gvisor\".",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox"
+      ]
+    },
+    "self_hosted": {
+      "value": "unknown",
+      "note": "The docs and SDKs reviewed do not publish a customer-deployable Sandbox runtime/install contract. Modal’s May 2026 official announcement nevertheless calls it a “self-hosted Modal Sandbox”; context appears to mean the agent loop is self-hosted while Modal hosts execution, but deployment meaning is ambiguous. Keep unknown rather than treating no installer as proof of unsupported. No customer-owned runtime or BYOC is established.",
+      "source_urls": [
+        "https://modal.com/blog/introducing-claude-managed-agents-with-modal-sandboxes"
+      ]
+    },
+    "byoc": {
+      "value": false,
+      "note": "NO DOCUMENTED SUPPORT FOUND: No documented support found in the official sources reviewed as of 2026-10-08 for customer-owned cloud execution/control-plane model for Modal Sandboxes. Conservative documented-support eligibility audit inference, not vendor denial or technical impossibility. Product/pricing/hosted docs, CLI cloud selection and Sandbox creation references/source reviewed in second-pass Q03/Q07/Q09 BYOC ledger (the dated official-source review). Marketplace committed spend and Modal-hosted cloud selection are not documented BYOC; no positive exact-product model or plan found.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/guide",
+        "https://modal.com/docs/cli/latest/shell",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "The modal-client repository license is Apache-2.0; that file is not the hosted runtime.",
+      "source_urls": [
+        "https://github.com/modal-labs/modal-client/blob/main/LICENSE"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Sandbox.create can take a long-running entrypoint, and exec can leave work running after the client detaches.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Sandbox.create and exec have a pty flag, and modal shell can attach to a sandbox.",
+      "source_urls": [
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "exec returns a process whose stdout can be read while the command runs.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "secrets_management": {
+      "value": true,
+      "note": "Named managed Modal Secrets and inline Secrets inject into Sandbox/exec environments, readable by guest processes. Separate Beta named-Secret outbound HTTPS-443 HTTP/1.1 header injection requires clients to trust /etc/modal/sandbox-egress-ca.crt via their trust store or appropriate SSL_CERT_FILE/REQUESTS_CA_BUNDLE/CURL_CA_BUNDLE/NODE_EXTRA_CA_CERTS settings. It hides values from the guest but cannot combine with network allowlists or memory snapshots; main container only, no automatic rotation.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox",
+        "https://modal.com/docs/guide/sandbox-secret-injection",
+        "https://modal.com/docs/examples/opencode_server"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "Sandbox examples import modal in Python and call Sandbox.create.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "Official JavaScript/TypeScript Sandbox SDK is labeled Beta with feature parity still in progress.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sdk-javascript-go"
+      ]
+    },
+    "go_sdk": {
+      "value": true,
+      "note": "Official Go Sandbox SDK is labeled Beta with feature parity still in progress.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/guide/sdk-javascript-go"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "modal shell explicitly supports attach by Sandbox ID, --runtime vm and --pty/--no-pty.",
+      "source_urls": [
+        "https://modal.com/docs/cli/latest/shell"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "The sandbox guide names language-model generated code as a use case and shows agent-style exec examples.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "max_vcpu": {
+      "value": null,
+      "note": "A maximum is enforced and requests above it raise InvalidError, but the resources page does not print the number; the default soft limit is 16 physical cores above the request.",
+      "source_urls": [
+        "https://modal.com/docs/guide/resources"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "The resources page does not print a numeric memory maximum; an example calls memory=32768 32 GiB, and the sandbox parameter is MiB.",
+      "source_urls": [
+        "https://modal.com/docs/guide/resources",
+        "https://modal.com/docs/guide/sandbox-resources"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": 86400,
+      "note": "The default lifetime is 5 minutes, and timeout can be raised up to 24 hours.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "idle_timeout is optional and the Python default is None; the guide does not print a default idle duration.",
+      "source_urls": [
+        "https://modal.com/docs/guide/sandboxes",
+        "https://modal.com/docs/sdk/py/latest/Sandbox"
+      ]
+    }
+  },
+  "pricing_summary": "Sandbox CPU is $0.00003942 per physical core per second (2 vCPU equivalent; minimum request 0.125 cores), memory $0.00000667 per GiB per second, billed on max(request, actual) even while waiting. The Sandbox product page separately publishes $0.1419/core/h and $0.0240/GiB/h; no conversion performed. Starter is $0 plus compute/month with $30 recurring included compute; Team is $250 plus compute/month with $100 included; Enterprise custom. Payment method required; no minimum usage-time increments. Volumes $0.09/GiB/mo include 1 TiB/mo free, with up to four days billing after deletion. Egress $0.04/GiB beyond workspace allowances (1/10/100 TiB per billing cycle for Starter/Team/Enterprise), effective October 1, 2026. Explicit region selection adds 1.15x broad/1.75x narrow. Snapshot retention/operations, image preparation and storage I/O prices remain unestablished, not free.",
+  "pricing": [
+    {
+      "item": "Plan allowance",
+      "plan": "Starter",
+      "published_price": "$30 / month free compute",
+      "conditions": "Recurring monthly compute allowance applies to CPU/memory/GPU for Functions, Sandboxes and Notebooks; not startup/academic promotions and not a separate allowance per Sandbox. Volumes have their own allowance. Starter has 3 seats, published 100 containers/10 GPU concurrency, but exact new-backend Sandbox quotas are unresolved.",
+      "source_urls": [
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Starter",
+      "published_price": "$0 + compute / month",
+      "conditions": "No required Starter subscription fee; pay-as-you-go over included usage. A payment method on file is required to use Modal. Free compute is not unlimited usage or free retained storage/network beyond allowances.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/billing"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Team",
+      "published_price": "$250 + compute / month",
+      "conditions": "$100/month recurring included compute, unlimited seats, published 5,000 containers/50 GPU concurrency. Subscription is not waived by the allowance. RBAC/static IP proxy are Team/Enterprise features; exact new-backend Sandbox quota unresolved. Guide/pricing list custom domains for Team/Enterprise, but October 8, 2026 JS/Go Sandbox SDK descriptions say Enterprise-only; Team custom-domain access is conflicting, not guaranteed.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/sandbox-networking",
+        "https://modal.com/docs/sdk/js/latest/Sandbox",
+        "https://modal.com/docs/sdk/go/latest/Sandbox"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Custom / Enterprise",
+      "published_price": "Custom",
+      "conditions": "Volume discounts, higher GPU concurrency, private Slack, audit logs, SAML SSO, and HIPAA.",
+      "source_urls": [
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "item": "CPU",
+      "plan": "Modal Sandbox + Notebooks",
+      "published_price": "$0.00003942 / core / sec",
+      "conditions": "Physical core (2 vCPU equivalent), minimum request 0.125 cores; billed by second on max(request, actual), not free while CPU is idle/I/O waiting. Product page also publishes $0.1419/core/h, retained without conversion. General Function CPU $0.0000131/core/sec is not the Sandbox rate. No separate VM premium established; GA announcement says same usage-based pricing.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "item": "Memory",
+      "plan": "Modal Sandbox + Notebooks",
+      "published_price": "$0.00000667 / GiB / sec",
+      "conditions": "Billed by second on max(request, actual), including retained requested/used memory while waiting. Product page also publishes $0.0240/GiB/h without conversion. General Function memory $0.00000222/GiB/sec is not the Sandbox rate. VM memory bursts per GA announcement, not static. Sandbox disk cannot be increased; Function ephemeral_disk request billing must not be applied as a Sandbox upgrade.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/blog/vm-sandboxes-agent-computers"
+      ]
+    },
+    {
+      "item": "Volumes",
+      "plan": "Published resource costs",
+      "published_price": "$0.09 / GiB / mo",
+      "conditions": "Includes 1 TiB/mo free; separate from included compute. Usage sampled daily; deleted data may still bill for up to four days. Volume reads/writes do not count as network egress. External cloud-bucket provider fees and storage I/O prices are not established here.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/volumes",
+        "https://modal.com/docs/guide/network-egress-billing"
+      ]
+    },
+    {
+      "item": "Network egress",
+      "plan": "Starter / Team / Enterprise",
+      "published_price": "$0.04 / GiB beyond included usage",
+      "conditions": "Effective October 1, 2026; first egress bill November 1. Workspace-wide allowance once per cycle: Starter 1 TiB, Team 10 TiB, Enterprise 100 TiB. Includes container outbound interfaces, private-container traffic and CloudBucketMount uploads; excludes Modal Volume reads/writes. Downloads are ingress but outbound protocol bytes can meter. A separate ingress dollar rate was not established.",
+      "source_urls": [
+        "https://modal.com/docs/guide/network-egress-billing",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "item": "GPU",
+      "plan": "Standard GPU rates applied to GPU Sandboxes",
+      "published_price": "Per second: B300 $0.001972; B200 $0.001736; H200 SXM $0.001261; H100 SXM5 $0.001097; RTX PRO 6000 $0.000842; A100 80 GB $0.000694; A100 40 GB $0.000583; L40S $0.000542; A10 $0.000306; L4 $0.000222; T4 $0.000164",
+      "conditions": "Sandbox pricing explicitly links standard GPU rates; GPU Sandboxes require gVisor, payment method and available capacity, are preemptible and cannot use memory snapshots. CPU/memory also bill. No GPU training assumed for CPU RL rollouts; published plan GPU concurrency Starter 10/Team 50/Enterprise custom.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/docs/guide/gpu",
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    {
+      "item": "Billing conditions and unpublished charges",
+      "plan": "Modal Sandboxes",
+      "published_price": "By the second; no minimum usage-time increments; active tunnel has no additional charge",
+      "conditions": "Resource request floors are not time increments: at least 0.125 cores/128 MiB requested. Waiting/warm-pool Sandboxes still bill max(request, actual); no in-place suspension or suspended-compute tariff established. Reviewed pricing/resources/billing/snapshot pages do not establish separate creation, image-build/preparation, snapshot operation/retention, ephemeral root disk or storage I/O rates; absence is not free. Generic Function load/scaledown FAQ must not be read as a Sandbox lifecycle meter. No fabricated total.",
+      "source_urls": [
+        "https://modal.com/docs/guide/billing",
+        "https://modal.com/docs/guide/sandbox-resources",
+        "https://modal.com/docs/guide/tunnels",
+        "https://modal.com/pricing",
+        "https://modal.com/docs/guide/sandbox-snapshots"
+      ]
+    },
+    {
+      "item": "Price multiplier",
+      "plan": "Container region",
+      "published_price": "1.15–1.75x base prices",
+      "conditions": "The region page says a broad region such as us is 1.15x and a narrow region such as us-west is 1.75x, on top of base usage, for a Function or Sandbox with a container region defined. If several regions span both categories, the smaller multiplier applies. The pricing comparison table shows the same range without naming a plan. The page's one-hour T4 example formula was not calculated.",
+      "source_urls": [
+        "https://modal.com/docs/guide/region-selection",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Startup grant",
+      "published_price": "Free compute credits, numeric grant amount not published",
+      "conditions": "Separate from recurring Starter allowance. Startup program is a one-time grant per tier for new customers; Seed/Series A eligibility requires partner-network VC funding of any amount or over $1m from any fund; scaling/Series B+ tier is custom for over $30m VC funding or post-Series B with partner-network VC. Program text says thousands of GPU credits, not an exact dollar entitlement; applicant grant amount/expiration unestablished.",
+      "source_urls": [
+        "https://modal.com/pricing",
+        "https://modal.com/startups"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Academic grant",
+      "published_price": "Up to $10k free compute credits",
+      "conditions": "Graduate students, labs, and researchers. Separate from the monthly plan allowances.",
+      "source_urls": [
+        "https://modal.com/pricing"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Sandbox client-create to runnable user code, vendor benchmark median",
+      "published_claim": "Less than half a second at the median",
+      "conditions": "Official July 16, 2026 benchmark of the next-generation Sandbox backend while creating one million Sandboxes; operation is first client creation attempt until user code can run, not application readiness/reset/clone/resume. No text specification of image, resources, region or cold/warm cache conditions; long tail noted, no numeric p99. Then Beta; now default from Python 1.6.0/JS-Go 0.11.0, with GPUs on previous backend. Vendor measurement, not independent verification or public account quota.",
+      "source_urls": [
+        "https://modal.com/blog/scaling-to-1-million-concurrent-sandboxes-in-seconds",
+        "https://modal.com/docs/guide/sandbox-v2"
+      ]
+    },
+    {
+      "metric": "Aggregate Sandbox creation throughput, vendor demonstration",
+      "published_claim": "One million concurrent Sandboxes created in under a minute",
+      "conditions": "July 16, 2026 new-backend demonstration; throughput is not individual startup latency, reset/clone/resume or plan entitlement. Marketing repeats 1M+ under a minute. Image/resources/region unspecified in text. Public plan page still lists 100/5,000 container quotas; exact new-backend per-plan Sandbox limits unresolved. No independent benchmark.",
+      "source_urls": [
+        "https://modal.com/blog/scaling-to-1-million-concurrent-sandboxes-in-seconds",
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/pricing"
+      ]
+    },
+    {
+      "metric": "VM Sandbox cold-start marketing claim, unspecified statistic",
+      "published_claim": "Sub-second cold-starts",
+      "conditions": "October 1, 2026 GA VM Sandbox announcement. No percentile, image, CPU, memory, region, readiness boundary or cold/warm cache setup specified. Not a numeric reset/clone/resume claim or a guarantee for arbitrary custom-image initialization. Named Images avoid rebuild blocking; readiness probes/pools are separate setup mechanisms.",
+      "source_urls": [
+        "https://modal.com/blog/vm-sandboxes-agent-computers",
+        "https://modal.com/docs/guide/sandboxes"
+      ]
+    },
+    {
+      "metric": "Filesystem-backed session resume, qualitative marketing",
+      "published_claim": "Save state and resume instantly later",
+      "conditions": "Product-page wording as accessed October 8, 2026 refers to full or partial filesystem snapshots. No numeric timing, statistic, setup, ready-service boundary or guarantee specified. Snapshot guide requires saved Image ID and explicit new-Sandbox restoration or directory mount; it does not establish same-ID pause, process-memory preservation or universal instant startup. Filesystem/directory retention and Volume exclusions apply. Named Images avoid implicit rebuilds but published names are mutable; no independent measurement.",
+      "source_urls": [
+        "https://modal.com/products/sandboxes",
+        "https://modal.com/docs/guide/sandbox-snapshots",
+        "https://modal.com/docs/guide/named-images"
+      ]
+    }
+  ],
+  "research_notes": [
+    "The starter $30 / month free compute line is a published monthly plan allowance. Startup and academic credits are separate promotional grants. No monthly cost was calculated from either.",
+    "Sandbox CPU/memory and general Function resource rates are different product sections, not conflicting Sandbox rates. Only Sandbox rates are retained as price entries; product-page hourly rates are published independently without conversion.",
+    "VM runtime is GA as of October 1, 2026, selected with runtime=vm; guest memory can burst. GPU remains gVisor-only. Nested virtualization requires Team/Enterprise and requested access; VM memory snapshots require enabled-customer access.",
+    "Filesystem snapshots are disk images. Memory snapshots are experimental, restore process state into a new sandbox, and currently terminate the source. No in-place pause of the same sandbox ID was documented.",
+    "The pricing table's 1.15–1.75x range matches the region page: 1.15x broad, 1.75x narrow. The general resources page calls memory megabytes then 32768 32 GiB; the Sandbox API explicitly says MiB. No unit normalization or numeric maximum guessed.",
+    "Network egress billing began October 1, 2026, $0.04/GiB beyond workspace-wide plan allowances. Separate snapshot/build/preparation/storage I/O/ingress/ephemeral root disk prices remain unestablished; no assumption of free. Waiting/warm-pool Sandboxes retain request/usage billing floors.",
+    "Filesystem snapshot source termination must not be inferred from the memory-snapshot limitation. Alpha exit snapshots are automatic only after creation-time opt-in and best effort; hardware failures/GPU preemption are not covered. Volumes v2 are Beta with a mission-critical-data warning.",
+    "Published speed evidence is Sandbox-specific but remains vendor-reported and condition-limited. Aggregate throughput is not latency or account entitlement; reset/clone/resume and application-ready numeric timings remain unknown.",
+    "Second targeted official-source pass on October 8, 2026 resolves private networking to documented JS/Go i6pn and an experimental Python V2 source API, with same-workspace/specific-region and block_network restrictions, not unrestricted GA Python parity. Source messages recommend an empty outbound CIDR allowlist for private-only networking. Custom-domain eligibility conflicts: guide/pricing Team/Enterprise versus JS/Go SDK Enterprise-only. Numeric CPU/RAM maxima, API/account quotas, ancillary fees and connect-token TTL remain unpublished or unestablished after documented second-pass searches. Product-page instant filesystem resume is qualitative marketing, not measured process resume. JavaScript SDK license and its 24x80 PTY initialization are now explicitly source-verified."
+  ]
+}

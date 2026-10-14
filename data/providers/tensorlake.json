@@ -1,0 +1,1061 @@
+{
+  "id": "tensorlake",
+  "name": "Tensorlake",
+  "product_name": "Tensorlake Sandboxes",
+  "website": "https://tensorlake.ai",
+  "docs_url": "https://docs.tensorlake.ai",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Tensorlake Cloud",
+      "notes": "Free, Usage Credits, Pro, and Enterprise plans are documented for the hosted service.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "documented",
+      "value": "Customer-operated sandbox executors and optional Sandbox Proxy; Tensorlake Cloud control plane",
+      "notes": "AWS install guide requires Self-hosted Compute enabled on the project (contact Tensorlake if unavailable), supported bare-metal EC2 with KVM/local NVMe, S3, and optional EKS/NLB/customer TLS ingress. This is hybrid self-hosted compute, not a documented independent control-plane install. Enterprise pricing advertises on-prem; security docs offer fully disconnected on-prem by contact, with public deployment details and commercial terms unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/security.md"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "AWS documented install; vendor also advertises GCP, Azure, CoreWeave, Nebius, and bare metal",
+      "notes": "Customer owns compute/storage; Tensorlake Cloud remains scheduling/auth control plane. AWS requires Self-hosted Compute enablement and onboarding; proxy can be Tensorlake-operated over VPC peering or customer-operated. Enterprise pricing lists In-VPC/on-prem. Other clouds are official commercial claims, not verified install paths. Do not infer ungated public-plan access or fully self-hosted service.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python and TypeScript; Rust sandbox client also documented in the official SDK repository",
+      "notes": "Public runtime reference covers Python/TypeScript; official source documents Rust SandboxesClient, without full parity. SDK languages are not guest runtimes. The official-source inventory reviewed does not document a vendor-maintained Go Sandbox SDK as of 2026-10-08. A separately maintained community Go client exists (see community_sdk_languages and the dated official-source review); it is not evidence of vendor support or endorsement. The former no-official-Go conclusion was a bounded documented-support inference, not a vendor denial.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/sdk-reference.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/docs/sandbox-resize.md",
+        "https://docs.tensorlake.ai/sandboxes/quickstart.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md",
+        "https://tensorlake.ai/",
+        "https://github.com/Sixt/tensorlake-go"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript: ComputeSDK Tensorlake provider (@computesdk/tensorlake); Go: Sixt/tensorlake-go",
+      "notes": "Positive community client evidence: vendor-hosted tensorlakeai/computesdk fork includes the TypeScript Tensorlake adapter README/package/implementation. Separately maintained Sixt/tensorlake-go README describes a Go client for Tensorlake cloud sandbox create, process, PTY, suspend/resume, and snapshot APIs, with go get installation. Neither is vendor-maintained or evidence of official support/endorsement; no release-to-current-service compatibility test was performed. This is a verified example inventory, not an exhaustive list. The adapter does not override current platform ingress/snapshot restrictions.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/tensorlakeai/computesdk/main/README.md",
+        "https://raw.githubusercontent.com/tensorlakeai/computesdk/main/packages/tensorlake/README.md",
+        "https://raw.githubusercontent.com/tensorlakeai/computesdk/main/packages/tensorlake/package.json",
+        "https://raw.githubusercontent.com/tensorlakeai/computesdk/main/packages/tensorlake/src/index.ts",
+        "https://github.com/Sixt/tensorlake-go"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Available",
+      "notes": "Examples use https://api.tensorlake.ai/sandboxes. An OpenAPI spec is linked from the docs index.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/llms.txt"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "tl",
+      "notes": "Examples include tl sbx create, suspend, resume, checkpoint, and copy.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Linux userland from the selected image",
+      "notes": "Managed Ubuntu minimal/systemd and Debian 13 images; ubuntu-vnc where desktop automation is enabled. Guest languages depend on installed image tools, not SDK languages. Custom images must be registered before launch.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/images.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Hosted docs describe Firecracker and Cloud Hypervisor microVMs; BYOC can use gVisor without KVM",
+      "notes": "MicroVMs have separate kernels. The BYOC announcement explicitly uses Firecracker where KVM is available and gVisor containers where it is not; do not generalize the microVM boundary to every customer deployment.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/introduction.md",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux: managed Ubuntu 24.04 and Debian 13; custom Linux images",
+      "notes": "ubuntu-minimal is default, ubuntu-systemd supports services, ubuntu-vnc is desktop-gated. No Windows/macOS guest support established.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/images.md"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Default 1 vCPU. Free max 1. Usage Credits max 4. Pro max 16. Enterprise custom",
+      "notes": "Per-sandbox caps, not dedicated physical cores. Lifecycle cpus is a float and says resources fixed after create. Official SDK repository documents live whole-vCPU resizing only for running Cloud Hypervisor sandboxes; hosted runtime/access applicability unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/docs/sandbox-resize.md"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Default 1024 MB in lifecycle; Free max 1 GB, Usage Credits 16 GB, Pro 64 GB; Enterprise custom",
+      "notes": "Paid plans also require 1-8 GB RAM per vCPU; both ratio and plan ceiling apply, so the ratio is not a 128 GB Pro entitlement. Lifecycle says 1024-8192 MB per CPU, create API says MiB, and billing usage says GiB-hours. No GB-to-GiB conversion. SDK repository documents runtime-gated Cloud Hypervisor resizing in 128 MiB blocks, unlike lifecycle's fixed-resource statement.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/docs/sandbox-resize.md"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Default 10240 MiB (10 GiB); create API range 10240-102400 MiB (10-100 GiB)",
+      "notes": "Billing plan caps say Free 10 GB and paid 100 GB; rates per GB-hour. Images/filesystem restores permit growth-only disk overrides. Lifecycle says resources fixed after creation, while SDK repository documents running Cloud Hypervisor growth-only disk resize. Pools docs say server-managed root disk/ignored ephemeral_disk_mb; repository README now describes disk_mb pool growth, so pool override applicability is unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/pools.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/docs/sandbox-resize.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "documented",
+      "value": "Conditional BYOC GPU sandbox offering; hosted GPU availability unresolved",
+      "notes": "Official BYOC announcement publishes GPU platform fees but no complete GPU capacity/access matrix. Current official SDK model enum accepts A100-40GB, A100-80GB, H100, T4, A6000, A10, RTX-PRO-6000 and L40 requests. Client defaults gpus to A10 unless model supplied; GPU sandboxes require a content-addressed streaming (CAS) image, or server-configured GPU default if image omitted. Matching server/dataplane support and hardware capacity still required. Model/request syntax or CUDA image does not establish hosted entitlement, limits, region availability or a public GPU rate.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/crates/cloud-sdk/src/sandboxes/models.rs"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Build from Dockerfile/Python/TypeScript or import public/private OCI images; register before launch",
+      "notes": "Unregistered registry launch unsupported; private pulls use Docker config/login credentials. Custom USER/WORKDIR applies, not managed defaults. FROM substitution not working, ONBUILD ignored; SHELL/EXPOSE/HEALTHCHECK/LABEL/STOPSIGNAL/VOLUME no runtime effect. New base preparation slower; builder defaults 2 vCPU/4096 MB and generated disk 10240 MiB. Current docs offer --docker_compat BuildKit fallback with at least 3x builder disk/memory. Register existing filesystem snapshot only when Completed with durable snapshot_uri, not local-ready/uploading. Harbor public publishing requires account allowlist unlike general guide's ungated wording; full architecture/size/access matrix unknown.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/images.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Runtime installs and reusable image builds",
+      "notes": "Managed Ubuntu/Debian Python follows PEP 668: use a virtualenv or --break-system-packages. Apt installation needs guest sudo/root and permitted dependency egress. Preinstall dependencies before deny-all execution.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/images.md"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Managed images use tl-user with passwordless sudo; explicit guest root execution supported",
+      "notes": "Guest privileges, not host privileges. Managed commands start at /, which is not generally writable by tl-user; use /home/tl-user or explicit workdir. Built/imported images follow Dockerfile USER/WORKDIR. Process APIs support user selection.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/commands.md",
+        "https://docs.tensorlake.ai/sandboxes/images.md"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Install Docker/Compose inside tensorlake/ubuntu-systemd",
+      "notes": "Requires systemd-capable image and guest sudo/root for installation; ubuntu-minimal excludes systemd. Harbor single-container tasks do not provide Docker; Compose uses a DinD host and does not support snapshot_id. Registry-image support is not Docker-in-Docker by itself.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/docker.md",
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "start_process/startProcess, signals, streaming and optional supervised restarts",
+      "notes": "Detached work continues after call return, but CPU/process activity alone is not established as preventing proxy-idle suspension; suspended processes make no progress. Lifecycle says open SSH/PTY proxy traffic counts; June networking blog says only transferred bytes count and idle-open connections do not. Do not rely on an idle connected terminal as keepalive; use actual traffic or appropriate timeout. Disconnected PTYs separately expire after 300 seconds.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/commands.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/remote-dev.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "SDK/HTTP read/write/list/delete and CLI file copy",
+      "notes": "Management proxy port 9501 always requires auth. tl sbx cp is file-only; directory workflows use SDK/API or native SSH scp/rsync. Managed /workspace is not tl-user-writable without setup, despite file-page examples.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/file-operations.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Named suspend retains root files; independent snapshots or durable mounted filesystems recover files into replacements",
+      "notes": "Root disk is otherwise ephemeral. Restart within 48 hours restores the most recent usable snapshot, not necessarily final files; without one it cold-boots a fresh filesystem. Security docs say sandbox deletion permanently removes files/state while retaining separate snapshots; SDK/FAQ call termination final, conflicting with lifecycle/restart API. Durable mounts require explicit creation/attachment and recover acknowledged autosaves, not necessarily unreplicated writes. /tmp is documented as excluded from filesystem snapshots.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restart.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/platform/security.md",
+        "https://docs.tensorlake.ai/sandboxes/sdk-reference.md",
+        "https://docs.tensorlake.ai/sandboxes/mount-filesystems.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Separate durable versioned POSIX filesystem mounts; Git workspace mounts have different publication semantics",
+      "notes": "Create filesystem before attaching; up to 8 absolute non-nested mounts per sandbox. Disjoint paths merge, same-path writes last-writer-wins. Server autosave WAL retains the newest 256 generations and all generations from the last 24 hours; permanent snapshots are separately billed until deleted. After a crash, remounting on another machine recovers through the last acknowledged server autosave, not unreplicated tail writes; on the same machine, its overlay/local journal can also recover unsaved changes. Current reviewed session/introduction docs do not establish per-filesystem session or session-metadata caps, precise crash-detection or salvage intervals, or eager-GC timing, so those numeric/behavioral limits remain unverified rather than zero or unlimited. Pins require read-only permanent snapshots/latest fleet support; invalid runtime attach can terminate sandbox. Git private WAL (30 seconds) is not branch commit; reattach explicit workspace. Complete volume/Git storage and I/O rates unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/mount-filesystems.md",
+        "https://docs.tensorlake.ai/filesystems/core-concepts.md",
+        "https://docs.tensorlake.ai/filesystems/manage-sessions.md",
+        "https://docs.tensorlake.ai/filesystems/introduction.md",
+        "https://docs.tensorlake.ai/git/workspace-mounts.md"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Named sandboxes only; snapshot-backed suspension and resume",
+      "notes": "Ephemeral sandboxes cannot suspend and terminate on timeout. Named idle/manual suspend checkpoints state then terminates the live container; resume restores under the same logical sandbox name/ID, potentially another host. It is not indefinitely reserved host RAM. Suspend/resume return 202 on initiation; wait/poll for settled readiness, and resume fails if suspend snapshot missing/not ready. No compute charge suspended, but snapshot storage billed; open connections are dropped and clients must reconnect.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/suspend.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/resume.md",
+        "https://tensorlake.ai/blog/suspend-vs-snapshot",
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Named suspend snapshot can restore memory and processes; not uninterrupted connections",
+      "notes": "Suspend is snapshot-plus-live-container teardown; named resume retains logical identity but may use another host. Captured process memory is restored, not running while suspended; external TCP sessions do not stay connected and reconnect/placement readiness required. Missing/not-ready suspend snapshot prevents resume. Independent filesystem checkpoint default cold-boots and does not preserve process memory; explicit memory checkpoint is different.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/resume.md",
+        "https://tensorlake.ai/blog/suspend-vs-snapshot",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "filesystem (default, cold boot) and memory (filesystem, memory and processes, warm restore) checkpoints",
+      "notes": "Reusable artifacts outlive source termination; restore creates new sandbox. Current SDK checkpoint waits for local_ready by default (resumable), not necessarily completed with durable snapshot_uri metadata; wait_until=completed for that boundary. Memory restore cannot override image, CPU/memory resources, entrypoint or secrets per restore API; secret store linkage still unverified. Filesystem restore can change resources and grow disk only; /tmp excluded per PTY docs. SDK overview overstates generic memory preservation; Harbor Compose cannot use snapshot_id. Closed external connections are not revived by memory restore. Complete standalone retention/billing unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restore.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://docs.tensorlake.ai/sandboxes/sdk-reference.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://tensorlake.ai/blog/suspend-vs-snapshot"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "CLI/HTTP warm copy; Python and TypeScript copy methods present in current official SDK source",
+      "notes": "Snapshot docs say CLI/HTTP copies from running or suspended source inherit image/resources/entrypoint/network/exposed ports and create no reusable checkpoint; inspect individual failures/unique names. Those docs say Python unsupported/TypeScript unexposed, but current official repository implements Sandbox.copy in both languages plus Python SandboxClient.copy(times=...). Source docstrings describe running-source live copy. Published-package version and deployed-server parity not established; do not assert all SDK versions support it or unsupported universally. No measured clone/reset latency or guaranteed capacity.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/sandbox.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/typescript/src/sandbox.ts"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Enabled by default; configurable deny-all or destination policy",
+      "notes": "allow_internet_access=false with empty allow_out blocks all outbound traffic including DNS. Non-empty allow_out is default-deny regardless of that flag; true permits resolver DNS, false requires resolver IP explicitly allowed for hostname resolution. CLI --no-internet cannot combine allow/deny flags. This does not remove separately authenticated management, SSH or inbound/tunnel paths.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/sandboxes/tunnels.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Host-enforced allow_out/deny_out with deny precedence and dynamic updates",
+      "notes": "Allow domains, leading-wildcard subdomains (not apex), IPv4/CIDRs; deny docs no wildcards, Harbor no IPv6. Current SDK model says optional :port suffix accepted but not port-specific. Host firewall blog uses readable TCP SNI/HTTP Host without TLS termination, IP/CIDR fallback for unreadable names, DNS-derived TTL rules for UDP/ICMP/QUIC, internal addresses only explicit literals. No blanket security guarantee. Conflicts: networking closes old flows/rejects unresolved names; Harbor and update API say old connections continue; Aug29 blog fences old flows but accepts unresolved allow names and may terminate on failed enforcement. Blog wildcard deny conflicts with docs. Current SDK model also says established/related always allowed. Exact deployed behavior/version unresolved; SDK>=0.5.133 needed to read network_policy reliably.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/update.md",
+        "https://tensorlake.ai/blog/updating-egress-policies-on-running-sandboxes",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/models.py"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "HTTPS proxy to explicitly exposed user services; native SSH and authenticated local TCP tunnels are separate",
+      "notes": "https://<port>-<id-or-name>.sandbox.tensorlake.ai forwards HTTP, WebSocket and gRPC/HTTP2 only if port is in exposed_ports (API range 1-65535; management 9501 reserved/auth always). User ports default to project API-key auth; explicit allow_unauthenticated_access makes exposed ports public, and CLI port expose does both. Named suspended sandboxes may auto-resume on ingress. Prefer returned ingress_endpoint for placement/BYOC. Raw TCP requires a caller-local authenticated WebSocket tunnel (default bind 127.0.0.1), not general public raw-TCP exposure; native SSH uses registered user keys. No universal service bind-address requirement is stated.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/tunnels.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "HTTPS sandbox service URLs usable for temporary previews",
+      "notes": "Networking explicitly lists preview environments at https://<port>-<id-or-name>.sandbox.tensorlake.ai. Service must listen inside the sandbox and the user port must be exposed; project API-key/browser-session auth by default, public only with allow_unauthenticated_access. Management 9501 never public. URLs depend on placement and sandbox lifecycle; named suspended ingress may auto-resume, not a durable deployment or raw-TCP endpoint.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Gated BYOC VPC execution with Tensorlake-peered or customer-operated ingress",
+      "notes": "AWS guide keeps executors and S3 in customer account but Tensorlake Cloud control plane remains. Self-hosted Compute enablement/onboarding required; Enterprise markets In-VPC/on-prem. Customer ingress needs EKS/NLB/public DNS/ACM HTTPS, so do not call the endpoint private by default. No general hosted sandbox-to-sandbox private network established. BYOC blog advertises other clouds without equivalent public install detail.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/pricing",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Free 1; Usage Credits up to 100; Pro 1,000; Enterprise unlimited (commercial plan limits)",
+      "notes": "Not guaranteed immediate capacity or API throughput. 5-million-per-project/24,000 scheduled per second BYOC claims are platform scale, not public hosted quotas. Create can queue; bare-metal host boot up to 20 minutes. Pools cap warm+claimed containers and cold-start if warm buffer empty. No numeric API request-rate limit found.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/queued-sandboxes.md",
+        "https://docs.tensorlake.ai/sandboxes/pools.md",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Published plan durations: Free 2 hours, Usage Credits 24 hours, Pro/Enterprise unlimited; wall-clock cap unresolved",
+      "notes": "Billing calls these maximum session durations, but lifecycle explicitly says timeout_secs is proxy-idle threshold, not wall-clock lifetime, bounded by those plan maxima; 0 requests plan maximum. Create OpenAPI also lists Free unverified 1 hour / verified 2 hours and old On-Demand naming. Do not infer a fixed active lifetime or ignore verification gate. SDK repository resize guide/Harbor loosely call timeout lifetime/hard timeout, conflicting with lifecycle.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/docs/sandbox-resize.md"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "Default 600-second proxy-idle threshold; exact connection activity signal conflicting",
+      "notes": "Named idle suspend preserves captured state; ephemeral terminates. Lifecycle says no in-flight proxied traffic and lists open SSH/WebSocket PTY as activity; June 17 networking blog says bytes actually transferred reset idle, an open silent connection does not pin sandbox. Do not guarantee idle-open terminals or detached CPU jobs keep alive. Free published max 2 hours (API unverified 1 hour), Usage Credits 24 hours, Pro/Enterprise unlimited; 0 requests maximum. Disconnected PTY cleanup separately 300 seconds. Exact wall-clock/idle activity enforcement unresolved across official sources.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "unknown",
+      "value": null,
+      "notes": "Numeric request-rate quota remains unknown after official docs/marketing/OpenAPI/SDK second pass and targeted quota/429/rate searches as of 2026-10-08 (Q02/Q13 and eligibility ledger). Concurrent sandboxes, 64 concurrent PTYs and scheduler throughput are different quantities. Numeric absence is not zero, unlimited or unsupported HTTP/API capability under the eligibility policy.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/api-reference/openapi.yaml",
+        "https://docs.tensorlake.ai/api-reference/v2/pty/create.md",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "unknown",
+      "value": null,
+      "notes": "Official July 21 multi-cloud scheduling article advertises project pinning to specific region/cloud/VPC and commercial July 28 BYOC article offers specific-VPC or EU-geo placement. This establishes a vendor placement claim, not a complete hosted selectable-region list or plan/access guarantee; article diagrams/examples are not a public availability matrix. EU API docs example is Workflows and filesystem eu-central-1 is storage, not sandbox compute. Restores need eligible snapshot-region executor; AWS BYOC uses customer's supported region. Full compute region/entitlement matrix remains unknown.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/multi-cloud-scheduling",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://docs.tensorlake.ai/platform/eu-data-residency.md",
+        "https://docs.tensorlake.ai/sandboxes/queued-sandboxes.md",
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "stdout/stderr or combined output over SSE; SDK iterators and CLI streaming",
+      "notes": "follow_output/followOutput stream tracked processes through authenticated sandbox management ingress.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/commands.md"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Retained searchable sandbox stdout/stderr via Console, SDK, CLI and HTTP",
+      "notes": "Separate from per-process output buffers. Filter level, stable process ID or body text; structured attributes returned but not independent query filters. Retention depends on environment policy; no universal sandbox log-retention duration verified. Orchestration tracing is separate.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/process-logs.md"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "Native SSH and reconnectable programmatic PTY over WebSocket",
+      "notes": "Native SSH key registration uses user auth, not API key; CLI ssh is PTY, not native forwarding/file transfer. PTY API auth plus attach token; create API documents max 64 concurrent PTY sessions per sandbox (429 when reached), separate from sandbox concurrency/API throughput. Disconnect leaves shell until independent 300-second no-client cleanup. Remote SSH supported; /tmp excluded from filesystem snapshots. Idle-open connection preventing sandbox suspension is conflicting across lifecycle/networking blog.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/api-reference/v2/pty/create.md",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "unknown",
+      "value": null,
+      "notes": "Create OpenAPI declares secret_names for sandbox injection and restore API says memory-checkpoint secrets cannot be changed on restore; no verified managed store linkage, provisioning, rotation or access guarantees. Current official Python create signature and Rust create model omit secret_names, reinforcing API/SDK surface skew rather than absence. Ordinary env maps exist; Crabbox integration allowlists local shell secrets with --allow-env, injects for one command then removes them, not a vendor managed secret store. applications/secrets encrypted @function store is Orchestration scope and cannot establish sandbox management. Full sandbox-managed design remains unknown.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restore.md",
+        "https://docs.tensorlake.ai/sandboxes/environment-variables.md",
+        "https://docs.tensorlake.ai/sandboxes/crabbox.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/crates/cloud-sdk/src/sandboxes/models.rs",
+        "https://docs.tensorlake.ai/applications/secrets.md"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Project-scoped API keys and sandbox proxy auth; Enterprise advertises SSO/SAML/RBAC",
+      "notes": "SDK/REST keys select project and inherit project-member permissions; management port 9501 always auth, user ports can be explicitly public. Browser proxy accepts session cookie plus project/org; proxy strips platform cookie. SSO requires organization enablement/admin, supports OIDC/SAML and does not revoke API keys; bypass admins retain password login. Access-control docs contradict themselves on member key-creation permission; BYOC project-admin key terminology also conflicts with generic key docs. Pro+ HIPAA/BAA is commercial compliance, not secret management.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/authentication.md",
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/platform/access-control.md",
+        "https://docs.tensorlake.ai/platform/sso.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Harbor, Claude Managed Agents, OpenCode, Cursor Cloud Agents, Devin Outposts, computer use, Chrome CDP",
+      "notes": "Listed in the docs index and homepage.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/llms.txt",
+        "https://tensorlake.ai/"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for the official tensorlakeai/tensorlake repository",
+      "notes": "The official repository LICENSE is Apache-2.0, and its README documents the Sandbox API/client and CLI. This establishes the license of that public source repository, not that every production Sandbox control-plane/runtime component is included or that the complete hosted service can be self-hosted. The prior unsupported conclusion concerned the broader deployable service/runtime and was too broad for this field; exact service component boundaries remain unverified.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/LICENSE",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md",
+        "https://github.com/tensorlakeai/tensorlake"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Host-enforced deny-all with allow_internet_access=false and empty allow_out includes DNS; egress is open by default. Ingress/SSH/authenticated tunnels are separate. Dynamic update connection/resolution behavior conflicts across networking, Harbor and firewall blog; not a blanket isolation guarantee.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://tensorlake.ai/blog/updating-egress-policies-on-running-sandboxes"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "Non-empty allow_out default-deny; leading wildcard excludes apex, IPv4/CIDRs, deny precedence/no denywildcards per docs. Resolver DNS conditional. Current SDK :port suffix not port-specific; Harbor no IPv6. TCP hostname vs UDP/QUIC enforcement differs. Update API/SDK established-flow permission conflicts with networking close-old-flow claim.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://tensorlake.ai/blog/updating-egress-policies-on-running-sandboxes",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/update.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/models.py"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "HTTPS/WS/gRPC routes only explicitly exposed user ports at https://<port>-<sandbox-id-or-name>.sandbox.tensorlake.ai; project auth by default, public only with allow_unauthenticated_access. Management 9501 always auth. Raw TCP uses separate caller-local authenticated tunnels. Named suspended services can auto-resume; use returned ingress_endpoint for placement.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/networking.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/tunnels.md"
+      ]
+    },
+    "private_networking": {
+      "value": "partial",
+      "note": "AWS BYOC VPC execution requires Self-hosted Compute enablement/onboarding; Tensorlake Cloud control plane remains. Proxy may be Tensorlake-peered or customer-operated with EKS/NLB/public HTTPS domain. General hosted private networking is unresolved; Enterprise advertises In-VPC/on-prem.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Filesystem default cold-boots; memory captures files/memory/processes, not external connection continuity. SDK local_ready default is resumable; completed required for durable snapshot_uri metadata/image registration. /tmp excluded from filesystem snapshots. Memory image/CPU/memory/entrypoint/secrets fixed per restore API; managed secret store still unverified. Harbor Compose no snapshot_id; complete retention/billing unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restore.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://docs.tensorlake.ai/sandboxes/images.md"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": "partial",
+      "note": "Named suspend checkpoints files/memory/processes then tears down live container; resume logical identity may use another host. Processes do not advance suspended, external connections dropped; missing/not-ready snapshot prevents resume. Explicit memory checkpoint differs from default filesystem cold boot.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/resume.md",
+        "https://tensorlake.ai/blog/suspend-vs-snapshot"
+      ]
+    },
+    "pause_resume": {
+      "value": "partial",
+      "note": "Named only; snapshot-backed suspension frees live container/compute, not indefinitely reserved host RAM. Resume same logical ID/name may use another host and requires ready suspend snapshot. 202 means initiated, not settled; clients reconnect. Storage still billed; ephemeral cannot suspend.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/suspend.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/resume.md",
+        "https://tensorlake.ai/blog/suspend-vs-snapshot"
+      ]
+    },
+    "cloning_forking": {
+      "value": "partial",
+      "note": "CLI/HTTP warm copy documented; current official Python and TypeScript source both expose Sandbox.copy. Snapshot docs still say unsupported/unexposed; released-package version/server parity unknown. Source docstrings describe running-source live copy, docs also permit suspended source. No blanket SDK absence or latency guarantee.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/sandbox.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/typescript/src/sandbox.ts"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "Named suspend retains root files; replacement needs an independent snapshot or explicit durable mount. Restart within 48 hours recovers latest usable snapshot only; without one filesystem is fresh. Deletion/termination wording conflicts across lifecycle, SDK and security docs. /tmp excluded from filesystem snapshots.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restart.md",
+        "https://docs.tensorlake.ai/sandboxes/sdk-reference.md",
+        "https://docs.tensorlake.ai/platform/security.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/sandboxes/mount-filesystems.md"
+      ]
+    },
+    "volumes": {
+      "value": true,
+      "note": "Explicit durable filesystem, up to 8 mounts; same-path writes last-writer-wins. Server autosave WAL retains newest 256 generations and all from the last 24 hours; permanent snapshots billed until deleted. Other-machine recovery reaches the last acknowledged autosave; same-machine overlay/local journal can recover unsaved work. Current session/metadata caps and precise detection/salvage/GC intervals unverified. Pins read-only/fleet-gated; invalid runtime attach can terminate sandbox. Git private WAL separate.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/mount-filesystems.md",
+        "https://docs.tensorlake.ai/filesystems/core-concepts.md",
+        "https://docs.tensorlake.ai/filesystems/manage-sessions.md",
+        "https://docs.tensorlake.ai/filesystems/introduction.md"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Registered Dockerfile/SDK build or OCI import; private Docker credentials and custom USER/WORKDIR. --docker_compat fallback requires at least3x builder disk/memory. Existing filesystem snapshot registration needs Completed/durable snapshot_uri, not uploading/local-ready. Harbor public publish allowlist remains gate; full architecture/size/access matrix unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/images.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Install Docker containers and Compose support inside tensorlake/ubuntu-systemd with guest sudo/root. ubuntu-minimal lacks systemd. Harbor single-container tasks lack Docker; Compose uses a DinD host and cannot use snapshot_id.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/docker.md",
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/harbor.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "Managed images use tl-user with passwordless sudo; command APIs permit explicit root user. Guest, not host, privileges. Custom images follow USER/WORKDIR; /workspace not writable by managed default without setup.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/tensorlake-images.md",
+        "https://docs.tensorlake.ai/sandboxes/commands.md"
+      ]
+    },
+    "gpu": {
+      "value": "partial",
+      "note": "BYOC GPU fees advertised. Current SDK accepts eight model names (A100-40GB/A100-80GB/H100/T4/A6000/A10/RTX-PRO-6000/L40); defaults A10 with gpus, requires CAS image or configured GPU default and matching server/dataplane/capacity. Hosted access/limits/regions/rate unresolved; request enum or CUDA image not entitlement.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/sandbox/client.py",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/crates/cloud-sdk/src/sandboxes/models.rs"
+      ]
+    },
+    "self_hosted": {
+      "value": "partial",
+      "note": "Public AWS guide installs customer executors/optional proxy but keeps Tensorlake Cloud control plane; requires project Self-hosted Compute enablement/onboarding. Enterprise advertises on-prem and security offers disconnected mode by contact; independent control-plane install/access terms unresolved.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://docs.tensorlake.ai/platform/security.md"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "AWS EC2 executors and customer S3 documented, optional customer proxy; Tensorlake Cloud scheduling/auth remains. Self-hosted Compute project enablement and onboarding required; Enterprise markets In-VPC/on-prem but exact entitlement terms unresolved. Other clouds advertised, not equivalently documented installation/access.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "The official tensorlakeai/tensorlake repository is Apache-2.0 and includes Sandbox client/CLI plus related source components. The public sources reviewed do not establish that the full hosted Sandbox service/control plane is included or self-hostable. Partial reflects verified open-source components without overclaiming a complete open-source service; prior false inferred no-support classification was too broad for repository-level open source.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/LICENSE",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/src/tensorlake/function_executor/README.md",
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://docs.tensorlake.ai/llms.txt",
+        "https://tensorlake.ai/",
+        "https://github.com/tensorlakeai/tensorlake/blob/main/LICENSE",
+        "https://github.com/Sixt/tensorlake-go"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "start_process keeps work running after return, with signals and optional supervision. Do not assume detached CPU work resets proxy-idle timeout; suspended processes do not progress.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/commands.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "SSH user keys; authenticated WebSocket PTY token; CLI ssh is PTY not native forwarding. Max64 concurrent PTYs per sandbox per create API (429), not API-rate/account-concurrency limit. Disconnected PTYs cleanup300s; whether idle-open terminals prevent sandbox idle suspension conflicts across sources.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://docs.tensorlake.ai/api-reference/v2/pty/create.md",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "Commands can stream stdout and stderr while they run.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/commands.md"
+      ]
+    },
+    "secrets_management": {
+      "value": "unknown",
+      "note": "Create secret_names/restore immutable-secret declarations exist, but current Python/Rust create surfaces omit secret_names; managed store/provisioning/rotation/access unverified. Ordinary env and Crabbox allowlisted per-command shell forwarding are not managed storage. Encrypted @function store remains Orchestration scope.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/applications/secrets.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/environment-variables.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/restore.md",
+        "https://docs.tensorlake.ai/sandboxes/crabbox.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/crates/cloud-sdk/src/sandboxes/models.rs"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "Lifecycle, networking, and snapshot examples use the Python sandbox SDK.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/networking.md"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "The same sandbox APIs are shown for TypeScript.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/networking.md"
+      ]
+    },
+    "go_sdk": {
+      "value": "partial",
+      "note": "A separately maintained Go client exists: Sixt/tensorlake-go documents cloud sandbox create/exec, process control, PTY, suspend/resume and snapshot operations. The official Tensorlake SDK/docs inventory reviewed does not document a vendor-maintained Go Sandbox SDK; the community client is not vendor endorsement or a tested compatibility guarantee. Partial distinguishes available third-party client code from official support.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/llms.txt",
+        "https://docs.tensorlake.ai/sandboxes/quickstart.md",
+        "https://docs.tensorlake.ai/sandboxes/sdk-reference.md",
+        "https://raw.githubusercontent.com/tensorlakeai/tensorlake/main/README.md",
+        "https://raw.githubusercontent.com/tensorlakeai/cloud-sdk/main/README.md",
+        "https://tensorlake.ai/",
+        "https://github.com/Sixt/tensorlake-go"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The tl CLI creates, suspends, resumes, checkpoints, and copies sandboxes.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/sandboxes/snapshots.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Docs cover Harbor, Claude Managed Agents, OpenCode, Cursor Cloud Agents, Devin Outposts, and computer use.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/llms.txt",
+        "https://tensorlake.ai/"
+      ]
+    },
+    "max_vcpu": {
+      "value": 16,
+      "note": "Pro lists 16 vCPU per sandbox. Enterprise is Custom with no higher number. Free is 1 and Usage Credits is 4.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "Pro plan ceiling is published as 64 GB, not GiB; no silent conversion. Paid RAM ratio 1-8 GB/vCPU and plan ceiling both apply, not an entitlement to 128 GB. Lifecycle MB, API MiB and billing GiB-hours disagree; exact GiB ceiling unresolved. Enterprise custom.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "No finite cross-plan wall-clock maximum established: Pro/Enterprise unlimited, Free 2h and Usage Credits 24h published as session duration but lifecycle calls timeout_secs idle threshold. API distinguishes Free unverified 1h/verified 2h. Do not equate idle maximum with fixed active lifetime.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": 600,
+      "note": "Default600s proxy-idle, named suspend/ephemeral terminate. Lifecycle/open-terminal docs count connected SSH/PTY; June17 network blog counts actual bytes and says idle-open connection does not pin sandbox. Detached CPU keepalive not established. Plan verification/maxima and separate PTY300s cleanup remain; exact activity enforcement unresolved.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/pty-sessions.md",
+        "https://tensorlake.ai/blog/near-zero-overhead-sandbox-networking"
+      ]
+    }
+  },
+  "pricing_summary": "USD hosted plans: Free $0 forever with unmetered sessions within limits; Usage Credits prepaid packs start at $5/500 CUs; Pro $250/month includes 25,000 CU then $0.01/CU overage; Enterprise custom. Usage Credits/Pro rates: CPU $0.07/$0.042 per core-hour, RAM $0.015/$0.009 per GB-hour, root disk $0.0002/$0.0001 per GB-hour, suspended snapshot storage $0.07 per GB per fixed 30-day month. Active CPU metering falls back to allocated vCPU when samples are unavailable/untrustworthy; RAM/disk allocation-based while running. Runtime measured per second; whole CUs pooled per organization, not a documented per-sandbox one-cent minimum. Hosted egress free; suspended running-resource charges stop but storage continues. GB/MB/MiB/GiB source ambiguity unresolved. Build, standalone snapshot, volume/Git storage and I/O/ingress rates are not fully published. BYOC announcement publishes CPU platform fees starting 30% of compute costs (as low as 10% at scale) and GPU 5% (as low as 2%); customer infrastructure costs extra and access/contract terms require onboarding.",
+  "pricing": [
+    {
+      "item": "Plan fee",
+      "plan": "Free",
+      "published_price": "$0 forever",
+      "conditions": "USD; no credit card; unmetered sessions within 1 concurrent sandbox/1 vCPU/1 GB RAM/10 GB disk limits, not a promotional grant. Published duration 2 hours, but create API distinguishes unverified 1 hour/verified 2 hours and lifecycle treats timeout as proxy-idle threshold, not wall-clock cap. No complete Free snapshot/volume retention allowance established.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/api-reference/v2/sandboxes/create.md",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Usage Credits",
+      "published_price": "Prepaid packs starting at $5",
+      "conditions": "USD; no monthly fee stated. 1 CU=$0.01; $5/500 CUs, $10/1,000, $20/2,000. Up to 100 concurrent/4 vCPU/16 GB RAM/100 GB disk; published 24-hour duration is timeout maximum per lifecycle, not established wall-clock cap. Zero balance blocks new activity/stops running sandboxes rather than postpaid overage. Unused credits retained, not refunded; returning to Usage Credits requires buying a new pack.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Pro",
+      "published_price": "$250 per billing cycle",
+      "conditions": "Includes 25,000 CU, described as $250 of usage at Pro rates. Overage is $0.01 per CU. 1,000 concurrent sandboxes, 16 vCPU, 64 GB RAM, unlimited session duration. Self-serve cycle is monthly.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Enterprise",
+      "published_price": "Custom quote",
+      "conditions": "USD marketing; unlimited concurrency/custom resource ceilings, In-VPC/on-prem/SSO/SAML/RBAC advertised. Contact/onboarding required, not a public fixed rate or ungated access.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    {
+      "item": "Active CPU",
+      "plan": "Usage Credits",
+      "published_price": "$0.07 per core-hour",
+      "conditions": "USD; runtime measured by second. Active execution excludes idle/I/O wait only when active metering is available. Marketing pricing FAQ and pricing-limits FAQ say unavailable/untrustworthy samples fall back to allocated vCPU time for that sandbox generation; billing page itself omits fallback. No utilization assumed. Hosted rate, not BYOC infrastructure cost.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/faqs/pricing-limits-faq.md"
+      ]
+    },
+    {
+      "item": "Active CPU",
+      "plan": "Pro",
+      "published_price": "$0.042 per core-hour",
+      "conditions": "USD; runtime measured by second, active execution when metering available; unavailable/untrustworthy active samples fall back to allocated vCPU time for sandbox generation. No utilization inferred; price item retains its own qualification independent of other receipts.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/faqs/pricing-limits-faq.md"
+      ]
+    },
+    {
+      "item": "RAM",
+      "plan": "Usage Credits",
+      "published_price": "$0.015 per GB-hour",
+      "conditions": "Allocation-based while the sandbox is running. The same billing doc says the usage tab shows GiB-hours.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "RAM",
+      "plan": "Pro",
+      "published_price": "$0.009 per GB-hour",
+      "conditions": "Allocation-based while running.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "Root disk",
+      "plan": "Usage Credits",
+      "published_price": "$0.0002 per GB-hour",
+      "conditions": "Allocation-based while running.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "Root disk",
+      "plan": "Pro",
+      "published_price": "$0.0001 per GB-hour",
+      "conditions": "Allocation-based while running.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "Snapshot storage",
+      "plan": "Usage Credits and Pro",
+      "published_price": "$0.07 per GB-month",
+      "conditions": "Billed while suspended. Pricing page says a fixed 30-day month. Enterprise is custom. The docs do not say whether a memory-preserving suspend bills filesystem size, filesystem plus RAM, or measured artifact size.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/billing.md"
+      ]
+    },
+    {
+      "item": "Suspended compute",
+      "plan": "Usage Credits and Pro",
+      "published_price": "No running CPU, RAM or root-disk charge while suspended",
+      "conditions": "Named sandboxes only; preserved state still billed as snapshot storage at $0.07/GB-month. Waiting while running still incurs RAM/root-disk allocation, with CPU fallback possible; suspend is not free retained storage.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md",
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/faqs/pricing-limits-faq.md"
+      ]
+    },
+    {
+      "item": "Network egress",
+      "plan": "Usage Credits and Pro",
+      "published_price": "Free",
+      "conditions": "Pricing page says network egress is free.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    {
+      "item": "Billing increment",
+      "plan": "Usage Credits and Pro",
+      "published_price": "Measured by the second; whole compute units of $0.01 are billed",
+      "conditions": "USD; 1 CU=$0.01. Usage pooled across organization before whole-CU billing, not a documented one-cent minimum per sandbox. Exact rounding cadence/minimum runtime charge not published in reviewed sources; do not infer zero minimum.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    {
+      "item": "BYOC CPU platform fee",
+      "plan": "Self-hosted Compute (contact/onboarding)",
+      "published_price": "Starting at 30% of compute costs; as low as 10% at scale",
+      "conditions": "Official July 28, 2026 announcement; platform fee in addition to customer compute/storage/network. Scale-discount eligibility/minimum spend/contract terms not published; illustrative machine/comparison bills are not general per-sandbox prices. Enterprise In-VPC/on-prem marketed; project enablement required.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://docs.tensorlake.ai/platform/self-hosted-compute/aws.md",
+        "https://tensorlake.ai/pricing"
+      ]
+    },
+    {
+      "item": "BYOC GPU platform fee",
+      "plan": "Self-hosted Compute (contact/onboarding)",
+      "published_price": "Starting at 5% of compute costs; as low as 2% at scale",
+      "conditions": "Official July 28, 2026 announcement, not hosted GPU SKU/rate or proof of public GPU capacity. Customer accelerator/infrastructure charges extra; hardware/access/scale contract details unresolved.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "item": "Unpublished billing components",
+      "plan": "Hosted and BYOC as applicable",
+      "published_price": "Not established",
+      "conditions": "Reviewed pricing/billing/image/pool/storage docs do not establish complete build/import/preparation/creation charges, warm-buffer/pending billing, standalone checkpoint retention charges, durable volume/Git storage or storage I/O, ingress, taxes or minimum spend. Temporary image builders use resources but charge treatment is not fully stated. Hosted free egress must not erase customer BYOC network/infrastructure cost. Missing price is not free; no complete bill calculated.",
+      "source_urls": [
+        "https://tensorlake.ai/pricing",
+        "https://docs.tensorlake.ai/platform/billing.md",
+        "https://docs.tensorlake.ai/sandboxes/images.md",
+        "https://docs.tensorlake.ai/sandboxes/pools.md",
+        "https://docs.tensorlake.ai/filesystems/core-concepts.md"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Cold start (homepage label)",
+      "published_claim": "COLD START 84ms",
+      "conditions": "Vendor homepage label, not an independent measurement. Exact start/end boundary, image, resources, region and percentile not specified for this figure; SQLite 2 vCPU/~4 GB/3 runs setup is not explicitly attached. Not guaranteed API-to-ready latency: queue docs say host capacity can take minutes, up to 20 minutes bare-metal boot.",
+      "source_urls": [
+        "https://tensorlake.ai/",
+        "https://docs.tensorlake.ai/sandboxes/queued-sandboxes.md"
+      ]
+    },
+    {
+      "metric": "Managed image OS boot",
+      "published_claim": "ubuntu-minimal: a few hundred milliseconds; ubuntu-systemd: around 1 second",
+      "conditions": "Vendor introduction/FAQ, image-specific OS boot not identical to scheduling, dependency preparation or application readiness. No percentile/resources/region specified. FAQ separately says fresh sandbox creation single-digit milliseconds before OS boot. Capacity waits can take minutes; no guaranteed cold create-to-ready SLA.",
+      "source_urls": [
+        "https://docs.tensorlake.ai/sandboxes/introduction.md",
+        "https://docs.tensorlake.ai/faqs/sandboxes-faq.md",
+        "https://docs.tensorlake.ai/sandboxes/queued-sandboxes.md"
+      ]
+    },
+    {
+      "metric": "Sandbox creation illustration",
+      "published_claim": "460 ms for tensorlake/ubuntu-minimal",
+      "conditions": "Single homepage illustrated SDK/CLI run, not a measured statistic; no resource/region/percentile specified. Distinct from 84ms label and OS boot. Image build/import and capacity wait not included or established.",
+      "source_urls": [
+        "https://tensorlake.ai/"
+      ]
+    },
+    {
+      "metric": "Resume",
+      "published_claim": "About a second; one homepage illustration says resumed in 0.9s",
+      "conditions": "Vendor claim and a single illustrated CLI run, not a published percentile.",
+      "source_urls": [
+        "https://tensorlake.ai/"
+      ]
+    },
+    {
+      "metric": "SQLite workload (conflicting official methodology)",
+      "published_claim": "Homepage: p50 2.45 seconds, 100k inserts. Linked vendor repository: mean total 2.45 +/- 0.04 seconds, default mode 60k rows",
+      "conditions": "Homepage says 2 vCPU/4 GB and separately ~4 GB/3 runs. Linked official sandbox-sqlite-bench README instead reports mean +/- standard deviation from 3 runs of 11 operations, default WAL/NORMAL mode 60k rows/8.68 MB/64 MB cache; Tensorlake Python3.12.3/SQLite3.45.1, verified2vCPU/3.9 GB; results dated March17,2026. Not p50 of a matching100k-insert experiment; preserve conflict, no silently reconciled result. Workload total not startup/reset/fork/resume; region unspecified, audit did not execute benchmark.",
+      "source_urls": [
+        "https://tensorlake.ai/",
+        "https://raw.githubusercontent.com/tensorlakeai/sandbox-sqlite-bench/main/README.md"
+      ]
+    },
+    {
+      "metric": "BYOC sandbox start",
+      "published_claim": "Under 500 milliseconds",
+      "conditions": "July 28, 2026 BYOC announcement vendor claim; no percentile/image/resources/region or cold/warm/readiness boundary specified. Customer capacity/onboarding applies; scheduler throughput and advertised project scale are separate, not per-account quota or latency.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc"
+      ]
+    },
+    {
+      "metric": "BYOC suspend or resume",
+      "published_claim": "Less than two seconds",
+      "conditions": "July 28, 2026 BYOC announcement vendor claim covering two distinct operations, not a measured percentile or guaranteed application-ready time. No image/resources/region specified; named suspend/resume restriction from lifecycle applies.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/introducing-tensorlake-byoc",
+        "https://docs.tensorlake.ai/sandboxes/lifecycle.md"
+      ]
+    },
+    {
+      "metric": "Scheduler placement",
+      "published_claim": "P50 84 milliseconds versus prior 310 milliseconds at the same load",
+      "conditions": "April14,2026 vendor article on April production fleet across us-east-1,eu-west-1 and internal staging; claimed flat up to roughly30x fleet size. Placement is not create-to-OS/application-ready latency. Same84ms number as homepage cold label does not establish equivalence or attach this percentile/region setup to that label. No independent reproduction/current entitlement guarantee.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/5-million-sandboxes-one-api"
+      ]
+    },
+    {
+      "metric": "Wake suspended sandbox and execute a command",
+      "published_claim": "P50 80 milliseconds at 100k, 1M and 5M concurrent-sandbox tests",
+      "conditions": "April14,2026 vendor article says April production fleet/us-east-1,eu-west-1/internal staging. Wake-plus-command operation, not plain resume or cold create; exact image/resources/command not specified for this result. Test scale not public account quota. No independent reproduction or guaranteed latency.",
+      "source_urls": [
+        "https://tensorlake.ai/blog/5-million-sandboxes-one-api"
+      ]
+    }
+  ],
+  "research_notes": [
+    "GB, GiB, MB, and MiB are all used for memory or disk across the pricing page, billing doc, and lifecycle doc. Rates were copied as published and not converted.",
+    "Active CPU billing depends on measured execution, with an allocated-vCPU fallback. No utilization figure was inferred.",
+    "Snapshot storage size for a memory-preserving suspend and standalone checkpoint/volume/Git storage charge details were not specified; missing rates are not free.",
+    "Sandbox create OpenAPI secret_names and GPU model/count fields are leads, not full managed-secret or hosted GPU availability evidence. Orchestration secrets are a separate product scope; BYOC GPU commercial claim remains gated.",
+    "Official sources conflict on termination/restart/deletion, proxy-idle versus session/lifetime caps, live Cloud Hypervisor resource resizing/pool disk configuration, public image publishing gates, and dynamic egress update/hostname behavior. Fact notes preserve those conflicts for selected-control packets."
+  ]
+}

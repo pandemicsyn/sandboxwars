@@ -1,0 +1,67 @@
+[
+  {
+    "fighterId": "daytona",
+    "evidenceId": "daytona",
+    "productScope": "Daytona sandboxes"
+  },
+  {
+    "fighterId": "e2b",
+    "evidenceId": "e2b",
+    "productScope": "E2B sandboxes"
+  },
+  {
+    "fighterId": "tensorlake",
+    "evidenceId": "tensorlake",
+    "productScope": "Tensorlake Sandboxes"
+  },
+  {
+    "fighterId": "vercel",
+    "evidenceId": "vercel",
+    "productScope": "Vercel Sandbox"
+  },
+  {
+    "fighterId": "modal",
+    "evidenceId": "modal",
+    "productScope": "Modal Sandboxes"
+  },
+  {
+    "fighterId": "cloudflare",
+    "evidenceId": "cloudflare",
+    "productScope": "Cloudflare Sandbox"
+  },
+  {
+    "fighterId": "boxd",
+    "evidenceId": "boxd",
+    "productScope": "Boxd"
+  },
+  {
+    "fighterId": "prime-intellect",
+    "evidenceId": "prime-intellect",
+    "productScope": "Prime Sandboxes"
+  },
+  {
+    "fighterId": "docker",
+    "evidenceId": "docker",
+    "productScope": "Docker Sandboxes"
+  },
+  {
+    "fighterId": "boat",
+    "evidenceId": "boat",
+    "productScope": "Boat"
+  },
+  {
+    "fighterId": "aws",
+    "evidenceId": "aws-bedrock-agentcore",
+    "productScope": "AgentCore Code Interpreter"
+  },
+  {
+    "fighterId": "gcp",
+    "evidenceId": "gcp-cloud-run-sandboxes",
+    "productScope": "Cloud Run sandboxes"
+  },
+  {
+    "fighterId": "exe",
+    "evidenceId": "exe-dev",
+    "productScope": "exe.dev Standalone VMs"
+  }
+]

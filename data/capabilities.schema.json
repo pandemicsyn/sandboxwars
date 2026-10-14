@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sandboxwars.local/capabilities.schema.json",
+  "title": "Sandbox provider capabilities",
+  "description": "Typed capability block stored beside facts on a launch-roster dossier. Pricing stays plain language on pricing_summary and is not part of this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "network_isolation",
+    "egress_allowlist",
+    "inbound_ports_or_preview_urls",
+    "private_networking",
+    "snapshots",
+    "memory_snapshot_or_live_resume",
+    "pause_resume",
+    "cloning_forking",
+    "persistent_filesystem",
+    "volumes",
+    "custom_images",
+    "docker_in_sandbox",
+    "root_sudo",
+    "gpu",
+    "self_hosted",
+    "byoc",
+    "open_source",
+    "background_processes",
+    "terminal_pty",
+    "command_streaming",
+    "secrets_management",
+    "python_sdk",
+    "typescript_sdk",
+    "go_sdk",
+    "cli",
+    "mcp_or_agent_integrations",
+    "max_vcpu",
+    "max_memory_gib",
+    "max_session_duration_seconds",
+    "idle_timeout_seconds"
+  ],
+  "properties": {
+    "network_isolation": { "$ref": "#/$defs/flag" },
+    "egress_allowlist": { "$ref": "#/$defs/flag" },
+    "inbound_ports_or_preview_urls": { "$ref": "#/$defs/flag" },
+    "private_networking": { "$ref": "#/$defs/flag" },
+    "snapshots": { "$ref": "#/$defs/flag" },
+    "memory_snapshot_or_live_resume": { "$ref": "#/$defs/flag" },
+    "pause_resume": { "$ref": "#/$defs/flag" },
+    "cloning_forking": { "$ref": "#/$defs/flag" },
+    "persistent_filesystem": { "$ref": "#/$defs/flag" },
+    "volumes": { "$ref": "#/$defs/flag" },
+    "custom_images": { "$ref": "#/$defs/flag" },
+    "docker_in_sandbox": { "$ref": "#/$defs/flag" },
+    "root_sudo": { "$ref": "#/$defs/flag" },
+    "gpu": { "$ref": "#/$defs/flag" },
+    "self_hosted": { "$ref": "#/$defs/flag" },
+    "byoc": { "$ref": "#/$defs/flag" },
+    "open_source": { "$ref": "#/$defs/flag" },
+    "background_processes": { "$ref": "#/$defs/flag" },
+    "terminal_pty": { "$ref": "#/$defs/flag" },
+    "command_streaming": { "$ref": "#/$defs/flag" },
+    "secrets_management": { "$ref": "#/$defs/flag" },
+    "python_sdk": { "$ref": "#/$defs/flag" },
+    "typescript_sdk": { "$ref": "#/$defs/flag" },
+    "go_sdk": { "$ref": "#/$defs/flag" },
+    "cli": { "$ref": "#/$defs/flag" },
+    "mcp_or_agent_integrations": { "$ref": "#/$defs/flag" },
+    "max_vcpu": { "$ref": "#/$defs/quantity" },
+    "max_memory_gib": { "$ref": "#/$defs/quantity" },
+    "max_session_duration_seconds": { "$ref": "#/$defs/quantity" },
+    "idle_timeout_seconds": { "$ref": "#/$defs/quantity" }
+  },
+  "$defs": {
+    "flag": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "note", "source_urls"],
+      "properties": {
+        "value": {
+          "enum": [true, false, "partial", "unknown"]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": { "enum": [true, false, "partial"] }
+            },
+            "required": ["value"]
+          },
+          "then": {
+            "properties": {
+              "source_urls": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "note", "source_urls"],
+      "properties": {
+        "value": {
+          "type": ["number", "null"]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_urls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": { "type": "number" }
+            },
+            "required": ["value"]
+          },
+          "then": {
+            "properties": {
+              "source_urls": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

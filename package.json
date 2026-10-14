@@ -1,0 +1,15 @@
+{
+  "name": "sandboxwars-contributions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "validate": "node scripts/validate-providers.mjs && node scripts/research-tables.mjs --check && npm run validate:art",
+    "research:generate": "node scripts/research-tables.mjs",
+    "validate:art": "node scripts/validate-art.mjs",
+    "test": "node --test scripts/*.test.mjs"
+  }
+}

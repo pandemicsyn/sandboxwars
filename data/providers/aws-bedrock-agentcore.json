@@ -1,0 +1,852 @@
+{
+  "id": "aws-bedrock-agentcore",
+  "name": "Amazon Web Services",
+  "product_name": "Amazon Bedrock AgentCore Code Interpreter",
+  "website": "https://aws.amazon.com/bedrock/agentcore/",
+  "docs_url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "AWS-managed Code Interpreter built-in tool, using a system resource or a custom tool configuration; AWS Paid plan required",
+      "notes": "The AWS Free Tier page labels Amazon Bedrock AgentCore Paid plan exclusive; the AWS Free plan does not grant access to this managed tool even with a credit balance. Paid plan is an account access gate, not a required recurring Code Interpreter subscription; usage beyond eligible credits is billed. Also requires configured credentials, Code Interpreter IAM permissions and a supported region. aws.codeinterpreter.v1 is the default system tool; custom configurations change network, execution-role, certificate and mount settings, not the compute deployment model. Direct tool execution does not require a Bedrock model; model access is a prerequisite of the agent tutorial. This evidence excludes AgentCore Runtime, Runtime Instances and Browser Tool.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-getting-started.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-using-directly.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-management.html",
+        "https://aws.amazon.com/free/"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for self-hosting the managed Code Interpreter",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. Docs/marketing, Create/Start/Invoke APIs, official SDK and MCP repositories describe clients for the managed tool, not a deployable interpreter server; see the audit second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://raw.githubusercontent.com/awslabs/mcp/main/src/amazon-bedrock-agentcore-mcp-server/README.md"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for customer-cloud Code Interpreter compute/control-plane deployment",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. VPC mode creates service-managed ENIs in customer subnets; S3 Files/EFS are customer storage, not customer-owned interpreter compute. Docs/marketing/API/SDK second pass found no exact-tool BYOC deployment; Runtime Instances are a separate product.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python AgentCore SDK/Boto3, TypeScript AgentCore SDK/JavaScript AWS SDK v3, and AWS SDK for Go v2",
+      "notes": "The TypeScript reference v0.4.1 documents CodeInterpreter, not just Runtime. Official Go source implements InvokeCodeInterpreter and an event stream. The API also links .NET, C++, Java, Kotlin, PHP and Ruby SDKs. Control plane is bedrock-agentcore-control; data plane is bedrock-agentcore. SDK languages are client languages, not additional executable guest languages; AWS CLI is separately recorded.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-using-directly.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://raw.githubusercontent.com/aws/aws-sdk-go-v2/main/service/bedrockagentcore/api_op_InvokeCodeInterpreter.go",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "The reviewed official sources name AWS SDKs and agent integrations, but do not enumerate community interpreter-management SDKs. This omission does not establish that third-party clients do not exist; retain unknown. Community SDK availability is distinct from the official AWS SDK for Go/Python and guest runtimes.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-using-directly.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Authenticated regional HTTP control-plane and session/tool APIs",
+      "notes": "CreateCodeInterpreter configures a managed tool; StartCodeInterpreterSession starts a session and InvokeCodeInterpreter returns an execution-result event stream. IAM authorizes caller operations. An HTTPS AWS API endpoint is not an endpoint for a user server inside the sandbox. PrivateLink supports built-in-tool data and control planes.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "AWS CLI",
+      "notes": "Examples use aws bedrock-agentcore start-code-interpreter-session. Inside a session, the shell can also run AWS CLI commands.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Python (python runtime), JavaScript and TypeScript (nodejs or deno runtimes)",
+      "notes": "The runtime-selection table lists these exact runtime identifiers; nodejs supports CommonJS for JavaScript and ESM for TypeScript. No default runtime, language version or Deno package-compatibility guarantee is established by that page. Python SDK clear_context resets Python context only and is ignored for JavaScript/TypeScript; language-context reset is not full environment reset/clone. Client SDK languages do not expand guest languages, and the guest OS/version remains unestablished.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-runtime-selection.html",
+        "https://raw.githubusercontent.com/aws/bedrock-agentcore-sdk-python/main/src/bedrock_agentcore/tools/code_interpreter_client.py",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-preinstalled-libraries.html"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Containerized sandbox; the pricing page also calls the session a microVM",
+      "notes": "The developer guide says code runs in a containerized environment. The pricing key details say the session spans microVM boot through microVM shutdown. The session-characteristics page says each tool session runs in a dedicated microVM. All three wordings are kept.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "unknown",
+      "value": null,
+      "notes": "The managed tool has an OS trust store and POSIX-mounted files, but its exact guest OS/distribution/version and selectable OS options are not established after targeted docs/marketing/API/SDK review. Runtime's Amazon Linux/container OS statements have unclear applicability to this exact built-in tool and are not copied. This is an unresolved OS identity, not an inference that the tool has no operating system; see the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-runtime-selection.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-root-ca-certificates.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Non-adjustable 2 vCPU/8 GB session hardware; CPU billed on actual consumption",
+      "notes": "Code Interpreter quotas specify 2vCPU/8GB per session, not an instance-size menu. Pricing says no upfront resource selection, not unlimited CPU. FAQ wording about specific instance types is not backed by a Code Interpreter size selector in CreateCodeInterpreter. CPU is not charged when consumption is zero during I/O wait; background/system CPU remains billable. API rates and account concurrency are separate limits.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "8 GB per-session hardware limit; peak memory up to each second is billed, with a 128MB minimum",
+      "notes": "The hardware quota is non-adjustable 2vCPU/8GB. GB is retained as published, not silently converted to GiB. The Code Interpreter pricing example charges memory for the entire session, including I/O wait; no Code Interpreter idle-memory reclamation or free suspension is established. Runtime v2 reclamation does not apply to this tool.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "10 GB non-adjustable disk per session; 100 MB request/response payloads and inline uploads; terminal S3 upload up to 5 GB",
+      "notes": "Disk capacity, inline payload size and S3 transfer size are distinct limits. Local files are ephemeral; Code Interpreter has no managed session-storage option. Optional customer S3 Files/EFS mounts persist separately, require VPC/IAM setup and incur their own storage/I/O charges. No separate local-disk or interpreter image-build rate is established; missing rates are not zero.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for GPUs in Code Interpreter sessions",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. Exact-tool quotas give non-adjustable 2vCPU/8GB and Create/Start APIs expose no GPU option. Docs/marketing/API/SDK searches found GPU claims for Runtime Instances, not this managed built-in tool. No GPU count, type or rate is inferred.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for custom Code Interpreter images/Dockerfiles",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. Managed pre-built runtimes, pip packages, network/session settings and mounts are documented; CreateCodeInterpreter has no image/registry/build field. Runtime ECR/container deployment is a separate product. No image-preparation price or reusable-image/reset latency is inferred.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-preinstalled-libraries.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Pre-installed Python/Node.js libraries and Python pip installation through the official SDK/MCP tool",
+      "notes": "Official Python SDK install_packages validates package specifiers and invokes executeCommand with pip install; the awslabs MCP tool wraps that method. Downloaded packages require reachable repositories under the selected network policy; SANDBOX mode does not establish public PyPI access. No arbitrary npm/apt compatibility, root/sudo, custom image or installed-package persistence after termination is inferred. Python SDK helper parameters do not expose every API option (for example runtime selection and session mounts); direct Boto3/API access is available.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-preinstalled-libraries.html",
+        "https://raw.githubusercontent.com/aws/bedrock-agentcore-sdk-python/main/src/bedrock_agentcore/tools/code_interpreter_client.py",
+        "https://raw.githubusercontent.com/awslabs/mcp/main/src/amazon-bedrock-agentcore-mcp-server/awslabs/amazon_bedrock_agentcore_mcp_server/tools/code_interpreter/execution.py",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-management.html"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "unknown",
+      "value": null,
+      "notes": "The reviewed shell, package-installation, filesystem and mount references do not establish the Code Interpreter guest privilege level. POSIX mount identity and service-managed certificate installation are separate; retain unknown rather than infer root or its absence.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "unknown",
+      "value": null,
+      "notes": "The exact Code Interpreter API/SDK references reviewed do not establish whether Docker or a nested daemon can run inside the guest. Containerized service hosting and sibling Runtime container deployment do not answer this guest capability; retain unknown.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Asynchronous command execution with startCommandExecution, getTask and stopTask",
+      "notes": "Synchronous requests time out at 15 minutes; asynchronous commands have an 8-hour maximum, still bounded by the session's fixed TTL (default 900 seconds, maximum 28800), regardless of ongoing activity. Active background/system CPU is billable and retained peak memory remains billed while waiting. Stopping or expiring a session terminates its microVM; this is not live resume or a persistent service.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "File upload and download in the session, including S3 through terminal commands",
+      "notes": "Inline upload is up to 100 MB. Terminal upload to S3 is up to 5 GB.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Ephemeral local session files; optional customer-managed S3 Files/EFS mounts persist across sessions",
+      "notes": "Code Interpreter explicitly has no managed session storage. Recovery of mount data requires a new session configured with the same surviving access point; mounts are shared, not isolated session snapshots, and do not preserve process memory or the root disk. Requires VPC mode, supported AZ/mount-target overlap, execution-role ClientMount/ClientWrite permissions and TCP 2049; storage/I/O is separately priced. A failed mount prevents READY. The characteristics page says local data is cleaned up at termination yet also states session-data TTL is 30 days; no retrieval/restore procedure clarifies that conflict, so 30-day recoverability is not established.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://aws.amazon.com/s3/pricing/",
+        "https://aws.amazon.com/efs/pricing/"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Customer S3 Files/EFS access points mounted at unique /mnt/<name> paths; up to 4 of each, 8 total effective mounts",
+      "notes": "The filesystem guide permits 2 S3 Files plus 2 EFS at tool creation and another 2 plus 2 at session start. API array-shape maxima (10 entries per request) are not the same as those operational limits. Both require VPC mode, execution-role mount/write permissions, matching mount-target AZs and NFS TCP 2049. Access-point POSIX UID/GID controls file operations. Shared customer storage survives session teardown but is neither a durable root disk nor a filesystem snapshot; deleting underlying storage/access points breaks subsequent attachment. All mounts start in parallel; one failure fails session start.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for pausing/resuming Code Interpreter sessions",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial of every possible mechanism. Lifecycle/API/SDK references document start, invoke and stop, not suspension. Stop releases resources, terminates the microVM and sanitizes memory; retained external mount files require a new session. No suspended price is established.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "Session memory is sanitized when the session ends",
+      "notes": "State is kept between executions in one live session. The session-characteristics page says that when the session is terminated, the session no longer persists and the data is cleaned up, and that upon session completion the microVM is fully terminated and its memory is sanitized. The same page says the time to live (TTL) retention policy for the session data is 30 days. Both sentences are kept.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for save/restore of Code Interpreter filesystem snapshots",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. API/SDK/lifecycle/storage and marketing second pass establishes external mounts and file export, not a tool snapshot/restore operation. The ambiguous 30-day session-data TTL supplies no restore mechanism. Runtime v2 snapshots and Runtime managed storage are separate products; external storage backup does not automatically establish an interpreter snapshot API.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for cloning/forking Code Interpreter sessions",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. Starting multiple isolated sessions or attaching the same shared mount does not copy the source session's filesystem/process state. Lifecycle/API/SDK and marketing second pass found no clone/fork operation; clearContext resets language context, not a filesystem clone or environment reset.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "PUBLIC enables internet egress; SANDBOX restricts external access; VPC has no internet by default",
+      "notes": "System resources use restrictive defaults; custom tools choose PUBLIC, SANDBOX or VPC. SANDBOX permits S3 operations, not complete offline isolation. VPC can gain internet access through private-subnet routes to NAT; a public subnet alone does not give a tool a public IP. Egress is not user-service ingress. Network transfer is separately billed at standard EC2 rates.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "SANDBOX restricts external access to S3; custom VPC tools support security-group destination/protocol/port allow rules",
+      "notes": "AgentCore explicitly applies security groups to Code Interpreter ENIs. For VPC allowlisting, remove the default allow-all egress rule and allow chosen IPv4/IPv6 CIDRs, prefix lists or security groups and protocols/ports; multiple groups' allows aggregate. Security groups have allow rules, not deny rules, and cannot block Route 53 Resolver DNS; this is not a documented domain/SNI allowlist or a blanket offline guarantee. IAM gates tool use and execution-role access; NAT/routes determine internet reachability. The Code Interpreter API uses networkConfiguration.vpcConfig; older VPC guide examples instead show networkModeConfig. S3 transfer and AWS API HTTPS access do not establish HTTPS ingress to a user server.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CodeInterpreterNetworkConfiguration.html"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for user-service ingress into Code Interpreter sessions",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. Network configuration, Invoke/Start APIs, SDKs, marketing and targeted searches establish no exposed-port mechanism. PrivateLink is caller-to-AWS-tool API access; TCP 2049 is tool-to-storage NFS. VPC ENIs and outbound connectivity do not establish externally reachable HTTPS, TCP or SSH guest services.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter HTTPS preview URLs",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. No port proxy, hostname, TLS/authentication or server-binding contract was established after docs/API/SDK and marketing second pass. AWS HTTPS invocation endpoints and S3 file downloads are not preview ingress. Runtime WebSocket/PTY URLs and Browser live view are outside scope.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "documented",
+      "value": "Custom-tool VPC connectivity to private resources, plus PrivateLink access to built-in-tool APIs",
+      "notes": "VPC mode uses customer subnets/security groups and service-managed ENIs, requiring supported AZs and IAM permissions for AWSServiceRoleForBedrockAgentCoreNetwork. It is not BYOC compute or public ingress. No internet by default; private subnets need NAT/routes for public egress. S3 Files/EFS additionally require mount-target AZ overlap and TCP 2049. CreateCodeInterpreter uses vpcConfig; the VPC guide's older networkModeConfig examples conflict with the API and filesystem examples.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CodeInterpreterNetworkConfiguration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Default 1000 concurrent active Code Interpreter sessions per account per Region; default 1000 tool configurations per account per Region",
+      "notes": "The guide states that each quota is Region-specific unless otherwise noted; the Code Interpreter account rows do not override that scope. Both quotas are adjustable through a support ticket, not hard maxima, unlimited or guaranteed available capacity; the effective quotas for a particular account/Region are not established. Each session has isolated CPU/memory/local filesystem, but optional customer mounts are shared. Start/Invoke/Stop API rates are separate limits; Runtime quotas are not substituted.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Fixed session TTL: default 900 seconds, configurable 1-28800 seconds (8-hour maximum)",
+      "notes": "StartCodeInterpreterSession defines TTL as termination regardless of ongoing activity, recommends a 60-second minimum, and accepts 1-28800 seconds. It is set when starting a session, not a documented live extension or idle timer. Synchronous requests have a separate 15-minute timeout; asynchronous commands have an 8-hour ceiling but cannot outlive the session. Stop ends the microVM and sanitizes memory; longer workflows must explicitly export/remount durable files into new sessions, not assume live resume.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "unknown",
+      "value": null,
+      "notes": "No separate inactivity timer was established after session API/SDK, quotas, lifecycle, pricing and marketing review. The documented 900-second default is fixed TTL regardless of activity, not idle detection. Zero CPU consumption during wait avoids CPU charges, but Code Interpreter memory is billed on peak usage through the session with a 128MB floor; Runtime v2 idle-memory reclamation is not tool evidence.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Default per-account per-Region rates: Create/DeleteCodeInterpreter 5 TPS each; Get/List tools and Start/Get/List/Stop sessions and InvokeCodeInterpreter 30 TPS each",
+      "notes": "The guide's Region-specific-unless-noted rule applies to these per-account rows. These defaults are adjustable; effective account/Region quotas are not established and increases or available throughput are not guaranteed. They are separate from the default 1000 concurrent sessions and 1000 tool configurations per account per Region. Frequent create/teardown workloads must distinguish creating a tool configuration from starting a session on an existing tool; no reset/clone latency is established. The Invoke API documents throttling and service-quota errors. Only Code Interpreter rows are used, not Runtime rates.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "Supported-regions table marks Built-in Tools Yes in 22 listed regions, including GovCloud US-West",
+      "notes": "There is no separate Code Interpreter row. Built-in Tools is Yes for US East (N. Virginia/Ohio), US West (N. California/Oregon), Europe (Frankfurt/Ireland/London/Milan/Paris/Spain/Stockholm), Asia Pacific (Malaysia/Mumbai/Hyderabad/Singapore/Sydney/Thailand/Tokyo/Seoul), Canada Central, Sao Paulo and GovCloud US-West. The generic FAQ says fifteen AgentCore regions, a narrower list than the feature-specific table; retain the discrepancy. VPC requires the documented supported AZ IDs, not every AZ. Tool IAM/account access, certificate account enablement and underlying mount-service availability must be checked separately; regional tool availability does not establish universal feature gates or identical prices. GovCloud documentation confirms Code Interpreter scope and export-controlled metadata restrictions.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-regions.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-bedrock-agentcore.html"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "InvokeCodeInterpreter returns a stream",
+      "notes": "The S3 example iterates response[\"stream\"]. The overview says execution results are returned and processed as streams.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "CloudTrail logging and CloudWatch metrics",
+      "notes": "The overview names CloudTrail. The session page says tool metrics are in CloudWatch. Observability is charged as CloudWatch.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for interactive PTY/terminal resize in Code Interpreter",
+      "notes": "Conservative documented-support audit inference, not an explicit AWS denial. executeCommand and asynchronous task polling are documented, not an interactive terminal. TypeScript/Python SDK Runtime openShell/PTY references are scoped to Runtime, not Code Interpreter; no tool PTY operation was found in API/SDK/docs/marketing second pass.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "IAM execution role for AWS access; conditionally enabled Secrets Manager-backed root CA certificates installed in the session OS trust store",
+      "notes": "Certificate retrieval uses caller credentials and requires secretsmanager:GetSecretValue. Feature must be enabled for the account; the guide says contact AWS Support if it is not enabled. Valid PEM X.509 string secrets only; certificates cannot be modified during the session. Guide limits are 10/tool plus 10/session (20 combined), while API shape maxima say 200. This conditional certificate integration and execution-role credentials do not establish arbitrary secret environment injection, an interpreter vault or sibling Identity token injection.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-root-ca-certificates.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Caller IAM authorization, interpreter execution role, and optional VPC/PrivateLink policies",
+      "notes": "AWS account/credentials and Code Interpreter actions on the correct regional resource are required. Execution role grants sandbox AWS-service access; VPC uses a network service-linked role and supported AZ/subnet/security-group configuration. Filesystem mounts require scoped ClientMount/ClientWrite (S3 Files also GetAccessPoint). Root CA secrets use caller GetSecretValue, not an assumed general-purpose injection API. PrivateLink policies can restrict IAM principals invoking Code Interpreter APIs; they do not publish a server in the guest. Bedrock model access belongs to the agent tutorial, not direct code execution.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-getting-started.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-root-ca-certificates.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Strands and LangChain examples, TypeScript Strands/Vercel AI SDK adapters, official awslabs MCP server, and LangChain Deep Agents integration",
+      "notes": "These call the managed Code Interpreter, not a self-hosted interpreter. TypeScript Strands helpers are under an experimental import path in the v0.4.1 reference. The official MCP server requires AWS credentials and its compute operations incur AWS charges. Direct tool use is model/framework independent; tutorial Claude model access is not a blanket tool prerequisite.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-building-agents.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://raw.githubusercontent.com/awslabs/mcp/main/src/amazon-bedrock-agentcore-mcp-server/README.md",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Apache-2.0 for the official Python client SDK; hosted Code Interpreter engine license is not established",
+      "notes": "The SDK LICENSE.txt covers client code only. Neither an open SDK nor the official MCP server establishes an open-source/self-hostable interpreter server. No hosted-engine open-source license was found after docs/marketing/API and repository second-pass review.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/aws/bedrock-agentcore-sdk-python/main/LICENSE.txt",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": "partial",
+      "note": "SANDBOX restricts external access but permits S3. Custom VPC tools have no internet by default and apply ENI security-group rules; removing allow-all egress restricts destinations/protocols/ports. Route 53 Resolver DNS cannot be blocked by security groups, so this is not complete offline isolation or a security guarantee.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html"
+      ]
+    },
+    "egress_allowlist": {
+      "value": "partial",
+      "note": "Custom Code Interpreter VPC ENIs use customer security groups. Remove default allow-all egress and allow specific IPv4/IPv6 CIDRs, prefix lists or groups and protocols/ports. Allows aggregate across groups; no deny rules or documented domain/SNI allowlist. Route 53 Resolver DNS is exempt. Requires VPC/subnet/AZ/IAM setup, not merely private networking.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CodeInterpreterNetworkConfiguration.html",
+        "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter guest-service ingress/HTTPS previews. Conservative documented-support audit inference, not an AWS denial. PrivateLink and HTTPS Invoke are AWS API access; S3 transfer/NFS 2049 is not exposed guest ingress. See the audit second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "private_networking": {
+      "value": true,
+      "note": "Custom-tool VPC mode reaches private resources through customer subnets/security groups and service-managed ENIs, with supported AZ and service-linked-role IAM requirements. Internet needs NAT/routes; VPC is neither BYOC compute nor guest-service ingress. PrivateLink supports built-in-tool data/control APIs; mounts additionally need TCP 2049 and AZ overlap.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/vpc-interface-endpoints.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    "snapshots": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter filesystem snapshot save/restore. Conservative documented-support audit inference, not an AWS denial. Shared mounts and ambiguous 30-day data retention do not establish snapshots; Runtime snapshots are out of scope. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "When a session ends, the session no longer persists, the data is cleaned up, and the microVM memory is sanitized.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html"
+      ]
+    },
+    "pause_resume": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter pause/resume. Conservative documented-support audit inference, not an AWS denial. Stop terminates the microVM; reattaching external files to a new session is not live resume. No suspended billing rate established.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-resource-session-management.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "cloning_forking": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter clone/fork. Conservative documented-support audit inference, not an AWS denial. Multiple isolated sessions and a shared mount do not copy session state; clearContext resets language context only. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Local files end with the session; customer S3 Files/EFS mounts persist and can be attached to a new session, requiring VPC/IAM/AZ/TCP 2049 setup and separate storage/I/O billing. Mounts are shared, not durable root disks or memory snapshots. No managed session storage. The same page claims cleanup and 30-day session-data TTL without a restore procedure; 30-day local-file recovery is unresolved.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    "volumes": {
+      "value": true,
+      "note": "Customer S3 Files/EFS access points at unique /mnt/<name> paths: operational guide allows 2 of each on tool create plus 2 of each on session start, up to 8 total. Requires VPC/IAM/AZ/TCP 2049. Shared durable storage, not root-disk recovery. One failed mount fails session startup. API shape maxima of 10 entries per request differ from operational guide limits.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    "custom_images": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter custom images/Dockerfiles. Conservative documented-support audit inference, not an AWS denial. CreateCodeInterpreter exposes no image/build selector; pre-built runtimes and pip dependencies do not establish image support. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": "unknown",
+      "note": "unknown: Code Interpreter shell execution and pip support do not establish an inner Docker daemon. The exact Invoke/SDK surface does not settle guest Docker support; Runtime containers are a separate product.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "root_sudo": {
+      "value": "unknown",
+      "note": "unknown: published shell execution, POSIX mount identities, and service-installed root certificates do not establish the guest user privilege level.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter GPUs. Conservative documented-support audit inference, not an AWS denial. Exact-tool hardware is 2vCPU/8GB; API/SDK has no GPU selector. Runtime Instances GPU support is a sibling feature. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a self-hostable Code Interpreter service. Conservative documented-support audit inference, not an AWS denial. SDK/MCP clients call the managed tool and are not a sandbox server. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "byoc": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for Code Interpreter BYOC compute/control plane. Conservative documented-support audit inference, not an AWS denial. Customer VPC ENIs and customer storage are connectivity/data integrations, not customer-owned interpreter compute. Runtime Instances are outside scope.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_CreateCodeInterpreter.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "open_source": {
+      "value": "unknown",
+      "note": "unknown: the official SDK has an Apache-2.0 license, but the hosted Code Interpreter engine/runtime licensing and distribution status are not established.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html",
+        "https://raw.githubusercontent.com/aws/bedrock-agentcore-sdk-python/main/LICENSE.txt",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Invoke supports startCommandExecution/getTask/stopTask. Asynchronous commands last at most 8 hours, bounded by fixed session TTL regardless of activity; synchronous requests have a 15-minute timeout. Active background/system CPU and peak session memory are billable; termination is not live resume.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    "terminal_pty": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a Code Interpreter interactive PTY/resize operation. Conservative documented-support audit inference, not an AWS denial. Command execution is supported; SDK openShell/PTY methods are Runtime-scoped. See the second-pass ledger.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html",
+        "https://aws.amazon.com/bedrock/agentcore/faqs/"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "InvokeCodeInterpreter returns a stream, and the overview says execution results are processed as streams.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-tool.html"
+      ]
+    },
+    "secrets_management": {
+      "value": "partial",
+      "note": "Account-enabled Secrets Manager certificate retrieval requires caller GetSecretValue and valid PEM X.509 string secrets; contact AWS Support if the feature is not enabled. Installed trust-store certificates cannot change during the session. Guide limits are 10/tool plus 10/session, while API shape says 200. This and execution-role credentials do not establish arbitrary secret injection/vault support.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-root-ca-certificates.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-s3-integration.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "Getting started and the filesystem examples use the boto3 clients bedrock-agentcore-control and bedrock-agentcore.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-getting-started.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "Official AgentCore TypeScript SDK reference v0.4.1 documents CodeInterpreter session, execution, command and file operations; AWS JavaScript SDK v3 is also linked from InvokeCodeInterpreter. Client support is separate from guest JavaScript/TypeScript runtime support.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html"
+      ]
+    },
+    "go_sdk": {
+      "value": true,
+      "note": "Official AWS SDK for Go v2 bedrockagentcore client implements InvokeCodeInterpreter and its result event stream. This is client access, not a Go guest execution runtime.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/aws/aws-sdk-go-v2/main/service/bedrockagentcore/api_op_InvokeCodeInterpreter.go",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "Examples use aws bedrock-agentcore-control create-code-interpreter and aws bedrock-agentcore start-code-interpreter-session.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Exact-tool Strands/LangChain examples, TypeScript Strands (experimental import path) and Vercel AI SDK adapters, official awslabs MCP tools, and a Deep Agents integration are documented. Credentials are required and compute calls are billable; tutorial model access is not required for direct tool use.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-building-agents.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-typescript-sdk-reference.html#ts-sdk-code-interpreter",
+        "https://raw.githubusercontent.com/awslabs/mcp/main/src/amazon-bedrock-agentcore-mcp-server/README.md",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html"
+      ]
+    },
+    "max_vcpu": {
+      "value": 2,
+      "note": "Code Interpreter hardware quota is non-adjustable 2vCPU/8GB per session. No upfront resource selection is a billing statement, not unlimited CPU or a custom-size menu.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "Published maximum is 8 GB in non-adjustable 2vCPU/8GB hardware. Schema asks for GiB; AWS does not establish the GB byte convention here, so no silent conversion to 8 GiB. Billing is $0.00945/GB-hour on peak memory through session lifetime, with a 128MB floor.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": 28800,
+      "note": "StartCodeInterpreterSession sets fixed TTL regardless of activity: default 900 seconds, valid 1-28800, recommended minimum 60. This is not a separate idle timer or documented live extension. Synchronous request timeout is 15 minutes and asynchronous command ceiling is 8 hours, both bounded by session lifetime.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "No separate idle-timer quantity established in second-pass lifecycle/API/SDK/pricing review. Default 900 seconds is fixed TTL regardless of activity, not idle detection. Numeric unknown remains null under the eligibility policy.",
+      "source_urls": [
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-session-characteristics.html"
+      ]
+    }
+  },
+  "pricing_summary": "Managed Code Interpreter requires an AWS Paid plan; AgentCore is Paid plan exclusive on the AWS Free Tier page. Consumption rates are $0.0895 per vCPU-hour and $0.00945 per GB-hour, billed per second with a 1-second minimum from microVM boot through shutdown, including system overhead. Zero CPU consumption during I/O wait avoids CPU charges; peak memory up to each second remains billed during waiting, with a 128MB minimum. Network transfer uses standard EC2 rates; optional customer S3 Files/EFS storage and I/O are separate. AWS publishes no upfront commitments or minimum fees, but no recurring Code Interpreter compute allowance or separate local-disk/build/suspension rate was established. Published rate-table regional applicability is not explicitly enumerated; verify the selected region. Eligible new customers receive $100 in credits immediately and can earn up to $100 more, up to $200 total subject to account/activity/expiration/exclusion terms. Credits are promotional, not recurring usage or a tool rate; Paid-plan usage beyond eligible credits is billed.",
+  "pricing": [
+    {
+      "item": "CPU",
+      "plan": "Managed Code Interpreter consumption",
+      "published_price": "$0.0895 per vCPU-hour",
+      "conditions": "Published dollar rate, retained as printed. Current pricing says actual CPU consumption, per-second with a 1-second minimum, from microVM boot/initialization through shutdown including system overhead. The 2025-08-01 launch blog instead describes highest watermark of CPU and memory during each second; that historical aggregation wording differs from the current pricing page reviewed 2026-10-08. Zero CPU during I/O wait avoids CPU charges; background CPU remains billable, and memory is not free while idle. Tool hardware is non-adjustable 2vCPU/8GB. Regional applicability of this rate table is not explicitly enumerated; Runtime/Browser/Instances rates are not substituted.",
+      "source_urls": [
+        "https://aws.amazon.com/bedrock/agentcore/pricing/",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/bedrock-agentcore-limits.html",
+        "https://aws.amazon.com/blogs/machine-learning/introducing-the-amazon-bedrock-agentcore-code-interpreter/"
+      ]
+    },
+    {
+      "item": "Memory",
+      "plan": "Managed Code Interpreter consumption",
+      "published_price": "$0.00945 per GB-hour",
+      "conditions": "Peak memory consumed up to each second; 128MB minimum memory billing. Per-second billing with a 1-second minimum, through full session lifetime including boot/initialization, idle/I/O wait and shutdown, with system overhead. AWS's Code Interpreter example charges 120 seconds of memory even with 60% I/O wait. GB is not silently relabeled GiB. Runtime v2 idle-memory reclamation is not Code Interpreter support. Regional rate applicability is not explicitly enumerated.",
+      "source_urls": [
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "item": "Network",
+      "plan": "Code Interpreter; selected region and transfer path",
+      "published_price": "Standard EC2 data transfer rates; no single flat Code Interpreter transfer rate",
+      "conditions": "AWS links billing to EC2 transfer rates; dollar rates depend on region/path/tier and are not fabricated from dynamically rendered tables. EC2 publishes 100 GB/month internet transfer-out allowance aggregated across AWS services and regions, except China/GovCloud, not a tool-only allowance. VPC NAT/PrivateLink infrastructure and optional storage transfers may add separately priced charges. HTTPS AWS API calls and S3 transfers do not establish guest HTTPS ingress.",
+      "source_urls": [
+        "https://aws.amazon.com/bedrock/agentcore/pricing/",
+        "https://aws.amazon.com/ec2/pricing/on-demand/",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/agentcore-vpc.html"
+      ]
+    },
+    {
+      "item": "Commitments and minimums",
+      "plan": "AgentCore consumption services including Code Interpreter",
+      "published_price": "No upfront commitments or minimum fees",
+      "conditions": "FAQ describes independent pay-for-use services. The compute meter separately has a 1-second minimum and 128MB memory floor. No required recurring subscription, recurring Code Interpreter compute allowance, separate local-disk/image-build or suspended rate was established in docs/marketing/API second pass; absence of a line item is not a zero price. Session initialization/system overhead is included in metered compute.",
+      "source_urls": [
+        "https://aws.amazon.com/bedrock/agentcore/faqs/",
+        "https://aws.amazon.com/bedrock/agentcore/pricing/"
+      ]
+    },
+    {
+      "item": "External S3 Files storage and I/O",
+      "plan": "Optional customer-account S3 Files mounts",
+      "published_price": "Separately priced S3 Files high-performance storage/data access and underlying S3 usage; no bundled Code Interpreter rate",
+      "conditions": "S3 pricing documents storage and read/write data-access charges, sync activity and underlying bucket requests/storage. Rates and retention depend on the selected region/configuration; no universal mount bill is asserted. S3 Files is shared customer storage requiring VPC, mount-target AZ, IAM and TCP 2049 setup. Interpreter teardown does not delete customer mount data or establish free retained storage.",
+      "source_urls": [
+        "https://aws.amazon.com/s3/pricing/",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "item": "External EFS storage and I/O",
+      "plan": "Optional customer-account EFS mounts",
+      "published_price": "Separate EFS storage, throughput/access and applicable transfer/backup charges; no bundled Code Interpreter rate",
+      "conditions": "EFS price depends on region, storage class and throughput mode; optional backups and cross-AZ/region access add charges. No universal mount rate is inferred. Customer-managed shared files persist until customer deletion, not as a durable interpreter root disk. Requires VPC/IAM/mount-target AZ/TCP 2049 setup. EFS allowances, where eligible, are external-storage/account benefits, not recurring Code Interpreter compute allowances.",
+      "source_urls": [
+        "https://aws.amazon.com/efs/pricing/",
+        "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/code-interpreter-filesystem-configurations.html"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Eligible new AWS customers; AgentCore requires AWS Paid plan",
+      "published_price": "$100 in AWS Free Tier credits immediately plus up to $100 earned; up to $200 total",
+      "conditions": "AWS labels Amazon Bedrock AgentCore Paid plan exclusive: Free-plan credits do not unlock Code Interpreter. Eligible new Paid-plan customers can receive these account-level credits, not recurring tool usage or a compute rate; usage beyond eligible credits or excluded from credits is billed. Existing or previous AWS customers are ineligible. Additional credits require eligible activities completed within six months/by their deadlines; joining an AWS Organization or setting up a Control Tower landing zone ends earning eligibility, and advanced-feature activation also prevents further earning. Credits are nontransferable; China account-plan/credit offers are excluded and AWS Free Tier is generally unavailable in GovCloud, whose limited service exceptions do not establish Code Interpreter eligibility. Current FAQ general/advanced-feature sections say credits expire six months after account creation, while Paid-plan upgrade/activity sections say twelve months; exact expiration for the account/credit must be checked, not assumed. The item remains Promotional credit so production cost evidence excludes it; the product access gate is also in the always-supplied hosted fact.",
+      "source_urls": [
+        "https://aws.amazon.com/bedrock/agentcore/pricing/",
+        "https://aws.amazon.com/free/",
+        "https://aws.amazon.com/free/free-tier-faqs/"
+      ]
+    }
+  ],
+  "performance_claims": [],
+  "research_notes": [
+    "Categorical unsupported/false classifications without explicit negative vendor statements follow the 2026-10-08 documented-support eligibility policy: no positive support found after individually scoped docs/marketing/API/SDK second pass. They are audit inferences, not fabricated AWS denials. Numeric unknowns remain null and affirmative gated support remains partial.",
+    "The overview says containerized; the tool session-characteristics page explicitly documents a dedicated microVM with isolated local CPU/memory/filesystem and memory sanitization at termination. Optional shared mounts must not be mistaken for isolated snapshot copies.",
+    "StartCodeInterpreterSession fixes TTL regardless of activity: default 900 seconds, valid 1-28800, recommended minimum 60. Synchronous invocation timeout is separately 15 minutes; async commands have an 8-hour ceiling. No separate idle timer or live TTL extension was established.",
+    "Code Interpreter quotas resolve hardware and rate omissions: non-adjustable 2vCPU/8GB, 10 GB session disk; defaults of 1000 concurrent sessions and 1000 configurations per account per Region (both adjustable), Create/Delete 5 TPS and seven other listed tool/session APIs 30 TPS each (adjustable, per account per Region). The guide's regional default applies; effective account/Region quotas and available capacity remain unestablished. Independent feedback's fixed configuration quota and 50/100 TPS figures were not adopted because the freshly fetched exact-tool rows say adjustable and 30 TPS. max_memory_gib remains null because the source says GB, not GiB.",
+    "Runtime-selection documentation lists python for Python and nodejs/deno for JavaScript/TypeScript; nodejs uses CJS for JavaScript and ESM for TypeScript. No guest versions or default runtime are inferred. Python SDK clear_context affects Python only. Python/TypeScript/Go client SDK support is separate from guest languages. Official SDK/MCP pip installation does not establish custom images, root/sudo or apt.",
+    "PUBLIC enables internet egress; SANDBOX restricts external access but permits S3; custom VPC tools have no internet by default and use ENI security-group allow rules. Removing default allow-all allows CIDR/protocol/port controls, not domain/SNI filtering. Multiple groups aggregate allows; Route 53 Resolver DNS cannot be blocked by security groups. PrivateLink is AWS API ingress, not a user-server preview endpoint.",
+    "The VPC guide still uses networkModeConfig in examples, whereas CreateCodeInterpreter API, CodeInterpreterNetworkConfiguration and filesystem examples use vpcConfig. API shape maxima also differ from operational mount and certificate guide limits; all conflicts are preserved, not resolved by guessing larger support.",
+    "S3 Files/EFS are shared durable customer-account storage under /mnt/<name>, requiring VPC/IAM/AZ/TCP 2049 setup and separately priced storage/I/O. One failed mount prevents session readiness. No managed session storage. Local-data cleanup at termination conflicts with an unexplained 30-day session-data TTL; no local-file retrieval/restore was established.",
+    "No numeric Code Interpreter cold/warm-create, ready, reset, clone or resume latency was established in targeted docs/API/SDK/marketing second pass. The 2025-08-01 launch blog uses qualitative low-latency startup wording; CloudWatch latency_ms is a measurement field, not a published benchmark. performance_claims remains empty; no Runtime latency figures are imported."
+  ]
+}

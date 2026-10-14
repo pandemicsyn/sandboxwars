@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sandbox Wars — fighter study</title>
+  <style>
+    :root { color-scheme: dark; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; color: #e6edf7; background: #0b101c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 28px; }
+    main { max-width: 1060px; margin: auto; }
+    h1 { font-size: clamp(24px, 4vw, 40px); margin: 10px 0; letter-spacing: -.03em; }
+    p { color: #b4c0d4; line-height: 1.6; max-width: 76ch; }
+    .meta { font-size: 12px; color: #ffcc70; }
+    .stage { position: relative; border: 1px solid #374057; background: #111929; margin: 24px 0 16px; padding: 28px 12px 18px; overflow: hidden; }
+    .stage::before { content: ''; position: absolute; inset: auto 0 73px; height: 1px; background: #53627d; }
+    .fighters { display: flex; justify-content: space-around; align-items: end; }
+    .fighter { text-align: center; width: 43%; }
+    .frame { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; }
+    .sprite { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+    .sheet { display: block; position: absolute; width: 300%; height: 300%; max-width: none; image-rendering: pixelated; }
+    .name { font-size: clamp(16px, 3vw, 24px); font-weight: bold; margin: 16px 0 4px; }
+    .daytona { color: #36d8ff; } .e2b { color: #ff6abf; }
+    .pose { font-size: 12px; color: #b4c0d4; }
+    .count { position: absolute; left: 50%; top: 35%; transform: translate(-50%, -50%); font-size: clamp(28px, 8vw, 76px); color: #ffcc70; font-weight: 900; }
+    .blackout { position: absolute; inset: 0; background: #080b11; display: grid; place-content: center; font-size: 50px; font-weight: bold; color: #ffcc70; }
+    [hidden] { display: none !important; }
+    .controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+    button, select { font: inherit; font-size: 14px; border: 1px solid #566780; border-radius: 3px; padding: 12px 16px; color: #eef3ff; background: #172136; cursor: pointer; }
+    button.primary { background: #ffcc70; color: #151821; border-color: #ffcc70; font-weight: bold; }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible, select:focus-visible, a:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+    label { font-size: 13px; }
+    #result { border-top: 1px solid #53627d; padding: 20px 0; margin-top: 20px; }
+    #result h2 { color: #ffcc70; margin: 0; }
+    .portraits { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+    .portrait { width: 110px; text-align: center; font-size: 12px; }
+    .portrait .frame { border: 1px solid #53627d; margin-bottom: 8px; background: #172136; }
+    .judge-study { margin: 32px 0; padding: 24px; background: #111929; border: 1px solid #374057; }
+    .judge-study canvas { width: min(100%, 320px); display: block; margin: 16px auto; image-rendering: pixelated; }
+    details { margin: 28px 0; color: #b4c0d4; }
+    summary { cursor: pointer; padding: 12px 0; }
+    a { color: #83daff; }
+    footer { font-size: 12px; line-height: 1.7; color: #a1b1ca; padding: 20px 0; }
+    @media (max-width: 540px) { body { padding: 16px; } .stage { padding-inline: 0; } .fighter { width: 48%; } .controls { gap: 8px; } button,select { padding: 10px; } .count { top: 25%; } }
+  </style>
+</head>
+<body>
+<main>
+  <div class="meta">SANDBOX WARS / ASSET STUDY 09</div>
+  <h1>The roster is growing.</h1>
+  <p>E2B and Modal set the visual standard. Daytona is a masked street racer; Docker and AWS have a consistency pass, and portraits share face framing. Prime Intellect keeps its original look.</p>
+  <div class="controls"><label>Left fighter <select id="left-pick" disabled></select></label><label>Right fighter <select id="right-pick" disabled></select></label></div>
+  <section class="stage" aria-label="Fighter animation preview">
+    <div class="fighters" id="fighters">
+      <div class="fighter" id="left"><canvas class="sprite" width="418" height="418" role="img"></canvas><div class="name"></div><div class="pose">Idle</div></div>
+      <div class="fighter" id="right"><canvas class="sprite" width="418" height="418" role="img"></canvas><div class="name"></div><div class="pose">Idle</div></div>
+    </div>
+    <div class="count" id="count" aria-hidden="true">VS</div>
+    <div class="blackout" id="blackout" hidden aria-hidden="true">BRAWL!</div>
+  </section>
+  <div class="controls">
+    <button class="primary" id="play" disabled>Loading sprites…</button>
+    <button id="skip" hidden>Skip to decision</button>
+    <button id="swap">Swap sides</button>
+    <label>Demo outcome <select id="winner"><option value="left">Left fighter wins</option><option value="right">Right fighter wins</option><option value="draw">Draw</option></select></label>
+  </div>
+  <div class="controls">
+    <label>Inspect pose <select id="pose"><option value="idle">Idle loop</option><option value="battered">Battered</option><option value="victory">Battered victory</option><option value="result" disabled>Match aftermath</option></select></label>
+    <button id="pause">Pause idle</button>
+    <span class="meta" id="status" role="status" aria-live="polite">Loading sprites.</span>
+  </div>
+  <section id="result" hidden aria-live="polite">
+    <h2 id="verdict"></h2>
+    <p>Animation demo only. This outcome is selected above; no Jev evaluation or provider ranking is represented.</p>
+  </section>
+  <section class="judge-study" aria-labelledby="judge-title">
+    <h2 id="judge-title">Judge Jev — expression study</h2>
+    <p>Original character concept using E2B and Modal as style references. Poses are selected manually here; they do not represent an evaluation.</p>
+    <label>Jev pose <select id="judge-pose" disabled><option>Loading poses…</option></select></label>
+    <canvas id="judge-canvas" width="418" height="418" role="img" aria-label="Judge Jev"></canvas>
+    <p id="judge-status" role="status">Loading Judge Jev.</p>
+    <p><a href="judge-jev-v1.png">Full Jev sheet</a> · <a href="ART-DIRECTION.md">Approved art direction</a></p>
+  </section>
+  <div class="portraits" id="portraits"></div>
+  <details><summary>Sprite sheet layout & draft notes</summary><p>Each transparent PNG contains six idle frames, a battered pose, a victory pose, and a portrait. Explicit source rectangles accommodate uneven generated spacing without altering the source art. The right-hand fighter is mirrored.</p><p>Generated first-pass assets: details, pose scale, and ground anchors still need final cleanup before production. Outcomes here are selected manually.</p><p><a href="daytona-v3.png">Daytona</a> · <a href="e2b-v2.png">E2B</a> · <a href="tensorlake-v2.png">Tensorlake</a> · <a href="vercel-v1.png">Vercel</a> · <a href="modal-v1.png">Modal</a> · <a href="cloudflare-v1.png">Cloudflare</a> · <a href="boxd-v1.png">Boxd</a> · <a href="prime-intellect-v1.png">Prime Intellect</a> · <a href="docker-v3.png">Docker</a> · <a href="boat-v1.png">Boat</a> · <a href="aws-v2.png">AWS</a> · <a href="gcp-v3.png">GCP</a> · <a href="exe-v2.png">exe.dev</a> · <a href="custom-sandbox-v2.png">Custom Sandbox</a> · <a href="e2b-portrait-clean-v1.png">Clean E2B portrait</a> · <a href="exe-portrait-clean-v1.png">Clean exe.dev portrait</a> · <a href="roster.json">Frame metadata</a></p></details>
+  <footer>Local art study. No API calls or audio. Reduced-motion preference skips the countdown and stops the idle loop. Character concepts are unofficial.</footer>
+</main>
+<script type="module" src="preview.js"></script>
+<script type="module" src="judge-preview.js"></script>
+</body>
+</html>

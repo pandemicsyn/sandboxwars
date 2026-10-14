@@ -1,0 +1,963 @@
+{
+  "id": "docker",
+  "name": "Docker",
+  "product_name": "Docker Sandboxes",
+  "website": "https://www.docker.com/products/docker-sandboxes/",
+  "docs_url": "https://docs.docker.com/ai/sandboxes/",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Experimental Cloud Sandboxes on Docker-managed compute",
+      "notes": "Requires an active, separately billed Docker Agentic Platform pay-as-you-go subscription on a personal Docker account, including organization members; no recurring subscription fee. CLI cloud guides require sbx 0.45.0 or later; the September 24 announcement says 0.45.1 or later. Account permissions and capacity gate optional features; no customer-cloud control plane is established. SDK running state does not guarantee kit setup has finished: add workload readiness checks.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://docs.docker.com/agentic-platform/signup/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "documented",
+      "value": "Local microVM runtime on customer machines, not a hosted service deployment",
+      "notes": "Local CLI and compute are free including commercial use; neither Docker Desktop nor Docker Engine is required for basic sbx use. Docker sign-in is required. Supported hosts: macOS 14+ on Apple silicon; Windows 11 on 64-bit Intel/AMD with Windows Hypervisor Platform for local execution; Ubuntu 24.04+ on 64-bit Intel/AMD or Arm with KVM and kvm-group access. Local execution inside a VM/VDI requires nested virtualization. Ubuntu derivatives are not tested or supported; release artifacts for other distributions do not establish support. Local and cloud resource stores are separate. This is local runtime installation, not evidence of a deployable multi-tenant cloud control plane or BYOC service.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/install/",
+        "https://docs.docker.com/ai/sandboxes/faq/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08",
+      "notes": "NO DOCUMENTED SUPPORT FOUND for a Docker Sandboxes customer-cloud execution/control-plane offering. Conservative documented-support audit inference, not a vendor denial or proof it cannot exist. Search scope: product marketing/cloud announcement, local/cloud/install/automation docs, Cloud API/SDK reference and targeted Docker-domain BYOC/bring-your-own-cloud/customer-cloud searches (Q1/Q8/PQ2 in audit ledger). Sources describe Docker-managed cloud and supported local runtime; local execution on a customer machine/VM is not evidence of vendor BYOC service. No relevant BYOC documentation remained access-blocked.",
+      "source_urls": [
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/",
+        "https://docs.docker.com/ai/sandboxes/workflows/automation/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript for the cloud API",
+      "notes": "The install page says Node.js 20 or later and npm install @docker/sandboxes. The import is Sandboxes from @docker/sandboxes. The API and SDK docs are experimental.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes-api/install/"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "Docker's official Sandboxes docs describe its TypeScript SDK and any-language REST API, but the vendor-controlled sources reviewed cannot establish whether third-party community SDKs exist. Docker Engine community clients target a different API; no exhaustive community inventory was established.",
+      "source_urls": [
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes-api/install/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/",
+        "https://registry.npmjs.org/@docker%2fsandboxes/latest",
+        "https://docs.docker.com/reference/api/engine/sdk/"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Cloud Sandboxes REST API",
+      "notes": "Docs say any HTTP client can call it and that an OpenAPI spec is downloadable. The spec was not copied.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "sbx",
+      "notes": "Cloud commands use sbx --cloud. Cloud docs say the sbx CLI, version 0.45.0 or later. The September 24, 2026 announcement says sbx 0.45.1 or later. Architecture docs say workspace paths are optional starting with sbx version 0.42.0.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/architecture"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Shell and custom Linux tools; most Docker Ubuntu templates include Node.js, Python, Go, and Java",
+      "notes": "Template variant determines installed tools; claude-code-minimal omits those four runtimes. Guest executables are separate from the TypeScript management SDK. Kits configure agent launch and dependencies; the SDK bundles shell and selected agent kits, tied to its release. Kit running state may precede setup completion.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/customize/author/base-images/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "MicroVM with its own Linux kernel, not an ordinary host-kernel container",
+      "notes": "Docker describes the same microVM boundary locally and in cloud, not identical policy configuration. Local guest sudo is not host root. Direct workspace mounts are read-write, and hard links can modify underlying files outside the mounted path; shared read-write skills cross sandbox trust boundaries. Host MCP processes and approved environment hooks run outside the VM. SSH agent forwarding can authorize signing/authentication; clipboard writes and opt-in image reads are explicit host integrations. These exceptions prevent a blanket untouched-host guarantee.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/security/isolation/",
+        "https://docs.docker.com/ai/sandboxes/security/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux guest microVM; Docker-provided templates are Ubuntu-based",
+      "notes": "Custom Linux images are supported subject to shell/user/launch contracts. Cloud supports linux/amd64 and linux/arm64 subject to account availability; moves retain source architecture. Host OS support is not guest Windows/macOS support: local hosts require macOS 14+ Apple silicon, Windows 11 Intel/AMD with Windows Hypervisor Platform, or Ubuntu 24.04+ Intel/AMD/Arm with KVM. No guest Windows or macOS support established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/customize/author/base-images/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/",
+        "https://docs.docker.com/ai/sandboxes/install/"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "Cloud fixed pairs: 1, 2, 4, 8, or 16 vCPUs; local CPU uses host resources",
+      "notes": "Limits table calls these CPUs; the SDK limits cookbook, marketing and billing announcement call them vCPUs. micro/small/medium/large/xl pair with 2/4/8/16/32 GiB. CPU and memory are not independent; 1 CPU/1024 MiB is unsupported. Kit helpers default to small. Prepared image resources supply sizing. Cloud linux/amd64 or linux/arm64 requires account/image support and capacity; no local numeric maximum established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/work-within-the-limits/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "Cloud: 2, 4, 8, 16, or 32 GiB paired with 1, 2, 4, 8, or 16 CPUs",
+      "notes": "Limits also print 2048, 4096, 8192, 16384, and 32768 MiB. Default is 2 CPUs/4 GiB; account access and capacity apply. The marketing product pricing table labels the same sizes 2/4/8/16/32 GB, while documentation and the September 24 announcement use GiB; units are preserved, not reconciled or converted. Local resources come from the host; no local numeric maximum established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "unknown",
+      "value": null,
+      "notes": "The cloud size table pairs CPU and memory and does not print a root disk size. Volumes are a separate resource.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "documented",
+      "value": "Experimental local NVIDIA VFIO passthrough on x86_64 Linux only; cloud GPU options do not apply",
+      "notes": "Requires an unused physical NVIDIA GPU, IOMMU, iommufd/vfio_pci modules, experimental and sandbox-gpu flags, and a separately built EROFS NVIDIA driver bundle matching each release's guest kernel. The bundle build requires Docker, NVIDIA download access and license acceptance; it is not included. Not Arm local passthrough. Cloud has no host-hardware access and rejects local-only GPU flags; no cloud GPU offering established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/configuration/gpu-passthrough/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Custom Linux Dockerfiles, kits, templates and pullable OCI registry images",
+      "notes": "Cloud raw imageRef requires /bin/sh, a pullable image and a supported CPU/memory pair; use a versioned reference/digest. A prepared image resource supplies resources, so omit overrides. Local sbx workload images require executable /bin/sh and /bin/bash, curl/git/CA certificates, agent UID 1000 with /home/agent and a launch command; templates can be loaded from tar or registries with explicit credentials. Remote kit sources default to Docker Hub; source directories/Git can build and reuse cached content. SDK launch helpers only accept bundled kits; custom kits require externally prepared v2 artifacts, not a raw descriptor or OCI manifest. Cloud amd64/arm64 availability is account-gated. Kit setup may still run after running state. No image-size maximum established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/customize/author/base-images/",
+        "https://docs.docker.com/ai/sandboxes/customize/use-kits/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-your-own-container-image/"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "Install dependencies in the guest or build them into custom Linux workload images",
+      "notes": "Local defaults explicitly permit apt, pip and npm with guest sudo. Docker's Ubuntu templates run as agent with sudo; custom workload Dockerfiles can install system packages as root. Cloud supports custom OCI images and kits and documents guest sudo, not arbitrary host package installation. Downloads must satisfy the selected network policy; SDK running state does not guarantee kit setup completion.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults/",
+        "https://docs.docker.com/ai/sandboxes/customize/author/base-images/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Local sandboxes give the agent sudo; cloud exec examples also use sudo",
+      "notes": "The security page is explicitly about local sandboxes and says the agent has sudo, package installation, and a private Docker Engine inside the VM. The cloud usage page runs sudo chown and says a new volume's root directory is owned by root. The agent user in that example is agent.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Private guest Docker Engine support depends on kit; cloud exec/healthchecks have a filesystem limitation",
+      "notes": "Local runtime has an isolated Engine, not the host daemon. Current Console docs say check the kit for Engine: Hermes does not include it, qualifying announcement wording that every microVM has Docker. Cloud docker exec, docker compose exec and healthchecks can access the VM filesystem rather than the target container filesystem, fail or silently use wrong files; service_healthy dependencies may block. Container main processes use the correct filesystem, but that workaround does not restore exec or ongoing health monitoring. Host Docker is optional for basic sbx execution, but is needed for workflows such as NVIDIA bundle building and some host MCP servers.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/isolation/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/agentic-platform/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/install/",
+        "https://docs.docker.com/ai/sandboxes/configuration/gpu-passthrough/"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Cloud detached agents and durable SDK processes; local detached sandboxes",
+      "notes": "Cloud Ctrl+\\ detaches without terminating the agent, subject to TTL. SDK closing a process connection is separate from terminating the process. Local create stops when no sessions remain; sbx run --detached keeps it running until stop/remove (v0.47.0 also supports making an existing local sandbox detached). sbx exec itself has no detached flag. Local kit long-running capability does not apply in cloud. --rm cannot combine with detached; a dropped cloud --rm connection can retain the sandbox and require explicit cleanup.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-an-interactive-shell-in-a-cloud-sandbox/",
+        "https://github.com/docker/sbx-releases/releases/tag/v0.47.0"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "Local/cloud sbx cp and cloud SDK/API file transfers",
+      "notes": "cp requires absolute sandbox paths and performs point-in-time copies, not synchronization; direct sandbox-to-sandbox cp is unsupported locally. Cloud cannot mount host paths. Export required files before deletion; local direct-mount files remain on the host. Management and file endpoint tokens have different scopes.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/authentication/"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Local files survive stop/restart until removal; cloud stop preserves disk, with separate snapshots/volumes for replacement",
+      "notes": "Local VM removal deletes in-VM files including mountless/private-clone work; direct host mounts survive. Cloud delete/expiration-delete removes root files; stop requires account/sandbox support and is unavailable with volumes. Volume-backed sandboxes require delete on timeout; volume data saves on exit, not continuously. Saved snapshots restore a new sandbox independently of the source. Local templates omit mounted workspaces and /var/lib/docker and recreate agent configuration. move copies container filesystem only, not mounts, clone-mode volumes, cloud volumes, managed secrets or memory; failure durability and automatic replacement recovery are not established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/cloud/move/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Experimental account-gated cloud volumes with save-on-exit snapshots",
+      "notes": "Default account quota 100; SDK guide says use one volume with exclusive attachment, volume access must be enabled and memory-snapshot images cannot attach volumes. CLI usage warns that volume data is saved when a sandbox exits, not continuously, and simultaneous mounts use last-exit-wins. These interface qualifications are retained rather than promising shared live storage. Release the first sandbox before exclusive reattachment to a replacement. Volume-backed sandboxes cannot stop and require expiration-delete. New volume root is root-owned. Deleting the volume permanently removes data. September 24 announcement calls volumes free; no retention/failure-save guarantee established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/attach-persistent-storage/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "Conditional cloud stop/start of the same sandbox; local stop/restart preserves files",
+      "notes": "CLI cloud stop preserves memory and filesystem and attach resumes the same ID; stop/resume may be disabled for the account and volume-backed sandboxes cannot stop. API guarantees are per sandbox: inspect effectiveFeatures.lifecycle.stopMemoryOutcome (preserve restores stopped process tree; discard retains disk and starts fresh processes). Snapshot memory support is independent. Stopped compute is not billed; TTL pauses while stopped and restarts on resume. Restart needs a concurrency slot except always-on accounts reserve one. Do not assume old process connections remain usable. Local stop documentation establishes files, not process-memory restoration.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/EffectiveCoreLifecycle/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/StopMemoryOutcome/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/stop-and-restart-a-sandbox/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "documented",
+      "value": "Cloud memory resume is conditional on the sandbox's advertised preserve guarantee; local memory recovery is unestablished",
+      "notes": "Cloud CLI usage says stop preserves memory/files and resume keeps ID/state, but account access can disable stop/resume and volumes cannot stop. API stopMemoryOutcome preserve restores the stopped process tree on start; discard retains disk and starts a fresh process tree. Read the admitted guarantee, not just method presence; canCaptureMemory is separately advertised. Prior process connections may need reconnection. Filesystem-only templates and sbx move do not capture memory. Local stop pages do not establish memory restoration.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/EffectiveCoreLifecycle/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/StopMemoryOutcome/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/stop-and-restart-a-sandbox/",
+        "https://docs.docker.com/ai/sandboxes/cloud/move/"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Cloud filesystem snapshots restore a new sandbox; memory capture requires support. Local templates omit mounted filesystems.",
+      "notes": "CreateSnapshot requires a running source and rejects stopped sources. disk/unspecified capture saves disk; all includes memory only with canCaptureMemory support. Wait for ready before restore; source and snapshot cleanup are separate. Snapshot deletion is refused while a restored sandbox is running. Local template save requires stopping and omits host workspaces and /var/lib/docker; user agent configuration is recreated. Saved filesystem credentials/private data can travel. move excludes mounts and memory. Snapshot retention, size/quantity limits, failure recovery and a specific snapshot-storage price are not established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/operations/createSnapshot/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/CaptureMode/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes/cloud/move/"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Cloud snapshot restore forks saved state; configuration cloning does not copy files or processes",
+      "notes": "Snapshot restore creates a separate identity from a ready disk or supported memory+disk snapshot and does not replace the source. The clone cookbook copies image/environment only, not kits, policies, secrets, volumes, files or process state. Local --clone is a Git workspace layout fixed at creation, not VM fork; primary workspace must be a Git repository and not a secondary worktree. move copies container filesystem across matching architectures, not mounts/memory/secrets/policy, and leaves source cleanup to the user.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/clone-a-cloud-sandbox/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes/cloud/move/"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Policy-controlled egress; deny-all presets can include kit allowances, while Console empty combined allows permit egress",
+      "notes": "Local default security describes blocked unmatched TCP, internal policy-controlled DNS, UDP disabled by default and ICMP blocked; local policy setup asks for a preset. Balanced includes broad development domains; Locked Down has no baseline allows but kits may add rules and unmatched destinations can request approval. Cloud CLI account/sandbox policy combines with kit rules and denies win. Console policy docs explicitly say empty/absent combined allow lists allow any destination except denies; with allows, destinations outside combined list are blocked. Do not generalize a deny-all default or an empty allowlist across interfaces. Verify actual connection decisions.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults/",
+        "https://docs.docker.com/ai/sandboxes/governance/access-controls/local/",
+        "https://docs.docker.com/ai/sandboxes/cloud/network-policy/",
+        "https://docs.docker.com/agentic-platform/policies/"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Local/cloud destination allow/deny policies with different protocol and governance scopes",
+      "notes": "Local rules support hostnames, single/multi-level wildcards, IPv4/IPv6 CIDRs and ports; TCP uses forward/transparent host proxies. HTTP method/path rules require inspectable proxy traffic; uninspectable connections needing those decisions are blocked. DNS uses internal policy resolver. UDP needs experimental flags/rules; ICMP is blocked. Org governance is separately paid and only org allows grant access, with denies from all sources. Cloud rules support destinations/CIDRs (API) and host:port (CLI), not local L7 rules, --protocol or governance profiles; rules are not copied on move. v0.47.0 release notes: TCP denied-hostname/resolved-IP bypass fixed in v0.46.0, related UDP multiple-hostname case outside fix; pre-v0.45 cloud policies may retain implicit 0.0.0.0/0 and ::/0 until removed/recreated. TLS incomplete/oversized ClientHello checks are described, not a blanket DNS/SNI/domain-fronting guarantee. UDP local-boundary exclusions have host.docker.internal and route-derived broadcast coverage exceptions. Host MCP is outside VM/network proxy enforcement. Verify effective decisions.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/governance/concepts/",
+        "https://docs.docker.com/ai/sandboxes/security/isolation/",
+        "https://docs.docker.com/ai/sandboxes/cloud/network-policy/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/NetworkPolicy/",
+        "https://github.com/docker/sbx-releases/releases/tag/v0.47.0"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "Cloud published ports route HTTP applications through public HTTPS; local ports bind on the caller host",
+      "notes": "Cloud accepts a port number or /tcp, rejects host IP/port mappings and other protocols. This is HTTP access, not a general-purpose raw TCP tunnel; run an HTTP app bound to a reachable address such as 0.0.0.0 and use the returned URL. Docker account authentication does not protect the app URL: implement app authentication and never send it a Docker account token. Console publishing requires running sandbox and reserves port 2222 for SSH; API's 1-65535 schema range is not proof every port can be published. Stop keeps publications; delete removes them; unpublish removes the route, not the process. Auto-resume is separate, not a guarantee. Local publish forwards to host addresses/ports, typically loopback, and does not establish vendor public HTTPS.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/expose-a-port-from-a-cloud-sandbox/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/let-a-stopped-sandbox-resume-on-demand/",
+        "https://docs.docker.com/agentic-platform/sandboxes/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/Port/"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "Cloud service assigns a public HTTPS URL for a published HTTP application port",
+      "notes": "Use the returned URL, not a constructed hostname; bind the app to a reachable address such as 0.0.0.0. It is not a raw TCP tunnel or an account-authenticated app URL: app-level authentication is the user's responsibility. Port publication does not prove application readiness; stop retains the route and delete removes it, while optional effective autoResume may wake a stopped sandbox. Local loopback forwarding alone is not public HTTPS ingress. URL hostname format, endpoint quotas and TLS customization were not established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/expose-a-port-from-a-cloud-sandbox/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/let-a-stopped-sandbox-resume-on-demand/"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "unsupported",
+      "value": "Direct local sandbox-to-sandbox networking is explicitly blocked; no documented cloud private-network support found as of 2026-10-08",
+      "notes": "No documented support found in the official sources reviewed as of 2026-10-08. NO DOCUMENTED SUPPORT FOUND for cloud private sandbox networking/VPC attachment: conservative documented-support audit inference, not a Docker denial or proof it cannot exist. Search scope: product marketing, local/cloud comparison and security, cloud/Console policies, full API operation/schema index and targeted private-network/VPC/private-endpoint searches (Q1/Q11/PQ3). Obsolete policy URL was replaced by accessible current policies page. Separately, local docs explicitly say policy cannot enable direct inter-sandbox communication. Allowed host.docker.internal-to-localhost:port proxy access and public HTTPS URLs are real features, not affirmative private sandbox networking.",
+      "source_urls": [
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/security/defaults/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud/",
+        "https://docs.docker.com/ai/sandboxes/workflows/development/",
+        "https://docs.docker.com/agentic-platform/policies/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "Default 10 concurrent sandboxes and 50 stored sandboxes",
+      "notes": "Also 100 volumes, 100 secrets, and 3 images preparing at once. Docker says an account can have different quotas. Always-on sandboxes keep their concurrency slot when stopped.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Cloud default TTL 1 hour, extensions capped at 24 hours from creation; resume starts a new TTL period",
+      "notes": "Stopped TTL pauses, not a cumulative 24-hour disk-retention guarantee. Default expiry stops resumable sandboxes and deletes others; --ttl 0 is invalid. Stop requires account/sandbox support; volume-backed sandboxes must delete. restart action with an explicit TTL requires at least one hour; API always-on access gates restart and reserves concurrency. Account limits can restrict durations/actions. Local sandboxes persist until removal and detached execution lasts until stop/remove; no local numeric maximum established. Client wait/stream deadlines are distinct from TTL.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/keep-a-cloud-sandbox-running/"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "unknown",
+      "value": null,
+      "notes": "Cloud TTL is lifetime, not an idle detector: default one hour, paused while stopped and restarted on resume. Local create stops when no sessions keep it running; detached mode runs until explicit stop/remove. No numeric inactivity timeout or CPU-idleness detector established; waiting/setup/retries in a running cloud sandbox accrue runtime-based compute charges.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/agentic-platform/signup/",
+        "https://www.docker.com/c/sbx-promo/"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Rate limits exist and vary by operation",
+      "notes": "The limits page does not print a number. It says to honor the server delay.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "unknown",
+      "value": null,
+      "notes": "Second-pass cloud usage, Console sandboxes, product/announcement/promo, limits and API Platform/Resources sources establish account/image-gated linux/amd64 and linux/arm64, not geographic regions, placement or residency guarantees. Architecture is not region; diagnostic S3 hostname is not execution location.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/agentic-platform/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/Platform/"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Cloud SDK process output streaming and reconnect by sequence cursor",
+      "notes": "Captured run output and streaming start/connect are distinct. TypeScript handle connections retry temporary disconnects up to 30 seconds and resume after last delivered chunk without replaying input; raw streams need explicit reconnection. No default connection lifetime limit once connected, but caller timeout and sandbox TTL still apply. An ended stream without exit event does not establish command success.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-something-that-produces-real-output/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-an-interactive-shell-in-a-cloud-sandbox/"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Cloud process-output reconnect buffers and policy decision logs; separately paid local organization audit metadata",
+      "notes": "SDK supports retained output via process cursors; OutputRetention defines duration/byte floors, but no universal retention duration is established. Cloud policy logs are not organization audit logs. AI Governance audit logs cover licensed, signed-in local users under enforced organization policy only; require separate paid subscription and exclude prompts, agent output and parameter values. Cloud delivery of local audit records does not add cloud sandbox coverage.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-an-interactive-shell-in-a-cloud-sandbox/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/OutputRetention/",
+        "https://docs.docker.com/ai/sandboxes/cloud/network-policy/",
+        "https://docs.docker.com/ai/sandboxes/governance/audit/"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "Cloud SDK pseudo-terminal processes and SSH; local sbx exec -it shells",
+      "notes": "SDK starts a process with pty initial rows/columns and supports input/output/reconnection; closing a connection is separate from terminating the process. Cloud CLI setup ssh uses ssh <sandbox-id>@sbx_cloud. SSH and PTY access are not general public HTTPS service ingress.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-an-interactive-shell-in-a-cloud-sandbox/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Separate local/cloud managed credential stores and proxy injection, with explicit opt-outs and scope restrictions",
+      "notes": "Local service secrets use OS keychain or a headless-Linux file protected by permissions, default global scope with sandbox override. Proxy-managed credentials use sentinels; kit OAuth passthrough can expose real tokens and explicitly supplied env/files are readable. SSH forwarding defaults on: keys stay host-side but guest processes can request signatures. Cloud CLI/Console interfaces have separate names/setup; API attaches returned secret resource names at creation. Cloud account scope is default, sandbox API-key scope overrides and must be set before create; OAuth is OpenAI account-only. Cloud custom secrets inject a chosen header for exact DNS hosts (no IP/wildcards), not local placeholder replacement; no cloud registry/dynamic-ref/command secret support. In-filesystem sign-in credentials can enter snapshots/moves. Default cloud quota 100. Do not generalize to all credentials being invisible.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/configuration/credentials/",
+        "https://docs.docker.com/ai/sandboxes/cloud/credentials/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/get-a-stored-secret-into-a-sandbox/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Docker account authentication, scoped endpoint tokens and per-operation/optional-feature permissions",
+      "notes": "Cloud automation PAT requires sandbox:use; exchange for management bearer token, not the PAT itself. File/process endpoints need sandbox-scoped tokens and permissions, distinct from management credentials. SDK OAuth is separate from sbx/docker login. Local organization governance/audit requires separate paid AI Governance access; it is not cloud organization policy. Public application URLs are not protected by Docker account authentication; application authentication is required for sensitive data.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/authentication/",
+        "https://docs.docker.com/ai/sandboxes/governance/audit/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/expose-a-port-from-a-cloud-sandbox/"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Agent kits and MCP gateways; catalog depends on CLI/SDK/interface version",
+      "notes": "September 24 announcement names Claude Code, Codex, Copilot, Antigravity, Open Code and Hermes. Current SDK bundles shell, claude, codex, cursor, devin, docker-agent, gemini and opencode; enumerate installed catalog rather than assuming lists identical. Local MCP stdio servers execute on the host outside VM isolation; cloud MCP uses Docker Agentic Platform connected servers, not the local store. MCP gateway policies are separate from direct network policy.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/",
+        "https://docs.docker.com/ai/sandboxes/architecture/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "Sandboxes runtime is proprietary; TypeScript SDK npm metadata declares Apache-2.0",
+      "notes": "Release README says Proprietary - Docker Inc.; LICENSE reserves all rights. Published @docker/sandboxes 0.53.0 metadata declares Apache-2.0 and links docker/sbx-api, but that repository and raw LICENSE/README returned 404 on 2026-10-08; license file was not independently inspected. SDK metadata and the open kit specification do not establish an open runtime/server. Local commercial use being free is not an open-source grant.",
+      "source_urls": [
+        "https://github.com/docker/sbx-releases",
+        "https://raw.githubusercontent.com/docker/sbx-releases/main/LICENSE",
+        "https://registry.npmjs.org/@docker%2fsandboxes/latest",
+        "https://docs.docker.com/ai/sandboxes/faq/"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": "partial",
+      "note": "Local TCP passes through policy proxies with internal policy DNS; UDP is experimental and ICMP blocked. Cloud has separate account/sandbox/kit rules and public HTTP ingress when published. Host-service forwarding and host MCP are explicit boundary crossings. v0.47.0 notes retain UDP multiple-hostname/broadcast exceptions and old cloud allow-all CIDRs; inspect effective policy rather than promising complete isolation.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults",
+        "https://docs.docker.com/ai/sandboxes/cloud/network-policy",
+        "https://docs.docker.com/ai/sandboxes/security/isolation/",
+        "https://docs.docker.com/ai/sandboxes/workflows/development/",
+        "https://github.com/docker/sbx-releases/releases/tag/v0.47.0"
+      ]
+    },
+    "egress_allowlist": {
+      "value": true,
+      "note": "Local hostname/wildcard/CIDR/port allow and deny rules, with inspectable HTTP method/path rules and optional experimental UDP. Cloud destination/CIDR/port rules do not support local L7 or --protocol. Deny-all presets can still permit kit rules; Console empty combined allow lists permit destinations not denied. Separate stores and documented version/UDP exceptions require effective-policy checks.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults",
+        "https://docs.docker.com/ai/sandboxes/cloud/network-policy",
+        "https://docs.docker.com/ai/sandboxes/governance/concepts/",
+        "https://docs.docker.com/agentic-platform/policies/",
+        "https://github.com/docker/sbx-releases/releases/tag/v0.47.0"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "Cloud publish routes a reachable HTTP app (for example bound to 0.0.0.0) via a returned public HTTPS URL, not a raw TCP tunnel. Docker account auth does not protect that URL; implement app auth. Stop retains publication, delete removes it. Local forwarding binds host ports and alone does not establish public HTTPS. Console port 2222 is reserved for SSH.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/expose-a-port-from-a-cloud-sandbox/",
+        "https://docs.docker.com/agentic-platform/sandboxes/"
+      ]
+    },
+    "private_networking": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08. NO DOCUMENTED SUPPORT FOUND for cloud private sandbox networking/VPC attachment after marketing, local/cloud security/comparison, Console policy, full API and Q1/Q11/PQ3 searches; false is documented-support audit inference, not vendor denial. Local direct inter-sandbox communication is separately explicitly blocked; host-service proxy/public HTTPS are not private-network support.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://docs.docker.com/agentic-platform/policies/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/"
+      ]
+    },
+    "snapshots": {
+      "value": "partial",
+      "note": "Cloud capture requires running source; disk/unspecified saves disk, all adds memory only when canCaptureMemory. Ready snapshots restore new identities and have separate cleanup; cannot delete while restored sandbox runs. Local template requires stop and excludes mounted workspaces/Docker store and recreates agent config. Retention/size limits and specific storage fees unknown.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/operations/createSnapshot/",
+        "https://docs.docker.com/ai/sandboxes/usage",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/EffectiveCoreLifecycle/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/CaptureMode/"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": "partial",
+      "note": "Cloud CLI documents memory-preserving stop but account/volume restrictions apply. API admitted stopMemoryOutcome preserve restores processes; discard starts fresh. Memory-capture support is independent. Local memory recovery and move memory transfer are not established (move explicitly excludes memory).",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/CaptureMode/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/StopMemoryOutcome/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/schemas/EffectiveCoreLifecycle/"
+      ]
+    },
+    "pause_resume": {
+      "value": "partial",
+      "note": "Cloud same-ID stop/start needs account/sandbox support, cannot use volume-backed sandboxes, and memory guarantees depend on admitted backend. Stopped compute not billed; TTL pauses and restarts on resume; concurrency needed. Local stop/restart preserves files, not established memory. Always-on restart is separately gated.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes/usage"
+      ]
+    },
+    "cloning_forking": {
+      "value": "partial",
+      "note": "Cloud snapshot restore forks saved filesystem or supported memory state; clone cookbook only copies image/environment, not files/processes/policies/secrets/volumes/kits. Local --clone is a Git layout, not VM fork, and move excludes mounts, secrets, policy and memory.",
+      "source_urls": [
+        "https://docs.docker.com/reference/api/sandboxes/latest/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/clone-a-cloud-sandbox/"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Local root files survive stop/restart until removal; host mounts survive deletion. Cloud supported stop preserves disk; delete loses root files. Replacement requires ready snapshot restore or separately enabled volumes saved on exit, not continuous storage. Volume-backed sandboxes cannot stop. Move/templates omit mounts; failure/automatic replacement durability unknown.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security/defaults",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/snapshot-and-fork-a-sandbox/"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "Experimental cloud volumes require account enablement; SDK guide specifies one exclusive attachment and no memory-snapshot image. CLI warns save-on-exit, not continuous save, and simultaneous mounts are last-exit-wins. Volume-backed sandboxes cannot stop and must delete on timeout. Reattach separately after releasing source. Local mounts/private Docker volumes have different deletion boundaries.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/attach-persistent-storage/"
+      ]
+    },
+    "custom_images": {
+      "value": true,
+      "note": "Local Linux workload Dockerfiles/kits/templates and cloud OCI imageRef are supported with shell/user/launch and account/platform/pullability constraints. Raw cloud image must include /bin/sh. SDK helpers only launch bundled kits; custom kits require prepared v2 artifacts. Remote local kit sources default to Docker Hub; setup readiness may lag running state.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-your-own-container-image/",
+        "https://docs.docker.com/ai/sandboxes/customize/author/base-images/"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": "partial",
+      "note": "Local private Engine is isolated from host. Cloud kit determines installed Engine (Hermes lacks it); cloud docker exec/compose exec/healthchecks may use VM instead of container files, including silent wrong-file success. Main container command workaround does not restore health monitoring.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/agentic-platform/sandboxes/"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "Local agent has guest sudo and cloud volume example uses sudo chown as agent; not host root or a promise every custom image supplies sudo.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage"
+      ]
+    },
+    "gpu": {
+      "value": "partial",
+      "note": "Experimental local x86_64 Linux NVIDIA VFIO only: unused GPU, IOMMU/modules/feature flags and separately built kernel-matched driver bundle (Docker/license required). Not Arm. Cloud rejects local GPU flags and has no host hardware; no cloud GPU offering established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/configuration/gpu-passthrough/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud"
+      ]
+    },
+    "self_hosted": {
+      "value": "partial",
+      "note": "Customer-machine local runtime, not SDK-only: macOS 14+ Apple silicon, Windows 11 Intel/AMD with WHP, Ubuntu 24.04+ Intel/AMD/Arm with KVM/group access. Docker sign-in required, basic use needs no Desktop/Engine. No deployable multi-tenant hosted control plane documented; separate BYOC flag is false by documented-support audit inference, not a vendor denial of local execution.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://docs.docker.com/ai/sandboxes/install/",
+        "https://docs.docker.com/ai/sandboxes/faq/"
+      ]
+    },
+    "byoc": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08. NO DOCUMENTED SUPPORT FOUND for a vendor BYOC execution/control-plane model after product/announcement/local-cloud/automation/API docs and Q1/Q8/PQ2 targeted searches. False is conservative documented-support audit inference, not a vendor denial. Supported local customer-machine runtime is separate from Docker-managed cloud and is not BYOC-service evidence.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://docs.docker.com/ai/sandboxes/cloud/local-vs-cloud",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/workflows/automation/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/"
+      ]
+    },
+    "open_source": {
+      "value": false,
+      "note": "Exact runtime is proprietary per release README and all-rights-reserved LICENSE. SDK npm 0.53.0 metadata declares Apache-2.0 (linked source repository returned 404); SDK/kit specification licensing is not an open runtime/server grant.",
+      "source_urls": [
+        "https://github.com/docker/sbx-releases",
+        "https://raw.githubusercontent.com/docker/sbx-releases/main/LICENSE",
+        "https://registry.npmjs.org/@docker%2fsandboxes/latest"
+      ]
+    },
+    "background_processes": {
+      "value": "partial",
+      "note": "Cloud detached agents and durable SDK processes run after connection closure subject to TTL; local --detached keeps runtime alive until stop/remove, unlike create's session-driven stop. sbx exec is foreground only; --rm cannot combine with detached and interrupted cloud sessions may need manual cleanup.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://docs.docker.com/ai/sandboxes/usage"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Cloud SDK explicitly supports pty initial rows/cols, input/output, signals and reconnect cursors. CLI cloud SSH and local exec -it are separate documented terminal paths, not HTTPS application ingress.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-an-interactive-shell-in-a-cloud-sandbox/"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "Cloud SDK streams process chunks/exit events and reconnects temporary handle-stream disconnects up to 30s from last delivered cursor without replaying input; raw streams need reconnection. Caller deadlines and sandbox TTL still apply; ended stream without exit event is incomplete.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/run-something-that-produces-real-output/"
+      ]
+    },
+    "secrets_management": {
+      "value": true,
+      "note": "Separate local/cloud stores and scoped proxy-managed credential injection, not blanket invisibility: explicit env/files and OAuth passthrough can expose tokens; local SSH forwarding permits signature requests and headless fallback uses permission-protected file. Cloud exact-host custom headers differ from local placeholder replacement; no cloud registry/dynamic secret resolvers. Credentials in files may enter snapshots.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/security",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/configuration/credentials/",
+        "https://docs.docker.com/ai/sandboxes/cloud/credentials/"
+      ]
+    },
+    "python_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08. NO DOCUMENTED SUPPORT FOUND for an exact Sandboxes Python SDK after marketing, SDK install/overview/cookbook/API, publisher metadata and Q5/Q10/PQ1/PQ4/PQ5 searches. False is documented-support audit inference, not vendor denial. Docker Engine Python SDK, guest Python and any-language REST are separate; public Sandboxes interface docs accessible despite linked TypeScript source repo 404.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes-api/install/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/",
+        "https://registry.npmjs.org/@docker%2fsandboxes/latest",
+        "https://docs.docker.com/reference/api/engine/sdk/",
+        "https://www.docker.com/products/docker-sandboxes/"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "The experimental TypeScript package is @docker/sandboxes.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08. NO DOCUMENTED SUPPORT FOUND for an exact Sandboxes Go SDK after marketing, SDK install/overview/cookbook/API, publisher metadata and Q5/PQ1/PQ4/PQ5 searches. False is documented-support audit inference, not vendor denial. Docker Engine/Go SDK and Docker Agent Go library are other products; guest Go/any-language REST are not SDKs. Public interface docs accessible despite linked TypeScript source repo 404.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/",
+        "https://docs.docker.com/ai/sandboxes-api/install/",
+        "https://docs.docker.com/reference/api/sandboxes/latest/",
+        "https://registry.npmjs.org/@docker%2fsandboxes/latest",
+        "https://docs.docker.com/reference/api/engine/sdk/",
+        "https://docs.docker.com/ai/docker-agent/guides/go-sdk/",
+        "https://www.docker.com/products/docker-sandboxes/"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The sbx CLI manages local sandboxes, and cloud commands use sbx --cloud; cloud docs require 0.45.0 or later and the announcement says 0.45.1 or later.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Local MCP gateway can launch host processes outside VM/network proxy; cloud uses separately connected Agentic Platform servers, not local store. Agent catalog varies by CLI/SDK/interface version.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes/architecture/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/"
+      ]
+    },
+    "max_vcpu": {
+      "value": 16,
+      "note": "Cloud xl maximum 16 vCPUs subject to account/capacity and supported CPU/memory pairs; local host resources have no documented numeric cap.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/work-within-the-limits/"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 32,
+      "note": "Cloud docs maximum 32 GiB/32768 MiB; product/promo marketing uses 32 GB for same shape, an unresolved unit-label conflict, not a converted limit. Local resources depend on host with no numeric maximum established.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes-api/limits/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": 86400,
+      "note": "Cloud CLI extensions capped at 24 hours from creation (86400 seconds), default 1h; stopped TTL pauses and resume starts fresh period. Always-on restart requires account access and explicit TTL >=1h. Not a total retained-state cap; local numeric lifetime cap unknown.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/keep-a-cloud-sandbox-running/"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "No numeric inactivity timeout established. Cloud lifetime TTL pauses while stopped and restarts on resume; local no-session stop differs from detached mode. Running setup/idle/retries are billed per promo terms; unknown is not zero/unlimited.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/cloud/usage",
+        "https://docs.docker.com/ai/sandboxes/usage",
+        "https://www.docker.com/c/sbx-promo/"
+      ]
+    }
+  },
+  "pricing_summary": "Basic local sbx CLI/compute is free including commercial use, with no Desktop/Engine requirement. Experimental Docker-managed cloud requires a separate personal-account pay-as-you-go subscription with no recurring fee. September 24 announcement and product table: Micro $0.07/hour, Small $0.14, Medium $0.28, Large $0.56, XL $1.12; promotion table instead prints XL $1.118/hour. Docs/announcement use 2/4/8/16/32 GiB while marketing/promo uses GB. Billed by the second start-to-stop including setup, idle and retries; stopped compute is not billed subject to stop eligibility. Announcement calls volumes, egress and public images/Kits free and compute the only meter, but specific snapshot/private-image/ingress/I/O charges, minimums and currency/region terms are not established. Inference/agent subscriptions and optional local AI Governance are separate. Current promo: one-time $250 instead of standard $25 for eligible September 22-October 31, 2026 signups, credit card required, expiry six months; not recurring allowance.",
+  "pricing": [
+    {
+      "item": "Local compute",
+      "plan": "Local sandboxes",
+      "published_price": "Free, including commercial use",
+      "conditions": "Exact basic sbx CLI and local compute, not free host hardware/electricity/inference or optional governance. Install docs explicitly require neither Docker Desktop nor Engine; Docker may be needed to build images/GPU bundle or launch host MCP containers, whose separate terms are not sandbox compute fees. Supported host/virtualization setup and Docker sign-in required.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/",
+        "https://docs.docker.com/ai/sandboxes/install/",
+        "https://docs.docker.com/ai/sandboxes/faq/"
+      ]
+    },
+    {
+      "item": "Plan fee",
+      "plan": "Docker Agentic Platform pay-as-you-go",
+      "published_price": "No recurring subscription fee",
+      "conditions": "Experimental cloud still requires active pay-as-you-go checkout/payment details on a personal Docker account, separate from Docker subscriptions, including organization members. September 24 announcement says Personal/Pro availability. Monthly invoice on subscription anniversary; no recurring free allowance established. Model inference and agent subscriptions billed separately. No specific minimum spend, separate creation/preparation, private image, snapshot retention, ingress or storage I/O rate established by public sources; announcement's only-compute wording is not a detailed rate card. Console Usage & billing pricing was not publicly retrievable. Dollar symbol retained; explicit currency/region differentiation unestablished.",
+      "source_urls": [
+        "https://docs.docker.com/agentic-platform/signup/",
+        "https://docs.docker.com/subscription-billing/plans/docker-agentic-platform/",
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/c/sbx-promo/"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "Eligible new Docker Agentic Platform accounts",
+      "published_price": "One-time $250 compute credit in lieu of standard $25 credit",
+      "conditions": "Live promotion terms: signup September 22-October 31, 2026; valid through October 31 at 11:59 PM PT, one per user/account, credit card required; usage beyond credit charged. Non-transferable, no cash value, expires six months after redemption; offer may change/end. Compute only, not model API/agent subscription fees. This and standard $25 are one-time promotional credits, not recurring allowances; excluded from production cost evidence. Search snippets still showed September 30 deadline, but full live page states October 31.",
+      "source_urls": [
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/subscription-billing/plans/docker-agentic-platform/"
+      ]
+    },
+    {
+      "item": "Cloud compute",
+      "plan": "Micro",
+      "published_price": "$0.07 per hour",
+      "conditions": "1 vCPU, 2 GiB in September 24 announcement/docs; product and promo label 2 GB and promo prints $0.070/hour. No unit conversion. Metered by second from start to stop including setup, idle time and retries; not active-CPU-only billing. Experimental personal-account subscription/capacity required; no per-sandbox minimum duration established. Model/agent charges separate; explicit currency/region differentiation unknown.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Cloud compute",
+      "plan": "Small",
+      "published_price": "$0.14 per hour",
+      "conditions": "Default 2 vCPU, 4 GiB in announcement/docs; product/promo label 4 GB, promo $0.140/hour. Second-metered start-to-stop including setup/idle/retries, not active CPU only. Experimental subscription/capacity required; minimum per-run duration and currency/region differentiation unestablished. Inference/agent fees separate.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Cloud compute",
+      "plan": "Medium",
+      "published_price": "$0.28 per hour",
+      "conditions": "4 vCPU, 8 GiB in announcement/docs; product/promo label 8 GB, promo $0.280/hour. Second-metered start-to-stop including setup/idle/retries. Experimental subscription/capacity required; minimum per-run duration and currency/region differentiation unestablished. Promotional workload estimates are not limits or independent benchmarks. Inference/agent fees separate.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Cloud compute",
+      "plan": "Large",
+      "published_price": "$0.56 per hour",
+      "conditions": "8 vCPU, 16 GiB in announcement/docs; product/promo label 16 GB, promo $0.560/hour. Second-metered start-to-stop including setup/idle/retries. Experimental subscription/capacity required; minimum per-run duration and currency/region differentiation unestablished. Inference/agent fees separate.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Cloud compute",
+      "plan": "XL",
+      "published_price": "$1.12 per hour in product/announcement; $1.118 per hour in promotion table",
+      "conditions": "Unresolved published-rate discrepancy, not silently rounded. 16 vCPU/32 GiB in announcement/docs; product/promo label 32 GB. Promo rates labeled current September 2026. Second-metered start-to-stop including setup/idle/retries. Experimental subscription/capacity required; minimum per-run duration and explicit currency/region differentiation unestablished. Console current pricing inaccessible without app/account context; inference/agent fees separate.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://www.docker.com/products/docker-sandboxes/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Paused sandbox",
+      "plan": "Cloud",
+      "published_price": "A paused sandbox costs nothing; stopped compute is not billed",
+      "conditions": "Announcement broadly says costs nothing; CLI specifically says no stopped compute billing. Stop/resume may be disabled for account; volume-backed sandboxes cannot stop and must delete. Running waits/idle/setup/retries are billed, not paused automatically. TTL pauses while stopped and restarts on resume; always-on accounts retain concurrency reservation. Specific snapshot-retention pricing not established.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://www.docker.com/c/sbx-promo/",
+        "https://docs.docker.com/ai/sandboxes-api/limits/"
+      ]
+    },
+    {
+      "item": "Volumes, egress, and public kits",
+      "plan": "Cloud",
+      "published_price": "Free per September 24, 2026 announcement",
+      "conditions": "Announcement says volumes, egress and hosting public images/Kits are free and compute is the only meter. Volumes are experimental/account-gated, save on exit, cannot stop, and SDK requires one exclusive attachment/no memory-snapshot image. No separate specific snapshot-retention, private-image hosting, ingress/storage I/O rate or regional terms established; do not extrapolate missing lines into free support. Inference/agent subscriptions billed separately.",
+      "source_urls": [
+        "https://www.docker.com/blog/introducing-cloud-sandboxes-start-on-your-laptop-finish-in-the-cloud/",
+        "https://docs.docker.com/ai/sandboxes/cloud/usage/",
+        "https://docs.docker.com/ai/sandboxes-api/cookbook/attach-persistent-storage/"
+      ]
+    },
+    {
+      "item": "Optional organization governance",
+      "plan": "Docker AI Governance for local sandboxes",
+      "published_price": "Separate paid subscription; contact Docker Sales",
+      "conditions": "Not required for basic free local execution or ordinary cloud compute. Centrally managed local network/filesystem/MCP policy and local organization audit logs require separate access; general Docker subscriptions alone are insufficient. No public numeric governance fee established. This is not cloud-sandbox organization policy support.",
+      "source_urls": [
+        "https://docs.docker.com/ai/sandboxes/faq/",
+        "https://docs.docker.com/ai/sandboxes/governance/audit/"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Cloud sandbox boot (vendor claim)",
+      "published_claim": "Boot up in low hundreds of milliseconds",
+      "conditions": "Docker press release September 24, 2026, exact Cloud Sandboxes. No exact number, percentile/statistic, hardware size, image/cache preparation, region or cold/warm condition stated. Not independently measured and not a resume/reset/clone latency. Marketing says ready instantly with secrets/policy/MCP/agent config, but SDK docs say running state can precede completion of kit setup; add readiness checks. Do not invent a numeric threshold from low hundreds.",
+      "source_urls": [
+        "https://www.docker.com/press-release/cloud-sandboxes-extending-secure-ai-agent-isolation-beyond-the-laptop/",
+        "https://docs.docker.com/ai/sandboxes-api/concepts/"
+      ]
+    },
+    {
+      "metric": "Local microVM boot after image pull (vendor-site community claim)",
+      "published_claim": "Seconds (after the first image pull)",
+      "conditions": "Docker-hosted Docker Captain comparison article, May 7, 2026, Docker MicroVM row in local Sandboxes section. Qualitative seconds only, no exact latency/percentile, resources or host configuration. Older local context, not the September cloud offering; not independently validated or a cold image-pull/create/resume benchmark. Product marketing also says get started/start fresh in seconds without precise conditions.",
+      "source_urls": [
+        "https://www.docker.com/blog/comparing-sandboxing-approaches-ai-agents/",
+        "https://www.docker.com/products/docker-sandboxes/"
+      ]
+    }
+  ],
+  "research_notes": [
+    "Audit 2026-10-08 covered the exact local/cloud microVM product, not ordinary containers, Docker Desktop, Offload or sibling SDKs. Public price tables use dollar signs; explicit currency/region terms, minimum charges, detailed snapshot/private-image/ingress/I/O prices remain unknown. Product/announcement XL $1.12 differs from promo $1.118 and marketing GB differs from docs GiB; both retained.",
+    "Cloud docs require sbx 0.45.0 or later. The September 24, 2026 announcement says 0.45.1 or later. Architecture docs mention 0.42.0 only as the version where workspace paths became optional.",
+    "Local GPU remains conditional experimental NVIDIA VFIO on x86_64 Linux; cloud rejects local GPU flags/no host hardware. Under the 2026-10-08 eligibility policy, BYOC/private networking/community/Python/Go SDKs have no documented support after thorough targeted review and are classified unsupported/false by audit inference, not vendor denial. Missing root-disk size, numeric API/idle/retention/rate quantities remain unknown; positive conditional cloud recovery and local/cloud mode restrictions are preserved.",
+    "Second pass found cloud low-hundreds-of-milliseconds vendor boot wording and older local qualitative seconds-after-pull claim. Neither supplies exact statistic/resources/cold-warm conditions; no resume/reset/fork latency established. Promo terms confirm setup/idle/retries bill and current October 31 deadline; cached search snippets had September 30 and were not treated as live evidence.",
+    "Recovery is transition-specific: cloud stop support/account/volume gates and per-sandbox memory guarantees; volumes save on exit; templates/moves omit mounts/memory. API SDK exclusive-volume recommendation and CLI concurrent-mount warning are retained. Console empty combined allows permit egress except denies, unlike assuming all interfaces share default deny."
+  ]
+}

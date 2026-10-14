@@ -1,0 +1,1000 @@
+{
+  "id": "boat",
+  "name": "Boat",
+  "product_name": "Boat",
+  "website": "https://boat.dev/",
+  "docs_url": "https://docs.boat.dev/quickstart",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Hosted cloud Linux VMs; self-serve plans from $20/month after a trial",
+      "notes": "The quickstart opens plan checkout with a 7-day trial (25 compute hours, 2 concurrent sandboxes, small/default only). FAQ describes shared vCPUs and recommends dedicated compute for sustained multi-hour 100% CPU loads. Terms prohibit trial continuous background workloads and compute-intensive workloads primarily extracting infrastructure value. Marketing/platform docs invite end-user sandboxes, but Terms require written approval for third-party compute access/resale; that permission conflict remains unresolved. No workload-specific availability guarantee is inferred.",
+      "source_urls": [
+        "https://boat.dev/",
+        "https://docs.boat.dev/quickstart.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/platform-guide.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unknown",
+      "value": null,
+      "notes": "The available public Boat sources describe hosted sandbox VMs. In this independent pass, Boat hosting/network/API sources needed to determine whether a customer-installable runtime exists could not be loaded; no product-wide denial is established. Keep unknown pending accessible exact-product deployment documentation.",
+      "source_urls": [
+        "https://boat.dev/",
+        "https://docs.boat.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "unknown",
+      "value": null,
+      "notes": "Boat public materials describe its hosted service, but customer-cloud execution/control-plane placement remains unverified. The Boat API/create and hosting sources needed to resolve this question were inaccessible in this independent pass; absence from the pages reviewed does not establish a product-wide denial.",
+      "source_urls": [
+        "https://boat.dev/",
+        "https://docs.boat.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python and TypeScript/JavaScript",
+      "notes": "boat-sdk and @boatdev/sdk are MIT client packages, both version 1.7.0 on 2026-10-08. The migration page additionally names Go, Rust and Elixir packages, absent from the SDK overview; its Go repository and raw README mirrors returned 404, so availability of those additional clients is unresolved.",
+      "source_urls": [
+        "https://docs.boat.dev/sdks/overview.md",
+        "https://pypi.org/project/boat-sdk/",
+        "https://registry.npmjs.org/@boatdev/sdk/latest",
+        "https://docs.boat.dev/migrating-from-box.md"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "unknown",
+      "value": null,
+      "notes": "Boat official SDK overview lists Python and JavaScript/TypeScript SDKs but does not enumerate community clients. That omission cannot establish that third-party community SDKs do not exist; retain unknown.",
+      "source_urls": [
+        "https://docs.boat.dev/sdks/overview",
+        "https://docs.boat.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "documented",
+      "value": "Public API v1 at https://boat.dev/api/v1",
+      "notes": "Bearer API keys. Create, stop, resume, fork, files, commands, prompts, events, hosting, and snapshots are first-class endpoints. Idempotency-Key is optional on create and fork.",
+      "source_urls": [
+        "https://docs.boat.dev/api/v1.md"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "boat",
+      "notes": "The CLI covers lifecycle, SSH, SCP, prompts, hosting, snapshots, and billing. Any command accepts --json.",
+      "source_urls": [
+        "https://docs.boat.dev/cli-reference.md",
+        "https://docs.boat.dev/quickstart.md"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Full Ubuntu VM with preinstalled language toolchains",
+      "notes": "The machine page lists Node.js, Bun, Deno, pnpm, Python, uv, Go, Rust, and Java/Maven/Gradle, among others. Any package the VM can install can run.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Full VM with its own kernel",
+      "notes": "Standard hosts are dedicated AMD Ryzen 9 9950X machines. The sandbox is a VM, not the bare-metal server. When those hosts are full, a new sandbox is placed on a Hetzner cloud VM with an older AMD CPU at the same price.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Ubuntu 24.04 LTS, Linux 6.8, x86_64",
+      "notes": "One OS is listed for the sandbox image.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "small 2 vCPU, default 4, large 8, xlarge 16",
+      "notes": "Pricing/machines advertise xlarge self-serve on $100/month or higher with no operator request; create OpenAPI and @boatdev/sdk 1.7.0 type enum still list only small/default/large, so typed/API xlarge compatibility is unresolved. FAQ calls vCPUs shared, unlike marketing's dedicated wording, and recommends dedicated compute for sustained multi-hour 100% CPU work. Size changes on resume/fork; shrinking can fail with type_too_small.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/faq.md",
+        "https://boat.dev/",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://unpkg.com/@boatdev/sdk@1.7.0/dist/models/CreateSandboxRequest.d.ts"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "small 4 GB, default 8 GB, large 16 GB, xlarge 32 GB",
+      "notes": "Published unit is GB, not GiB. xlarge requires $100/month or higher with no operator request, but create OpenAPI and SDK 1.7.0 enum omit it; API/typed-client compatibility remains unresolved. Trial permits small/default only.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "small 12 GB, default 50 GB, large 125 GB, xlarge 251 GB",
+      "notes": "Space for user data excludes the base OS/preinstalled tools; restore budgets concern uncompressed data, not compressed snapshots. Shrinking is refused when retained data exceeds the smaller size. xlarge is advertised on $100/month or higher, but omitted from create OpenAPI/SDK type enums.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unsupported",
+      "value": "None",
+      "notes": "The machine page says graphics run on the CPU. The FAQ says dedicated compute is a better fit for GPU loads.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Prepared Ubuntu VM snapshot templates; custom Docker images run inside the VM",
+      "notes": "Install a stack, save a named snapshot, then create with from/--from; this is not an imported OCI/VM boot image. Docker/BuildKit can build and run images inside the guest. The Harbor adapter explicitly does not execute Dockerfile build steps or Compose; it reads WORKDIR and uploads files. Direct custom sandbox-image/registry import remains unverified. Named templates: 10 free, then $1.70/month each; ZDR prevents saving them.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/integrations/harbor.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://docs.boat.dev/data-retention.md"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "apt and preinstalled language package managers; reusable installed-stack templates",
+      "notes": "Passwordless sudo permits guest installs; captured system changes and home installs return on restore, but ~/.cache and Docker build cache do not unless relocated/exported. Repository setup can block ready; per-sandbox setupScript (64KB) runs after ready, so ready does not mean dependencies finished installing.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/setup.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Passwordless sudo",
+      "notes": "The machine page says full root through passwordless sudo, with systemd.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "documented",
+      "value": "Docker with BuildKit on the sandbox kernel",
+      "notes": "Standard machines also expose /dev/kvm, so QEMU/KVM, Firecracker, or the Android emulator can run inside. The Hetzner fallback has no /dev/kvm.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "Detached commands and systemd services while the VM runs; services restart after restore",
+      "notes": "Synchronous commands default to 30 seconds and accept 1-600 seconds; longer work starts detached and is polled. Detached processes do not survive stop/resume/fork; enabled systemd services start new processes. Agent-server restart loses detached status/exit code (lost), though on-disk logs remain. TTL stops your own jobs even mid-work; only integrated prompts can move its deadline. Trial continuous background workloads are prohibited by Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/api/reference/agent/execute-sandbox-command.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "SSH/SCP plus read, write, and artifact endpoints",
+      "notes": "Snapshot download streams filesystem chunks or a single file. The pull CLI reassembles them. Absolute paths must resolve under /home/user or /tmp, or the file API returns 400 invalid_path.",
+      "source_urls": [
+        "https://docs.boat.dev/ssh-access.md",
+        "https://docs.boat.dev/api/v1.md",
+        "https://docs.boat.dev/snapshots.md"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Selected filesystem changes survive stop/TTL and restore onto a fresh machine",
+      "notes": "Captures /home/user, Docker named volumes and system changes; excludes ~/.cache, Docker build cache/unused images, base image and machine identity; user ignore rules can exclude more. Delete removes unshared snapshots, not independent named templates or chains still used by forks. Snapshots-off erases on stop/failure; ZDR deletes on archive. Docs/Privacy say lifetime retention; Terms TOS-8 (2026-06-18) instead say generally up to approximately 30 days: retention conflict unresolved, not an indefinite guarantee.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/privacy",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Docker named volumes are captured and restored with filesystem snapshots",
+      "notes": "These are guest Docker volumes, not a verified separately attachable managed-volume product. Docker build cache and unused images are excluded. Snapshots-off/ZDR remove recovery; snapshot retention is disputed between lifetime docs/Privacy and approximately 30-day Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "documented",
+      "value": "boat stop snapshots and pauses machine billing; resume restores the same id on fresh hardware",
+      "notes": "Filesystem-only, not live-memory resume; requires a completed snapshot. Failed saves leave stop pending/unbilled from first refusal until use resumes. Lifecycle docs stop after 3 days of failed saves using the last successful snapshot, while stop API says never discard unsaved work and force:true is plain stop: no-loss exception conflict unresolved, latest work not guaranteed. Docker containers get up to 30 seconds to exit; other hand-run processes get no stop signal. Snapshots-off/ZDR prevent recovery. Lifetime retention docs conflict with approximately 30-day Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/api/reference/sandboxes/stop-and-archive-sandbox.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unsupported",
+      "value": "Snapshots capture files, not running processes or memory",
+      "notes": "Enabled systemd services start again. Hand-run processes do not. Docker containers that were running are recreated.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Incremental filesystem capture every minute in ready/idle and on stop; named snapshot templates",
+      "notes": "Automatic snapshots are free with no count cap, but superseded history is cleaned. Named snapshots: 10 free per account/org, no hard count limit, then $1.70/month each charged daily; paid names may be deleted after 7 days without balance. Live named save is asynchronous and can take minutes. Files/system changes and Docker named volumes are captured, not processes/memory, ~/.cache, Docker build cache/unused images or machine identity; ignore rules exclude more. Snapshots-off/ZDR/delete remove recovery. Lifetime retention docs/Privacy conflict with Terms' approximately 30 days.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://docs.boat.dev/api/reference/snapshots/save-named-snapshot.md",
+        "https://boat.dev/terms",
+        "https://boat.dev/privacy"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "Fork restores the latest completed filesystem snapshot into an independent VM; --from deploys a named template",
+      "notes": "Not process fork or atomic live reset; source stays untouched and capture exclusions apply. Fork defaults to 1-hour TTL and inherits exact environment version/per-sandbox env unless overridden; noEnv does not scrub all manually installed credentials. Each create/fork/resume consumes one plan start: $20 12/60/200, $100 30/210/840, $500 65/420/1680, $2000 90/600/2400 per minute/hour/day; active org pool scales by paid seats. /limits $20 example instead 10/50/150, unresolved; consult returned wallet limits. Shrink can fail; snapshots-off/ZDR prevent restore; lifetime retention conflicts with approximately 30-day Terms. Named templates: 10 free then $1.70/month each. Standard-host CPU is shared; fallback is slower/no KVM, and ready capacity can run out. SetupScript may still run after ready.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/environments.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms",
+        "https://docs.boat.dev/api/reference/account/get-boat-limits.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/setup.md"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Outbound internet is included",
+      "notes": "Every sandbox has a dedicated public IPv4 or IPv6.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Guest-root firewall rules are supported; managed destination controls remain unverified",
+      "notes": "Guest-root firewall rules are supported; the cited example rejects user-owned non-loopback UDP except WireGuard, not all protocols, and rules remain mutable by guest root. Boat's Harbor integration documentation explicitly says Harbor network policies/no-network/allow-list controls are unavailable through that adapter; this is an adapter boundary and does not settle product-wide provider-managed egress filtering, which remains unknown. Hosting/network API pages were inaccessible in this independent pass.",
+      "source_urls": [
+        "https://docs.boat.dev/hosting.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/integrations/eve.md",
+        "https://docs.boat.dev/integrations/harbor.md",
+        "https://boat.dev/vercel-sandbox-alternative",
+        "https://docs.boat.dev/integrations/harbor"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "documented",
+      "value": "SSH plus explicitly opened guest ports and a hosted HTTPS proxy (up to 50 hosted ports)",
+      "notes": "SSH uses machineIp:22 or sshEndpoint host:port when there is no public IPv4; keys are authorized for user user and host keys change on resume/fork. host/boat host opens the firewall for a chosen port and proxies HTTPS to a running service bound to 0.0.0.0. Direct http://<sandbox-ip>:<port> needs your ufw rule. This does not establish all ports reachable by default or HTTPS on raw ports. Protected URL tokens gate the proxy, not a documented guarantee for direct-IP access.",
+      "source_urls": [
+        "https://docs.boat.dev/ssh-access.md",
+        "https://docs.boat.dev/hosting.md"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "documented",
+      "value": "Stable external HTTPS routes to services inside a running sandbox",
+      "notes": "https://<sandbox-subdomain>-<port>.on.boat.dev; Boat terminates TLS and proxies to 0.0.0.0-bound services. Fresh host URLs are _token-protected by default; --public clears it; rehosting preserves URL/token across resume, but processes must restart. Up to 50 hosted ports. Legacy on.ascii.dev still routes, with retirement unsettled. SSH forward is a caller tunnel, not this general ingress mechanism. Desktop URLs are separate secret-bearing streams, not app-preview evidence.",
+      "source_urls": [
+        "https://docs.boat.dev/hosting.md",
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/migrating-from-box.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "unknown",
+      "value": null,
+      "notes": "Whether the hosted Boat product offers customer VPC attachment or private sandbox networking remains unverified. The relevant Boat hosting/network/API references were inaccessible in this pass; management WireGuard and caller SSH forwarding do not resolve this capability.",
+      "source_urls": [
+        "https://boat.dev/",
+        "https://docs.boat.dev/llms.txt"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "documented",
+      "value": "100, 300, 1000, or 2000 active sandboxes by $20/$100/$500/$2000 monthly plan",
+      "notes": "Trial allows 2 at once. Active org subscriptions multiply one shared pool by paid seats; org plan price is per seat, and without an active plan remaining packs use one seat's limits. Per-member caps may reduce access. Create/fork/resume also consume start quotas (12/60/200 per minute/hour/day on $20; 30/210/840 on $100; 65/420/1680 on $500; 90/600/2400 on $2000), so concurrency is not launch throughput. The /limits $20 example instead prints 10/50/150: source conflict unresolved; consult returned wallet limits.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/cli-reference.md",
+        "https://docs.boat.dev/api/reference/account/get-boat-limits.md"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "documented",
+      "value": "Default creation/resume TTL 1 hour; numeric TTL cap 30 days; null disables auto-stop with a payment method",
+      "notes": "30 days (2592000 seconds) is a numeric timer cap, not a finite maximum lifetime when auto-stop is off. Trial cannot disable it or exceed 2 hours. Timer is not idle detection; your own commands/services can be cut off mid-work, while an integrated agent prompt moves the deadline by one TTL. Resume keeps the setting; fork defaults to 1 hour. Numeric values above cap: guide says capped, OpenAPI enforces maximum, so rejection versus clamping is unresolved. Balance depletion gives 24 hours' grace then snapshots/stops; Terms permit suspension and disallow trial continuous background work.",
+      "source_urls": [
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://docs.boat.dev/billing.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "documented",
+      "value": "No idle timer",
+      "notes": "The FAQ says the auto-stop TTL never counts from last activity. Stopped sandboxes stay stopped until resume.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/long-running-tasks.md"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "documented",
+      "value": "Create, fork and resume share rolling minute/hour/day machine-start quotas",
+      "notes": "$20 plan: 12/60/200; $100: 30/210/840; $500: 65/420/1680; $2000: 90/600/2400 (minute/hour/day). Org pool scales by paid seats only with active subscription; member caps can further restrict. The /limits API example still shows $20 at 10/50/150, conflicting with pricing/FAQ/org prose; use returned current wallet limits, not example constants. failFast no_ready_machine creates/bills/counts nothing. General API request quota, trial start numbers and reset API remain unverified.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/api/reference/account/get-boat-limits.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "documented",
+      "value": "EU: Germany, Finland, and France",
+      "notes": "The FAQ says data and snapshots stay there. It does not describe a region picker. Round trips are described as around 100 to 200 ms.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Command output streams as application/x-ndjson with stream:true",
+      "notes": "Started, stdout/stderr chunks, then exit/error frames; stream is ignored when detached. Synchronous execution accepts 1-600 seconds (default 30). Detached jobs use status polling; SDK prompt/event streaming helpers use cursor long-polling, not a separate SSE/WebSocket endpoint. Command API says startup waits up to 60 seconds, while guides describe immediate retryable refusal: wait for ready and do not blindly retry a possibly executed command.",
+      "source_urls": [
+        "https://docs.boat.dev/api/reference/agent/execute-sandbox-command.md",
+        "https://docs.boat.dev/sdks/python.md",
+        "https://docs.boat.dev/sdks/typescript.md",
+        "https://docs.boat.dev/platform-guide.md"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Detached stdout/stderr files, status tails, structured agent events and systemd journal",
+      "notes": "Detached logs live under ~/.ascii/processes; agent-server restart loses status/exit code but leaves on-disk logs. Files recover only within snapshot scope. Separate managed-log retention/export guarantees remain unverified after targeted docs/marketing/API searches; Terms reserve operational log retention without a fixed product duration.",
+      "source_urls": [
+        "https://docs.boat.dev/api/v1.md",
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/api/reference/agent/execute-sandbox-command.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "documented",
+      "value": "Interactive SSH shell as user user; browser desktop separately available",
+      "notes": "SSH connects on port 22 or returned sshEndpoint host:port, only while the machine runs; keys are authorized through Boat. Interactive terminal access is documented, not a separately established PTY-session/resize HTTP API. Desktop/noVNC is not itself PTY evidence.",
+      "source_urls": [
+        "https://docs.boat.dev/ssh-access.md",
+        "https://docs.boat.dev/cli-reference.md",
+        "https://docs.boat.dev/desktop-streaming.md"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Versioned sandbox environment variables and secret files, plus per-sandbox env injection",
+      "notes": "Secrets are readable inside the guest, not a secret-brokering proxy. File paths must remain under /home/user. Guides pin versions until explicit upgrade and warn /secrets is full replacement; update-secrets API prose instead says omitted fields unchanged, while its embedded schema/SDK 1.7.0 say replacement and live push: omission/rollout conflict unresolved. noEnv/safe-for-third-parties withholds managed owner credentials, but does not scrub all manually installed aws/gcloud/.netrc/.npmrc/Docker credentials. Fork/template can carry per-sandbox variables; do not bake secrets into templates.",
+      "source_urls": [
+        "https://docs.boat.dev/environments.md",
+        "https://docs.boat.dev/api/reference/account/update-boat-secrets-setup.md",
+        "https://docs.boat.dev/api/reference/environments/upgrade-sandbox-environment.md",
+        "https://unpkg.com/@boatdev/sdk@1.7.0/dist/models/SecretsUpdateRequest.d.ts",
+        "https://docs.boat.dev/snapshots.md"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Expiring action/target-scoped API keys, organization roles and token-gated HTTPS routes",
+      "notes": "Scoped keys default-deny unknown routes; old keys remain account-wide until reissued. In-sandbox keys cannot create/resume/fork/delete or administer accounts. New-key creation needs a browser session or admin token and may be rollout-disabled; rotate/revoke and ZDR changes are session-gated. Org view/use/owner access depends on creator logins; sharing needs restart to remove in-memory credentials. HTTPS tokens protect proxy URLs, not documented direct-IP reachability. noEnv suppresses managed owner secrets, not all manually written credentials.",
+      "source_urls": [
+        "https://docs.boat.dev/api-keys.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/environments.md",
+        "https://docs.boat.dev/hosting.md",
+        "https://docs.boat.dev/data-retention.md"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Seven integrated prompt harnesses, additional preinstalled agents, Cua computer-use MCP, Eve and Harbor adapters",
+      "notes": "Integrated guide/API list Claude Code, Codex, pi, OpenCode, Prime Agent, Kimi and Mistral Vibe; machines also lists Hermes, OpenClaw and Cursor CLI but its prompt sentence still mentions only Claude/Codex. Harness credentials are required; OpenClaw gateway is not started and Hermes browser tools are not preinstalled. Conversation history persists on disk, not process memory; credentials/config/screen are shared within a VM. Eve rejects deny-all/allowlists; Harbor does not build Dockerfiles/Compose or supply GPUs/Windows.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/integrated-agents.md",
+        "https://docs.boat.dev/api/v1.md",
+        "https://docs.boat.dev/integrations/eve.md",
+        "https://docs.boat.dev/integrations/harbor.md"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "documented",
+      "value": "MIT Python boat-sdk 1.7.0 and TypeScript @boatdev/sdk 1.7.0 clients; sandbox product proprietary",
+      "notes": "Registry metadata verifies client licenses, not an open runtime/control plane. The Python SDK description explicitly calls Boat/API/CLI/sandbox proprietary. Official Eve/Harbor adapter READMEs also publish MIT; their legacy Box names refer to the same renamed product.",
+      "source_urls": [
+        "https://pypi.org/project/boat-sdk/",
+        "https://registry.npmjs.org/@boatdev/sdk/latest",
+        "https://raw.githubusercontent.com/ariana-dot-dev/eve-box/main/README.md",
+        "https://raw.githubusercontent.com/ariana-dot-dev/harbor-box/main/README.md",
+        "https://docs.boat.dev/migrating-from-box.md"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": "partial",
+      "note": "Internet is available by default. Guest-root firewall rules can restrict it, but the example only rejects user-owned non-loopback UDP except WireGuard; TCP 8911 and the management tunnel must remain reachable or health degrades. This is not an immutable all-protocol isolation boundary against guest root. Eve/Harbor reject deny-all/allowlist policies.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/hosting.md",
+        "https://docs.boat.dev/integrations/eve.md",
+        "https://docs.boat.dev/integrations/harbor.md"
+      ]
+    },
+    "egress_allowlist": {
+      "value": "unknown",
+      "note": "unknown: the Harbor integration docs explicitly say Harbor's no-network/allow-list controls do not map to Boat, which is adapter-specific; product-wide managed destination allowlisting is not established. Guest-root firewall is separately mutable. See https://docs.boat.dev/integrations/harbor.",
+      "source_urls": [
+        "https://docs.boat.dev/hosting.md",
+        "https://docs.boat.dev/integrations/eve.md",
+        "https://docs.boat.dev/integrations/harbor.md"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": true,
+      "note": "SSH uses machineIp:22 or returned sshEndpoint host:port. host/boat host exposes a running service bound to 0.0.0.0 through stable TLS-terminated HTTPS, up to 50 hosted ports, _token-protected by default; --public removes the token. Direct-IP ports need explicit guest firewall opening; proxy tokens do not establish direct-IP protection.",
+      "source_urls": [
+        "https://docs.boat.dev/ssh-access.md",
+        "https://docs.boat.dev/hosting.md"
+      ]
+    },
+    "private_networking": {
+      "value": "unknown",
+      "note": "unknown: exact-product customer VPC/private sandbox networking was not verified; relevant Boat hosting/network/API pages were inaccessible. Harbor adapter limitations and management WireGuard do not decide the product capability.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/hosting.md"
+      ]
+    },
+    "snapshots": {
+      "value": true,
+      "note": "Filesystem-only capture every minute in ready/idle and on stop; named templates restore onto new machines. Automatic storage is free; 10 named snapshots free then $1.70/month each, no count cap. Excludes ~/.cache, Docker build cache/unused images and machine identity. Delete/ZDR/snapshots-off remove recovery. Lifetime docs/Privacy conflict with Terms' approximately 30-day retention.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": false,
+      "note": "The snapshots page lists running processes, memory, and open ports as not captured; resume behaves like a reboot onto a fresh machine.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    "pause_resume": {
+      "value": true,
+      "note": "Filesystem-only same-id restore on fresh hardware, not live memory; completed retained snapshot required, snapshots-off/ZDR disable recovery. Failed stop pauses billing. Lifecycle docs fall back to last successful snapshot after 3 days of failed saves, conflicting with stop API's never-discard-unsaved-work guarantee; no-loss exception remains unresolved. Lifetime docs and approximately 30-day Terms also conflict on retention.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/api/reference/sandboxes/stop-and-archive-sandbox.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    "cloning_forking": {
+      "value": true,
+      "note": "Fork restores the latest completed filesystem snapshot, not process memory or an established atomic live reset; exclusions apply and the source is untouched. Named templates deploy with --from. Each create/fork/resume consumes one start quota; fork defaults to 1-hour TTL. Snapshots-off/ZDR disable recovery; inherited secrets need care.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/environments.md"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": true,
+      "note": "Captured home/system changes and Docker named volumes restore on fresh hardware, with cache/identity/ignore exclusions. Stop/TTL retains snapshots by default; delete/ZDR/snapshots-off do not. Lifetime docs/Privacy conflict with approximately 30-day Terms, so retention is not guaranteed indefinite.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "Docker named volumes are captured/restored with filesystem snapshots, subject to recovery exclusions, snapshots-off/ZDR and retention conflict. No documented support found in the official sources reviewed as of 2026-10-08 for a separately attachable managed-volume product; conservative audit inference, not vendor denial. Second-pass scope is in the dated official-source review; positive guest-volume support stays partial.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md"
+      ]
+    },
+    "custom_images": {
+      "value": "partial",
+      "note": "Install a stack in Ubuntu and save/deploy named filesystem templates, or build/run Docker images inside the VM. No documented support found in the official sources reviewed as of 2026-10-08 for imported custom sandbox boot images/registry provisioning; conservative audit inference, not vendor denial (second-pass scope in the dated official-source review). Harbor does not execute Dockerfile build steps/Compose. Positive templates remain partial: 10 free then $1.70/month each, unavailable under ZDR.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/integrations/harbor.md"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": true,
+      "note": "Docker with BuildKit runs on the sandbox's own kernel.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "The machine page says full root through passwordless sudo, with systemd.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    "gpu": {
+      "value": false,
+      "note": "The machine table says GPU is none and that graphics run on the CPU.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    "self_hosted": {
+      "value": "unknown",
+      "note": "unknown: customer-installable Boat runtime/control plane is not established by accessible current exact-product sources; do not infer vendor denial from missing docs.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/api/v1.md",
+        "https://pypi.org/project/boat-sdk/",
+        "https://boat.dev/"
+      ]
+    },
+    "byoc": {
+      "value": "unknown",
+      "note": "unknown: customer-cloud execution/control-plane placement is not established by accessible current exact-product sources; do not treat API/docs access failures as a denial.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://boat.dev/compare"
+      ]
+    },
+    "open_source": {
+      "value": "partial",
+      "note": "boat-sdk 1.7.0 and @boatdev/sdk 1.7.0 clients are MIT; Python package description explicitly calls Boat/API/CLI/sandbox proprietary. MIT Eve/Harbor integration adapters do not make the runtime open source.",
+      "source_urls": [
+        "https://pypi.org/project/boat-sdk/",
+        "https://registry.npmjs.org/@boatdev/sdk/latest"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "Detached commands and systemd services run while the VM runs; synchronous commands cap at 600 seconds (default 30). Hand-run processes do not survive stop/resume/fork; enabled services restart new processes. Agent restart loses detached exit/status tracking, not logs. Trial continuous background workloads are prohibited.",
+      "source_urls": [
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    "terminal_pty": {
+      "value": true,
+      "note": "Interactive SSH shell as user user on port 22 or returned sshEndpoint host:port is documented while running; a separate HTTP PTY-session/resize API is unverified. Desktop/noVNC is a different access surface.",
+      "source_urls": [
+        "https://docs.boat.dev/ssh-access.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    "command_streaming": {
+      "value": true,
+      "note": "stream:true returns application/x-ndjson started/stdout/stderr/exit/error frames; ignored with detached. Command timeout accepts 1-600 seconds. Prompt/event SDK helpers long-poll the cursor API rather than requiring SSE/WebSockets.",
+      "source_urls": [
+        "https://docs.boat.dev/api/reference/agent/execute-sandbox-command.md",
+        "https://docs.boat.dev/sdks/typescript.md"
+      ]
+    },
+    "secrets_management": {
+      "value": true,
+      "note": "Managed versioned env vars and files are injected/readable in the guest, not brokered away from it. noEnv withholds managed owner credentials but not all manually installed credentials. Fork/template variables can carry secrets. /secrets omission and live-rollout behavior conflict between guide, API prose and schema/SDK; explicit environment upgrades are documented.",
+      "source_urls": [
+        "https://docs.boat.dev/environments.md",
+        "https://docs.boat.dev/api/reference/account/update-boat-secrets-setup.md",
+        "https://docs.boat.dev/api/reference/environments/upgrade-sandbox-environment.md"
+      ]
+    },
+    "python_sdk": {
+      "value": true,
+      "note": "Official boat-sdk Python client, version 1.7.0 on 2026-10-08, MIT, Python >=3.9.",
+      "source_urls": [
+        "https://docs.boat.dev/sdks/overview.md",
+        "https://pypi.org/project/boat-sdk/"
+      ]
+    },
+    "typescript_sdk": {
+      "value": true,
+      "note": "Official @boatdev/sdk TypeScript/JavaScript client, version 1.7.0 on 2026-10-08, MIT; Node 18+ supplies fetch. Its create type enum still omits advertised xlarge.",
+      "source_urls": [
+        "https://docs.boat.dev/sdks/overview.md",
+        "https://registry.npmjs.org/@boatdev/sdk/latest"
+      ]
+    },
+    "go_sdk": {
+      "value": "unknown",
+      "note": "Migration docs name github.com/boat-dev/go-sdk, but overview lists only Python/TypeScript; the named repository, main/master raw README and legacy main README returned 404. A usable public Go SDK remains unverified, not explicitly unsupported.",
+      "source_urls": [
+        "https://docs.boat.dev/sdks/overview.md",
+        "https://docs.boat.dev/migrating-from-box.md"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The boat CLI covers lifecycle, SSH, hosting, snapshots, and billing.",
+      "source_urls": [
+        "https://docs.boat.dev/cli-reference.md",
+        "https://docs.boat.dev/snapshots.md"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": true,
+      "note": "Seven prompt harnesses (Claude Code, Codex, pi, OpenCode, Prime Agent, Kimi, Mistral Vibe), additional installed agents, computer-use MCP and Eve/Harbor adapters. Harness credentials required; OpenClaw gateway not started, Hermes browser tools not preinstalled. Disk conversation history is not restored process memory; shared screen/config/credentials are per VM.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/integrated-agents.md",
+        "https://docs.boat.dev/integrations/eve.md",
+        "https://docs.boat.dev/integrations/harbor.md"
+      ]
+    },
+    "max_vcpu": {
+      "value": 16,
+      "note": "Advertised xlarge maximum is 16 shared vCPU, self-serve on $100/month or higher with no operator request. Create OpenAPI and SDK 1.7.0 enum omit xlarge; typed/API access is unresolved. Trial permits small/default only.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md"
+      ]
+    },
+    "max_memory_gib": {
+      "value": null,
+      "note": "Advertised xlarge RAM is 32 GB, not GiB; no conversion or GiB maximum is inferred. xlarge needs $100/month or higher and is absent from current create OpenAPI/SDK enums.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "2592000 seconds is the numeric TTL cap, not a maximum lifetime: null disables auto-stop with a payment method. Default 3600 seconds; trial cannot disable or exceed 7200. No finite unconditional lifetime maximum is established; billing/policy stops still apply.",
+      "source_urls": [
+        "https://docs.boat.dev/long-running-tasks.md"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "The FAQ says Boat has no idle timer; auto-stop counts from creation or resume, never from last activity.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/long-running-tasks.md"
+      ]
+    }
+  },
+  "pricing_summary": "Per-second running VM-time (including idle/I/O), bundled CPU/RAM/disk: small $0.018/hour, default $0.036/hour, large $0.072/hour, xlarge $0.200/hour. After the 7-day/25-hour promotional trial, self-serve plans start at $20/month; $20/$100/$500/$2000 monthly payments provide equal-dollar expiring usage, not an extra fee on top of that allowance, and org plans are per seat. $20 packs never expire. xlarge needs $100/month or higher, no operator request, but current API/SDK enums omit it. Stopped runtime and automatic snapshot storage are free; named snapshots: 10 free per account/org then $1.70/month each charged daily, with 7-day depletion deletion for paid names. IP and egress up to 2 TB/sandbox/month are included. Egress overage, separate ingress/storage-I/O charges, creation/preparation meters and exact billing onset/floor remain unverified; missing prices are not assumed zero. Published usage examples are not total subscription cash outlay.",
+  "pricing": [
+    {
+      "item": "Sandbox hour",
+      "plan": "small",
+      "published_price": "$0.018 per hour",
+      "conditions": "2 shared vCPU, 4 GB RAM, 12 GB user disk; bundled running wall time billed per second, including idle/I/O, not active CPU. Post-trial self-serve minimum $20/month with equal-dollar usage allowance; org plans per seat. Stopped runtime is free. Separate create/preparation/ingress/storage-I/O charges and precise billing onset/floor are not established, not assumed zero.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/cli-reference.md",
+        "https://boat.dev/"
+      ]
+    },
+    {
+      "item": "Sandbox hour",
+      "plan": "default",
+      "published_price": "$0.036 per hour",
+      "conditions": "4 shared vCPU, 8 GB RAM, 50 GB user disk; quickstart default. Per-second running wall time includes idle/I/O. Post-trial self-serve minimum $20/month with equal-dollar usage allowance; org plans per seat. The printed 730 h/$26 usage example is not cash outlay: its page specifies $20 plan plus one $20 pack. Separate create/preparation/ingress/storage-I/O charges and exact billing onset/floor remain unverified.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/quickstart.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/cli-reference.md",
+        "https://boat.dev/"
+      ]
+    },
+    {
+      "item": "Sandbox hour",
+      "plan": "large",
+      "published_price": "$0.072 per hour",
+      "conditions": "8 shared vCPU, 16 GB RAM, 125 GB user disk; running wall time per second including idle/I/O, 2x default-time draw. Trial excludes large. Post-trial self-serve minimum $20/month with usage allowance; org plans per seat. Separate create/preparation/ingress/storage-I/O charges and exact billing onset/floor remain unverified.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "item": "Sandbox hour",
+      "plan": "xlarge",
+      "published_price": "$0.200 per hour",
+      "conditions": "16 shared vCPU, 32 GB RAM, 251 GB user disk. Advertised self-serve on $100/month or higher, no operator request; current create OpenAPI and SDK 1.7.0 enums omit xlarge, so typed/API compatibility is unresolved. Per-second running wall time including idle/I/O; monthly plan usage included, org plans per seat. Separate create/preparation/ingress/storage-I/O charges and exact billing onset/floor remain unverified.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md",
+        "https://unpkg.com/@boatdev/sdk@1.7.0/dist/models/CreateSandboxRequest.d.ts",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "item": "Plan",
+      "plan": "$20/mo",
+      "published_price": "$20/mo",
+      "conditions": "Post-trial self-serve recurring minimum, not a per-sandbox fee. Includes $20 of usage (printed 555 h default), expires monthly, spent before packs; do not count both the subscription and its covered usage twice. 100 active sandboxes, rolling starts 12/minute, 60/hour, 200/day; /limits example instead prints 10/50/150, so consult current wallet limits. Org subscriptions cost $20 times seats and multiply a shared quota pool only while active; member caps may reduce it. Taxes/applicable fees may apply under Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/cli-reference.md",
+        "https://docs.boat.dev/api/reference/account/get-boat-limits.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "item": "Plan",
+      "plan": "$100/mo",
+      "published_price": "$100/mo",
+      "conditions": "Includes $100 usage, printed 2,777 h default; expires monthly, spent before packs, not a separate fee atop covered usage. 300 active, starts 30/minute, 210/hour, 840/day. Advertised xlarge access at this plan. Org price is $100 times seats with shared seat-scaled quotas while active; member caps may reduce access. Upgrades prorated and immediate.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "item": "Plan",
+      "plan": "$500/mo",
+      "published_price": "$500/mo",
+      "conditions": "Includes $500 usage, printed 13,888 h default; expires monthly, spent before packs, not a separate fee atop covered usage. 1,000 active, starts 65/minute, 420/hour, 1,680/day. Org price is $500 times seats; shared quotas scale while subscription active, with optional member caps. Upgrades prorated and immediate.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "item": "Plan",
+      "plan": "$2000/mo",
+      "published_price": "$2000/mo",
+      "conditions": "Includes $2000 usage, printed 55,555 h default; expires monthly, spent before packs, not a separate fee atop covered usage. 2,000 active, starts 90/minute, 600/hour, 2,400/day. Org price is $2000 times seats; shared quotas scale while subscription active, with optional member caps. Upgrades prorated and immediate.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "item": "Credit pack",
+      "plan": "Add-on",
+      "published_price": "$20",
+      "conditions": "Same rates, never expires; $20 buys 2,000,000 default-time seconds. Included monthly allowance is spent first; default-time draw multipliers small 0.5/default 1/large 2/xlarge 5.56 are published, not physical CPU counters. Manual $20 packs and optional auto-pay/auto-refill are documented. When enabled, auto-pay charges a saved card in small increments at depletion, drawing any prepaid balance first; its default setting, exact automatic charge amount and recharge-frequency cap are not established by current sources. Depleted balances get 24 hours' billed grace whether or not auto-pay is on, then stop; this is not a documented once-per-24-hour recharge cap. Org packs after subscription ends use one seat's limits. Refunds generally unavailable under Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/organizations.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "7-day trial before first payment",
+      "published_price": "25 free compute hours",
+      "conditions": "One-time eligible-user trial, not a recurring free tier. 2 concurrent, small/default only, TTL at most 2 hours and cannot be disabled. Checkout renews into a paid plan unless canceled. Terms disallow trial continuous background/idle-parking and primarily compute-consuming workloads. Trial machine-start quota not established.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/quickstart.md",
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "item": "Stopped sandbox",
+      "plan": "All listed plans",
+      "published_price": "Nothing for stopped machine time",
+      "conditions": "Running idle/I/O time is still billed. Refused snapshot stops pause the meter from first refusal until use resumes. Automatic snapshots are free, not every named snapshot. Lifetime retention docs conflict with approximately 30-day Terms. At zero balance, 24 hours' running grace is billed and settled on next payment, then stop/snapshot; after 3 days of failed saves docs stop using last successful snapshot. Delete/ZDR/snapshots-off remove restoration.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/billing.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "item": "Automatic snapshots, IP, and included egress",
+      "plan": "Included",
+      "published_price": "Nothing extra within stated inclusion",
+      "conditions": "Automatic snapshot storage is free with no count cap, but old generations are superseded/cleaned and data is size-bounded. Dedicated IPv6 or IPv4 included. Egress included up to 2 TB/sandbox/month; overage price/behavior, ingress and separate storage-I/O meters remain unverified. Named snapshots above ten are separately charged, not included by this line. Retention conflicts with Terms.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://boat.dev/terms"
+      ]
+    },
+    {
+      "item": "Published examples",
+      "plan": "Pricing page usage examples, not cash bills",
+      "published_price": "One default sandbox, 8 hours a day, 22 days: $6.34 of usage, covered by the $20 plan",
+      "conditions": "Vendor examples only, not supplied-workload estimates: 730 h/$26 usage requires $20 plan plus one $20 pack; 50 defaults, 4 h/day, 22 days gives $158 usage and $100 plan plus three packs; 200 small, 1 h each gives $3.60 usage covered by a plan. These exclude named-snapshot additions and unresolved ancillary charges. Do not treat sub-$20 usage as post-trial total cash spend or invent a scenario from these examples.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md"
+      ]
+    },
+    {
+      "item": "Named snapshot storage",
+      "plan": "Per account or organization",
+      "published_price": "10 free; above 10, $1.70 per named snapshot per month (about $0.06/day)",
+      "conditions": "No count limit above ten. Charged daily from included plan time first, then packs; removal stops cost the next day. A new paid name needs credit. At empty balance, paid names get 7 days then deletion; ten most recently saved names are protected from that depletion deletion. ZDR removes names and prevents saves. Source deletion leaves independent names intact, but lifetime docs/Privacy conflict with Terms' approximate 30-day snapshot retention wording. Saving a running source can take minutes of running VM time.",
+      "source_urls": [
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/pricing.md",
+        "https://docs.boat.dev/api/reference/snapshots/save-named-snapshot.md",
+        "https://docs.boat.dev/data-retention.md",
+        "https://boat.dev/terms"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Resume, fork and named-template deploy usability",
+      "published_claim": "A few seconds, whatever the sandbox holds",
+      "conditions": "Vendor wording, not a measured numeric percentile or cold-create claim; reviewed 2026-10-08 (snapshots sitemap updated 2026-10-07). File tree is available before background hydration; reads may wait for content. CLI ready does not mean setupScript done or all files hydrated; processes need restart. Ready capacity can run out. Size, region-specific timing and statistic not stated.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md",
+        "https://docs.boat.dev/long-running-tasks.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/cli-reference.md"
+      ]
+    },
+    {
+      "metric": "Build and test throughput, not startup latency",
+      "published_claim": "27.7 runs/second (36 seconds per 1,000 runs) on default 4 vCPU / 8 GB; fallback 8.9 runs/second (113 seconds per 1,000)",
+      "conditions": "Vendor pricing/compare claim for Node.js bundle/lint/test loop, standard Ryzen 9 9950X VM hosts, measured 2026-08-24; pricing says medians over several machines, 95% intervals within +/-20%. Linked raw leaderboard labels legacy Ascii Box (renamed Boat), requests 4 vCPU/8 GiB/40 GB and reports 27.67 p50 (26.01-28.34, n=21) vs fallback 8.88 (7.12-10.55, n=11); retain its units rather than treating marketing GB as GiB. Raw sample/statistic wording differs from marketing's per-machine summary. Cross-provider dates differ, not a like-for-like race. No independent audit benchmark was run.",
+      "source_urls": [
+        "https://docs.boat.dev/pricing.md",
+        "https://boat.dev/compare",
+        "https://raw.githubusercontent.com/AnicetNgrt/hpc-sandbox-benchmarks/provider/ascii-box/docs/results/2026-08-24-cpu/leaderboard.md",
+        "https://docs.boat.dev/migrating-from-box.md"
+      ]
+    },
+    {
+      "metric": "Geographic round trip, not sandbox startup",
+      "published_claim": "Around 100 to 200 ms",
+      "conditions": "Vendor FAQ estimate from US or Latin America to EU; statistic, endpoints, machine size, method and measurement date not printed. Reviewed 2026-10-08; FAQ sitemap updated 2026-10-03. This is network round trip, not create/reset/fork/resume latency.",
+      "source_urls": [
+        "https://docs.boat.dev/faq.md"
+      ]
+    },
+    {
+      "metric": "Prewarmed machine allocation, not end-to-end readiness",
+      "published_claim": "Create, template deploy, fork and resume get an already-running machine in under a second",
+      "conditions": "Vendor machines page, reviewed 2026-10-08 (sitemap updated 2026-10-07). Applies to machines already running and waiting; bursts that exhaust a type's ready pool wait for new builds. No percentile, image/size/region test or cold-build bound stated. Snapshot hydration, setup completion and usable command timing are distinct; restore usability is separately described as a few seconds.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/snapshots.md",
+        "https://docs.boat.dev/setup.md"
+      ]
+    },
+    {
+      "metric": "failFast API acceptance or rejection",
+      "published_claim": "Answers within about 1.5 seconds with 202 or 503 no_ready_machine",
+      "conditions": "Vendor machines/create OpenAPI claim, reviewed 2026-10-08; requires failFast:true on create/template deploy/fork/resume. This is response time, not sandbox ready time or guaranteed successful creation. 503 starts, bills and counts nothing, and resume stays stopped. No percentile or region/size test stated.",
+      "source_urls": [
+        "https://docs.boat.dev/machines.md",
+        "https://docs.boat.dev/api/reference/sandboxes/create-sandbox.md"
+      ]
+    },
+    {
+      "metric": "Cold-start marketing wording",
+      "published_claim": "A few seconds",
+      "conditions": "Vendor blog side-by-side Full VM (boat) cold-start row, dated 2026-08-08. No numeric bound/percentile, resource size, image, region or timing method. Older wording is not substituted for prewarmed under-a-second allocation or a precise current cold-start measurement.",
+      "source_urls": [
+        "https://boat.dev/blog/containers-vs-vms"
+      ]
+    }
+  ],
+  "research_notes": [
+    "The pricing page prints hourly comparison figures and a benchmark table for other sandbox vendors. Those figures were not copied into this dossier and were not applied to the other providers.",
+    "Default TTL is 1 hour from creation or resume, not from idle time. Paid accounts can disable auto-stop or set a numeric TTL up to 30 days. Trial accounts cannot disable it and cannot exceed 2 hours.",
+    "Standard machines expose /dev/kvm. The capacity fallback is a Hetzner cloud VM without /dev/kvm at the same hourly price.",
+    "A fork defaults to a 1 hour TTL even when the source sandbox has auto-stop off. Resume keeps the current TTL when it is omitted.",
+    "GET /limits accounts in seconds of default time, 100,000 per dollar, with size multipliers. The size table also publishes a dollar rate per hour. Both are kept.",
+    "Current pricing/machines remove operator approval for xlarge, but OpenAPI/SDK/CLI enum tables still omit it. FAQ shared-vCPU wording differs from dedicated marketing. API /limits example start quotas lag pricing. Keep these conflicts rather than claiming fully reconciled API access or dedicated CPU.",
+    "Recovery is selective, not a byte-for-byte entire root disk or live process snapshot. Cache/identity exclusions, optional ignore files, ZDR and snapshots-off apply. Legal Terms' approximate 30-day retention conflicts with lifetime docs/Privacy; after 3 days of failed saves stop may use stale successful state.",
+    "Named snapshots have no hard ten-name cap: ten free then $1.70/month each charged daily, with paid names deleted after seven days without balance. Automatic snapshot storage is free. Monthly org subscription prices are per seat; allowance usage must not be counted twice. Trial credit is promotional, not recurring, and is excluded by production cost evidence filtering.",
+    "Independent safe-NO correction: self-hosting, BYOC, private networking, community SDK inventory, and product-wide provider-managed egress allowlists remain unknown because exact-product source coverage is blocked or non-exhaustive. Harbor no-network/allow-list rejection is adapter-scoped. Guest-root firewall, GPU None, filesystem-only snapshots, and snapshot/Docker environment preparation retain their documented scopes. Usable Go/Rust/Elixir clients remain unverified because migration gives positive package names but sources are blocked or conflicting.",
+    "Remaining numeric/behavioral unknowns: general/trial API start quotas; GiB memory maximum, finite unconditional lifetime maximum, exact cold-create/reset latency; managed-log retention; egress overage, ingress/storage-I/O/preparation meters and exact billing onset/floor. None are zero/free/unlimited. No documented standalone reset, custom sandbox boot-image import, separately attachable managed-volume product or HTTP PTY-session API was found; the documented fork, Docker/templates, Docker volumes and interactive SSH are retained without implying those stronger mechanisms.",
+    "Secret injection is confirmed for this sandbox product, but /secrets omitted-field and live-update behavior disagree across guide, API prose, embedded schema and SDK 1.7.0. noEnv does not scrub every manually installed credential, and per-sandbox variables can carry into forks/templates. End-user platform marketing conflicts with Terms requiring written approval for third-party compute access/resale."
+  ]
+}

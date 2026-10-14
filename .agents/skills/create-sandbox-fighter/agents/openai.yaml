@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sandbox Wars Character Creator"
+  short_description: "Generate and integrate cyberpunk fighter sprites"
+  default_prompt: "Use $create-sandbox-fighter to create a new provider character and integrate its sprites into the Sandbox Wars preview."

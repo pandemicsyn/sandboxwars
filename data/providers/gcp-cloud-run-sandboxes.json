@@ -1,0 +1,896 @@
+{
+  "id": "gcp-cloud-run-sandboxes",
+  "name": "Google Cloud",
+  "product_name": "Cloud Run sandboxes",
+  "website": "https://cloud.google.com/run",
+  "docs_url": "https://docs.cloud.google.com/run/docs/code-execution",
+  "researched_at": "2026-10-08",
+  "facts": [
+    {
+      "field": "hosted",
+      "status": "documented",
+      "value": "Public-preview sandboxes inside an existing Google-operated Cloud Run service, job, worker pool, or instance",
+      "notes": "Requires a Google Cloud project with billing enabled and --sandbox-launcher or sandboxLauncher: true; Pre-GA terms and potentially limited support apply. Services use second generation. Sandboxes share the host CPU and memory, not a separate allocation. The CLI works only inside enabled Cloud Run containers. Google docs describe public preview without an allowlist prerequisite, but the Google-linked ComputeSDK README requires project allowlisting; access applicability remains unresolved, not guaranteed ungated. Instances have separate preview and regional restrictions.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/workerpools/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/instances/sandboxes",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md",
+        "https://docs.cloud.google.com/run/docs/locations"
+      ]
+    },
+    {
+      "field": "self_hosted",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for self-hosting the Cloud Run sandbox runtime",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. The complete sandbox CLI reference limits use to enabled Cloud Run containers. Docs, marketing, API and SDK second-pass scope is recorded in the dated official-source review; subprocess examples and open client code are not a deployable runtime.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    {
+      "field": "byoc",
+      "status": "documented",
+      "value": "Customer Google Cloud project hosting the enabled Cloud Run resource; Google-operated execution and control plane",
+      "notes": "Conditional customer-project model, not self-hosting or a portable BYOC runtime for AWS, Azure, on-premises, or arbitrary customer VMs. The sandbox executes inside that resource and shares its allocation. Public-preview access is qualified in hosted; no separate enterprise BYOC deployment or sandbox-private VPC boundary is established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes"
+      ]
+    },
+    {
+      "field": "official_sdk_languages",
+      "status": "documented",
+      "value": "Python ADK CloudRunSandboxCodeExecutor; Node.js, Python and Go subprocess examples for the CLI",
+      "notes": "The current official ADK source exports the executor: local Cloud Run only, Python execution, stateful=False and optimize_data_file=False, default per-call timeout 300 seconds (None disables that client timeout). This is not the sandbox TTL or a remote SDK. No documented vendor sandbox TypeScript or Go client library was found as of 2026-10-08; Cloud Run Admin clients are host control-plane SDKs. ADK source availability does not identify a minimum released package version.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/__init__.py",
+        "https://docs.cloud.google.com/run/docs/apis"
+      ]
+    },
+    {
+      "field": "community_sdk_languages",
+      "status": "documented",
+      "value": "TypeScript ComputeSDK @computesdk/cloud-run, linked by Google's launch blog",
+      "notes": "Direct mode wraps the in-container CLI; remote mode requires deploying a customer-operated gateway, not a Google sandbox HTTP service. Default ephemeral create() is only a logical handle; runCommand() creates/deletes a sandbox via do. Stateful mode uses run/exec/delete. The README requires project allowlisting and gateway setup deploys 100 min/max instances with no CPU throttling; do not confuse SDK create latency or gateway URL with sandbox readiness or sandbox ingress.",
+      "source_urls": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    {
+      "field": "http_api",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for a vendor-operated sandbox execution HTTP API",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. REST Container.sandboxLauncher enables a host supervisor; it is not a sandbox execution endpoint. ComputeSDK can deploy its own remote gateway wrapping the CLI, but that community application is not a native Google sandbox API.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/apis",
+        "https://docs.cloud.google.com/run/docs/reference/rest/v2/Container",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md"
+      ]
+    },
+    {
+      "field": "cli",
+      "status": "documented",
+      "value": "sandbox at /usr/local/gcp/bin/sandbox inside enabled Cloud Run, plus gcloud beta --sandbox-launcher",
+      "notes": "Complete reference lists do, run, exec, fork, tar and delete. do creates, executes and destroys after exit; run --detach keeps a named running sandbox for exec; delete --force can remove a running sandbox. gcloud or YAML enables/disables the host launcher. This is an in-container CLI, not a self-host install or remote vendor execution API.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "executable_runtimes",
+      "status": "documented",
+      "value": "Any language whose binaries are already in the host image",
+      "notes": "Examples use /bin/echo, /usr/bin/python3, and /usr/bin/bash. A command invoked by name, such as python3, needs PATH set with --env. The blog lists Python, R, or SQL as a use case. R and SQL were not shown as preinstalled.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    {
+      "field": "isolation",
+      "status": "documented",
+      "value": "Isolated process boundary inside the host instance; a service with the launcher uses the second-generation microVM",
+      "notes": "Sandbox pages say process execution is isolated, sandboxes are isolated from each other, and they share the host container's CPU and memory. They do not inherit the parent workload, environment variables, secrets, or the metadata server. The execution-environments page says second generation is a microVM with full Linux compatibility, and first generation is gVisor. Enabling sandboxes on a service forces second generation. Jobs and worker pools already use only second generation. The sandbox itself is not described as its own microVM.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/execution-environments",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    {
+      "field": "operating_systems",
+      "status": "documented",
+      "value": "Linux binaries and libraries supplied by the enabled host root filesystem",
+      "notes": "No fixed guest distribution is named. Examples use bash, apt and /usr/bin paths. The linked host container contract requires Linux x86_64; full Linux compatibility describes second-generation host execution, not unrestricted privileged guest syscalls. No Windows or macOS guest execution is established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract",
+        "https://docs.cloud.google.com/run/docs/configuring/execution-environments"
+      ]
+    },
+    {
+      "field": "cpu_options",
+      "status": "documented",
+      "value": "No sandbox CPU menu; sandboxes share the host, whose maximum is 8 vCPU per container instance",
+      "notes": "The service and job pages say to size the host so it can hold the application and any sandboxes at the same time. The 8 vCPU limit cannot be increased. There is no sandbox-only CPU size.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes",
+        "https://docs.cloud.google.com/run/quotas"
+      ]
+    },
+    {
+      "field": "memory_options",
+      "status": "documented",
+      "value": "No sandbox memory menu; sandboxes share the host, maximum 32 GiB per container instance, and second generation requires at least 512 MiB",
+      "notes": "The 32 GiB limit cannot be increased. The 512 MiB floor is a second-generation host requirement, not a sandbox allocation.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/execution-environments",
+        "https://docs.cloud.google.com/run/quotas"
+      ]
+    },
+    {
+      "field": "disk_options",
+      "status": "documented",
+      "value": "Read-only root; --write adds a tmpfs overlay that is deleted with the sandbox",
+      "notes": "The quotas page limits the writable in-memory filesystem to 32 GiB, limited by instance memory. That limit is for the container instance. Bind mounts and tar import or export keep selected files. The pricing page's ephemeral-disk SKU was not tied to the tmpfs overlay.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/quotas",
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "field": "gpu_availability",
+      "status": "unknown",
+      "value": null,
+      "notes": "The Cloud Run sandbox sources reviewed establish shared CPU/memory but do not establish whether GPU devices are exposed to the guest. Host Cloud Run GPU features and sibling products do not answer the sandbox-specific question; retain unknown.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "custom_images",
+      "status": "documented",
+      "value": "Custom host image supplies sandbox binaries and libraries; CLI --rootfs selects the exposed root",
+      "notes": "No separate per-sandbox image-pull service is documented. Install executable tools in the enabled host image. The linked host contract requires Linux x86_64 executables and linux/amd64 in multi-architecture images; accepts Docker V2 schema 1/2, OCI and Zstd-compressed images. These are host-image constraints applicable to the root the sandbox uses, not Docker-in-sandbox support. Artifact Registry repositories must exist before deployment.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "field": "package_installation",
+      "status": "documented",
+      "value": "apt, pip, and npm during execution, with sandbox sudo privileges",
+      "notes": "Writes need --write. Fetching external package repositories requires --allow-egress because all outbound traffic is blocked by default. The overlay is discarded when the sandbox is deleted unless exported or written through a bind mount. This is not host-root access or a guarantee that all privileged installers work.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    {
+      "field": "root_sudo",
+      "status": "documented",
+      "value": "Sandbox processes run with sudo privileges as a non-root user",
+      "notes": "The exact sandbox guide explicitly documents this guest privilege. The general host container contract separately says sudo/setuid and privileged containers are not supported; it does not explain the sandbox-specific exception. Preserve the exact-product claim without extrapolating to host root, unrestricted devices, mounts or Docker-in-sandbox; the privilege boundary remains qualified.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "field": "docker_support",
+      "status": "unknown",
+      "value": null,
+      "notes": "The reviewed Cloud Run sandbox guides do not establish Docker-in-sandbox or a guest Docker daemon. Host container images, host Docker packaging, and the host privileged-container restriction do not determine guest Docker support; retain unknown.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "background_processes",
+      "status": "documented",
+      "value": "sandbox run --detach, then sandbox exec against the named running sandbox",
+      "notes": "Examples include long-running programs, browsers and servers. This is in-host background execution, not suspension or a durable daemon across host restart. Sandboxes share the host CPU allocation; service request-based CPU is allocated during requests, while instance-based CPU covers host lifetime. Detached execution is not documented to prevent host shutdown. sleep 1h and sleep 12m are examples, not limits. ADK's Python executor is one-shot and cannot be stateful.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/container-contract",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py"
+      ]
+    },
+    {
+      "field": "file_upload_download",
+      "status": "documented",
+      "value": "Read-only view of the host filesystem, tar import and export, and bind mounts",
+      "notes": "Flags are --import-tar, --export-tar, and --sync-tar. sandbox tar writes the modified filesystem of a running sandbox. The host can place a file that the sandbox reads.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    {
+      "field": "persistent_filesystem",
+      "status": "documented",
+      "value": "Ephemeral root overlay; explicit tar export/import or bind mounts retain selected files across sandbox calls in the same host instance",
+      "notes": "Unexported overlay files are deleted when the sandbox process terminates. Host-local /tmp archives and bind directories are not durable across host stop, crash, deletion or replacement: the host contract says its in-memory filesystem disappears when the instance stops. The sandbox guide mentions mapping data to Cloud Storage but gives no complete bucket attachment/restore procedure. Durable cross-host recovery, retention and costs are not established by a local tar or bind mount; external storage must be arranged explicitly.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "field": "volumes",
+      "status": "documented",
+      "value": "Host-directory bind mounts with --mount type=bind, optionally readonly",
+      "notes": "The example shares /tmp/my-volume at /mnt/my-mount and writes back into the host. This provides same-host sharing, not durable root persistence across host stop/replacement. The sandbox guide mentions Cloud Storage but no complete sandbox bucket attachment or restoration procedure. External-volume retention, attachment and I/O pricing remain configuration-dependent.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "field": "pause_resume",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for pausing and resuming a Cloud Run sandbox",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. The full CLI reference lists do, run, exec, fork, tar and delete, but no pause/resume operation. A detached running process or restarted host instance is not a paused sandbox.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/instances/instance-lifecycle"
+      ]
+    },
+    {
+      "field": "resume_preserves_process_memory",
+      "status": "unknown",
+      "value": null,
+      "notes": "The CLI fork description says state and command line of a running source sandbox, but does not define state as process memory or guarantee continuation. Its --tar option and sandbox tar refer to writable overlay files. Retain uncertainty about the ambiguous state wording; there is no established memory restoration or live-resume mechanism. ADK explicitly cannot be stateful.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py"
+      ]
+    },
+    {
+      "field": "snapshots",
+      "status": "documented",
+      "value": "Writable-overlay filesystem archive via sandbox tar; restore files into a new sandbox with --import-tar",
+      "notes": "sandbox tar my-sandbox --file=/tmp/foo.tar captures a running sandbox's modified overlay, not the base image, external bind-mount contents or process memory. do/run --import-tar restores overlay files; do --sync-tar imports then exports. Local archives must be retained outside the ephemeral host for cross-host recovery. No managed snapshot retention, atomicity, storage quota or separate snapshot price is established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "field": "cloning_forking",
+      "status": "documented",
+      "value": "sandbox fork <source-sandbox-id> <target-sandbox-id> from a running source",
+      "notes": "The CLI reference says the new sandbox uses the source state and command line; --detach detaches the new sandbox and --tar selects the tarball from the source state. This establishes a fork operation, not process-memory continuation, an atomic clone of external mounts, a managed reset API or a numeric fork latency. Both sandboxes use host resources.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "outbound_internet",
+      "status": "documented",
+      "value": "Blocked by default; --allow-egress enables it",
+      "notes": "The example fetches https://google.com and the page says the result is HTTP 200. Egress can be turned on, so this is not unsupported.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    {
+      "field": "outbound_restrictions",
+      "status": "documented",
+      "value": "Default deny-all outbound traffic; --allow-egress enables outbound access",
+      "notes": "The launch blog describes blocking at the system layer. No documented support found in the official sources reviewed as of 2026-10-08 for a sandbox destination domain/IP/CIDR allowlist or denylist; this is a conservative documented-support audit inference, not a vendor denial. No DNS/SNI/protocol/port filtering semantics or enabled-egress VPC routing guarantee are established. Generic host VPC/firewall controls are not copied as sandbox policy.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    {
+      "field": "inbound_ports",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for exposing a service inside a sandbox to external clients",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. A detached server does not establish port forwarding. The CLI has no documented port-publication mechanism and ComputeSDK getUrl() explicitly rejects per-sandbox ports. Host run.app HTTPS, TLS termination, SSH and worker-pool private IPs are not documented sandbox ingress; no sandbox hostname, auth, bind-address or port contract is established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/securing/ingress",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    {
+      "field": "preview_urls",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for sandbox preview or exposed HTTPS URLs",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. ComputeSDK's remote gateway is a host application API, not an endpoint for a server inside the sandbox. Its getUrl() implementation rejects per-sandbox ports. Host HTTPS URLs do not establish sandbox previews.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/securing/ingress",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    {
+      "field": "private_networking",
+      "status": "unknown",
+      "value": null,
+      "notes": "Cloud Run host VPC/Shared VPC features and sandbox egress on/off do not establish the sandbox guest routing model or private sandbox addressing. Product-specific private networking remains unknown.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "concurrency_limit",
+      "status": "unknown",
+      "value": null,
+      "notes": "No sandbox-count quota was printed. Host limits that are not a sandbox cap: 1,000 concurrent requests per service instance, 80 per instance resource, 8 vCPU, and 32 GiB per container instance. Services, jobs, and worker pools are 1,000 per project and region. The instances resource is 100 per project and region.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/quotas",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "field": "max_session_duration",
+      "status": "unknown",
+      "value": null,
+      "notes": "No sandbox TTL is established. sleep 1h and sleep 12m are examples; ADK's 300-second per-call default is a configurable client timeout, not a product maximum. Sandboxes live inside a host and detached execution has no documented exemption from host stop/restart/termination. Host ceilings are not sandbox TTLs: service request timeout 60 minutes, CPU job task timeout 168 hours, instance automatic restart after at most 7 days with an enabled restart policy. Marketing still says jobs up to 24 hours, conflicting with current host quota docs; neither number establishes a sandbox lifetime.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/quotas",
+        "https://docs.cloud.google.com/run/docs/container-contract",
+        "https://cloud.google.com/run",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py"
+      ]
+    },
+    {
+      "field": "idle_timeout",
+      "status": "unknown",
+      "value": null,
+      "notes": "No sandbox idle timeout was printed. Request-based billing charges while a request is processed. The pages do not say whether a detached sandbox keeps that request billable.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "field": "api_rate_limits",
+      "status": "unknown",
+      "value": null,
+      "notes": "No sandbox run/exec/fork rate limit is established. Host Cloud Run Admin API quotas are 3,000 reads and 180 writes per 60 seconds per project and region, adjustable; Job Run is 180 executions per 60 seconds. These govern host administration, not inner sandbox execution or deployed-service requests, and are not copied as a sandbox execution cap.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/quotas",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    },
+    {
+      "field": "regions",
+      "status": "unknown",
+      "value": null,
+      "notes": "No sandbox-specific availability list or access guarantee is established. Hosts reside in a chosen Google Cloud region. Current locations docs exclude Cloud Run instances in europe-west1, us-central1 and us-east1 even though pricing lists an Iowa Instances table; that rate is not an obtainable sandbox-instance offer in Iowa. Pricing and locations lists also disagree on some region membership. Do not infer exact sandbox availability or Tier 2 rates from generic host tables.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/locations",
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "field": "command_streaming",
+      "status": "documented",
+      "value": "Local CLI stdout/stderr streams can be piped to the invoking container's standard streams",
+      "notes": "The guide's Node.js example uses child.stdout.pipe(process.stdout) and child.stderr.pipe(process.stderr); Python and Go connect process streams directly. This establishes local command-output streaming, not a native remote WebSocket/SSE execution API. ComputeSDK direct mode supports output callbacks; its remote mode returns JSON results.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    {
+      "field": "logs",
+      "status": "documented",
+      "value": "Cloud Logging captures sandbox lifecycle events; stdout and stderr go to the invoking process",
+      "notes": "The examples pipe those streams to the container's stdout and stderr so they can appear in Cloud Logging.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    {
+      "field": "terminal_pty",
+      "status": "unsupported",
+      "value": "No documented support found in the official sources reviewed as of 2026-10-08 for a sandbox PTY terminal",
+      "notes": "Conservative documented-support audit inference, not a vendor denial. Console attachment, subprocess stdin/stdout and the guide's interactive adjective do not establish PTY allocation. The new host SSH preview is not documented as a sandbox terminal.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/release-notes"
+      ]
+    },
+    {
+      "field": "secrets",
+      "status": "documented",
+      "value": "Host environment variables and secrets are not inherited by the sandbox; managed sandbox-scoped secret delivery is unverified",
+      "notes": "The sandbox guide explicitly states that host environment variables and secrets are not inherited, the metadata server is unavailable, and passing secrets with --env is discouraged. This documents a host-to-guest boundary; it does not establish whether a separate sandbox-scoped secrets facility exists. Host Secret Manager configuration is not automatically guest injection.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/secrets"
+      ]
+    },
+    {
+      "field": "access_controls",
+      "status": "documented",
+      "value": "Cloud Run Developer and Service Account User to configure the host",
+      "notes": "The roles are roles/run.developer and roles/iam.serviceAccountUser. Source deploys also need Cloud Build roles. The sandbox has no separate IAM model on the pages reviewed.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes"
+      ]
+    },
+    {
+      "field": "agent_integrations",
+      "status": "documented",
+      "value": "Official Python ADK CloudRunSandboxCodeExecutor source and community TypeScript ComputeSDK adapter",
+      "notes": "ADK exports a local-only, one-shot Python executor with stateful=False, no output_files and a configurable 300-second default call timeout; a minimum released package version is not established. ComputeSDK direct/remote wrapper modes differ and its default create() only allocates a logical handle. The browser/OS automation page describes building tools in the host container, not an additional sandbox browser API or sandbox ingress feature.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/__init__.py",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md",
+        "https://docs.cloud.google.com/run/docs/browser-automation"
+      ]
+    },
+    {
+      "field": "open_source_license",
+      "status": "unknown",
+      "value": null,
+      "notes": "The reviewed documentation and sample-client licenses do not establish the license or distribution status of the Cloud Run sandbox runtime. Keep unknown rather than infer a runtime license from integration examples.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    }
+  ],
+  "capabilities": {
+    "network_isolation": {
+      "value": true,
+      "note": "Public-preview sandboxes block all outbound traffic by default; --allow-egress opens outbound access. This is a documented deny-all boundary, not a destination allowlist, ingress contract, or blanket security guarantee.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    },
+    "egress_allowlist": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a sandbox domain/IP/CIDR destination allowlist. Conservative documented-support audit inference, not a vendor denial; the complete CLI only documents outbound on/off with --allow-egress. Search scope is in the audit ledger.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    },
+    "inbound_ports_or_preview_urls": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for sandbox port publication or HTTPS previews. Conservative documented-support audit inference, not a vendor denial; CLI reference has no publication mechanism and the Google-linked ComputeSDK getUrl() rejects sandbox ports. Host URLs and gateway APIs are not sandbox ingress.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    "private_networking": {
+      "value": "unknown",
+      "note": "unknown: host Direct VPC/Shared VPC support does not establish guest routing or private sandbox addressing; exact sandbox networking behavior remains unresolved.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "snapshots": {
+      "value": "partial",
+      "note": "sandbox tar captures writable overlay files from a running sandbox; do/run --import-tar restores those files into a new sandbox. Partial explicit archive recovery, not memory restoration, base-image capture, external-volume cloning or managed retention. A host-local archive disappears with the ephemeral host unless stored externally.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "memory_snapshot_or_live_resume": {
+      "value": "unknown",
+      "note": "CLI fork positively describes source state and command line but does not define that state as process memory or continuation. --tar and sandbox tar describe writable-overlay files. Ambiguous positive state wording leaves memory restoration unknown, not a documented memory snapshot or a vendor denial.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    },
+    "pause_resume": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for sandbox pause/resume after reviewing the full CLI, execution guide, marketing and SDKs. Conservative documented-support audit inference, not a vendor denial. Detached execution and host restart are different operations.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "cloning_forking": {
+      "value": "partial",
+      "note": "The full CLI reference documents sandbox fork from a running source using its state and command line, with --detach and --tar. Fork is supported; process-memory continuation, external-volume cloning, atomicity and numeric fork latency are not established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    },
+    "persistent_filesystem": {
+      "value": "partial",
+      "note": "Partial same-host retention through explicit tar export/import and bind mounts; unexported --write tmpfs files disappear when the sandbox ends. Host-local archives/directories do not survive host stop or replacement. The guide mentions Cloud Storage without a complete sandbox bucket attachment/restore procedure; cross-host durability requires external storage.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "volumes": {
+      "value": "partial",
+      "note": "--mount type=bind shares a host directory, optionally readonly. A host /tmp bind is not a durable volume across host stop/replacement. The sandbox guide mentions Cloud Storage but does not provide a complete sandbox bucket-mount procedure or managed volume attachment contract.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "custom_images": {
+      "value": "partial",
+      "note": "Custom enabled host images supply guest binaries/libraries; --rootfs selects the exposed root. This is not separate per-sandbox image deployment. Host contract requires Linux x86_64 and linux/amd64 in multi-architecture manifests; Docker/OCI host images do not imply Docker inside a sandbox.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "docker_in_sandbox": {
+      "value": "unknown",
+      "note": "unknown: current sandbox references describe execution in a host-provided environment but do not settle whether a Docker daemon can run inside the guest. Host Docker packaging and privilege rules are not a guest-capability denial.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "root_sudo": {
+      "value": true,
+      "note": "The exact sandbox guide documents sudo privileges as a non-root user. The general host contract separately rejects sudo/setuid/privileged containers without explaining the sandbox-specific exception; guest sudo is not host root or unrestricted Docker/device/mount privilege.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    "gpu": {
+      "value": "unknown",
+      "note": "unknown: host GPU features do not establish GPU attachment to this sandbox guest; current sandbox-specific evidence does not resolve guest device passthrough.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    "self_hosted": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for self-hosting this sandbox runtime. Conservative documented-support audit inference, not a vendor denial; CLI is limited to enabled Cloud Run containers. Open client code is not an installable runtime.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli"
+      ]
+    },
+    "byoc": {
+      "value": "partial",
+      "note": "The enabled host resource runs in the customer's Google Cloud project with billing enabled, on Google's managed Cloud Run execution/control plane. Conditional customer-project model only, not self-hosting or a portable AWS/Azure/on-premises BYOC runtime; sandbox VPC applicability and access gates are not established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    "open_source": {
+      "value": "unknown",
+      "note": "unknown: public integration/sample license notices do not establish the sandbox runtime license or availability as an open-source server.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "background_processes": {
+      "value": true,
+      "note": "sandbox run --detach starts a named running sandbox and exec reuses it within the host. Shared host CPU/billing and lifecycle apply; detach does not establish suspension, host-shutdown prevention or durable process recovery. ADK's one-shot executor cannot be stateful.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "terminal_pty": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for sandbox PTY allocation. Conservative documented-support audit inference, not a vendor denial; console/stdin attachment and host SSH preview do not establish an inner sandbox PTY.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/release-notes"
+      ]
+    },
+    "command_streaming": {
+      "value": "partial",
+      "note": "The exact guide pipes child stdout/stderr into container standard streams, establishing local output streaming. ComputeSDK direct mode has callbacks; remote mode returns JSON. No vendor remote WebSocket/SSE execution protocol is established.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/src/index.ts"
+      ]
+    },
+    "secrets_management": {
+      "value": "unknown",
+      "note": "unknown: the guide establishes non-inheritance of host secrets, warns against passing them via --env, and disables metadata access; it does not settle whether a separate sandbox-scoped managed-secrets facility exists.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/reference/sandbox-cli",
+        "https://docs.cloud.google.com/run/docs/configuring/services/secrets"
+      ]
+    },
+    "python_sdk": {
+      "value": "partial",
+      "note": "Official ADK source exports CloudRunSandboxCodeExecutor: Python, local-only, one-shot CLI wrapper, stateful=False, no output_files and configurable default 300-second call timeout. Not a general remote sandbox-management SDK; minimum released package version remains unverified.",
+      "source_urls": [
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/__init__.py"
+      ]
+    },
+    "typescript_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a vendor TypeScript sandbox client. Conservative documented-support audit inference, not a vendor denial. Node.js subprocess examples and Admin API clients are not sandbox SDKs; the Google-linked TypeScript ComputeSDK adapter is community support recorded separately.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "go_sdk": {
+      "value": false,
+      "note": "No documented support found in the official sources reviewed as of 2026-10-08 for a vendor Go sandbox client. Conservative documented-support audit inference, not a vendor denial. Go subprocess examples and Cloud Run Admin clients are not guest-execution SDKs; see the per-topic search ledger.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "cli": {
+      "value": true,
+      "note": "The sandbox binary is at /usr/local/gcp/bin/sandbox, and gcloud beta uses --sandbox-launcher.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    "mcp_or_agent_integrations": {
+      "value": "partial",
+      "note": "Official ADK executor is present in current Python source, but is local-only and stateless; minimum released package version is unverified. Google's blog also links the community TypeScript ComputeSDK adapter with direct CLI and customer-deployed gateway modes, an allowlisting prerequisite and default ephemeral logical handles.",
+      "source_urls": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview",
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://raw.githubusercontent.com/google/adk-python/main/src/google/adk/integrations/cloud_run/_cloud_run_sandbox_code_executor.py",
+        "https://raw.githubusercontent.com/computesdk/computesdk/main/packages/cloud-run/README.md"
+      ]
+    },
+    "max_vcpu": {
+      "value": 8,
+      "note": "There is no sandbox CPU menu; sandboxes share the host, whose maximum is 8 vCPU per container instance and cannot be increased.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/quotas"
+      ]
+    },
+    "max_memory_gib": {
+      "value": 32,
+      "note": "There is no sandbox memory menu; the host maximum is 32 GiB per container instance and cannot be increased.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/quotas",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    "max_session_duration_seconds": {
+      "value": null,
+      "note": "No sandbox TTL was printed; sleep 1h and sleep 12m are examples.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    "idle_timeout_seconds": {
+      "value": null,
+      "note": "No sandbox idle timeout was printed.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    }
+  },
+  "pricing_summary": "Public-preview sandboxes share enabled Cloud Run host CPU and memory; the July 9, 2026 blog says no additional cost or premium. This does not make host allocation, waiting or external storage free. Verified 2026-10-08 USD Iowa service/job instance-based host rates are $0.000018 per vCPU-second and $0.000002 per GiB-second, billed for the whole host lifetime with a 1-minute minimum and 100-millisecond rounding. Monthly billing-account allowances are shared, not per-sandbox grants. Worker-pool host allocation is billed while running. Request-based services have different allocation/billing behavior and no documented guarantee that detach keeps CPU available. External archive storage, build/registry, network and I/O charges are configuration-dependent and not fully quantified here. Host GPU, ephemeral-disk, delayed-job and geographically unavailable Iowa instance prices are excluded. The $300 new-customer credit is promotional, not recurring, and excluded from production cost evidence.",
+  "pricing": [
+    {
+      "item": "Additional sandbox charge",
+      "plan": "Public preview",
+      "published_price": "No additional cost or premium",
+      "conditions": "Vendor claim from July 9, 2026: sandboxes share the CPU and memory of running host instances. Host allocation, idle/waiting time under instance-based billing and ancillary services still incur their own charges. Native sandbox create/delete/fork/tar operations have no separate published premium; external archive retention, I/O and enabled-egress routing charges are not fully quantified. USD host rates below were rechecked 2026-10-08 for Iowa (us-central1); 100-millisecond rounding, host-mode minimums and region/currency conditions apply. The free tier is billing-account-wide, aggregated across projects, not multiplied for each sandbox or host mode. No compulsory sandbox subscription or minimum spend was found; committed discounts are optional commitments. Exact preview access applicability remains qualified in hosted.",
+      "source_urls": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/workerpools/sandboxes",
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Services CPU",
+      "plan": "Instance-based billing, us-central1",
+      "published_price": "$0.000018 per vCPU-second",
+      "conditions": "Free tier: first 240,000 vCPU-seconds per month, based on us-central1 pricing, aggregated across projects by billing account. Cloud Run CUD 1-year and 3-year both print $0.00001494. Compute Flexible CUD 1-year prints $0.00001296 and 3-year prints $0.00000972. Instance-based billing charges the entire lifetime of the container instance, minimum 1 minute. These are host rates. The sandbox pages do not add a sandbox CPU meter.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Services memory",
+      "plan": "Instance-based billing, us-central1",
+      "published_price": "$0.000002 per GiB-second",
+      "conditions": "USD enabled-host allocation shared by the application and its sandboxes, billed for the entire host lifetime including waiting, minimum 1 minute; not measured guest-memory consumption. Free tier: first 450,000 GiB-seconds per month, shared billing-account discount. Cloud Run CUD 1-year and 3-year both print $0.00000166. Compute Flexible CUD 1-year prints $0.00000144 and 3-year $0.00000108. Prices were rechecked 2026-10-08.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes"
+      ]
+    },
+    {
+      "item": "Services CPU",
+      "plan": "Request-based billing, active time, us-central1",
+      "published_price": "$0.000024 per vCPU-second",
+      "conditions": "Free tier: first 180,000 vCPU-seconds per month, based on us-central1 active pricing. Cloud Run CUD 1-year, Cloud Run CUD 3-year, Compute Flexible CUD 1-year, and Compute Flexible CUD 3-year each print $0.00001992. Request-based billing charges while the instance is starting, while it handles SIGTERM, and while at least one request is processed. The sandbox pages do not say a sandbox exec is itself a billed request.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Services CPU",
+      "plan": "Request-based billing, idle minimum instance, us-central1",
+      "published_price": "$0.0000025 per vCPU-second",
+      "conditions": "Applies to idle billable time for instances kept warm with minimum instances. Idle instances that are not minimum instances are not charged. The same four CUD columns each print $0.000002075.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Services memory",
+      "plan": "Request-based billing, active and idle minimum instance, us-central1",
+      "published_price": "$0.0000025 per GiB-second",
+      "conditions": "The active row and the idle minimum-instance row both print this default. Free tier: first 360,000 GiB-seconds per month. The same four CUD columns each print $0.000002075.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Requests",
+      "plan": "Request-based billing, us-central1",
+      "published_price": "$0.40 per 1,000,000",
+      "conditions": "Free tier: 2 million requests per month. The same four CUD columns each print $0.332. Requests are billed when they reach the container after authentication. Requests denied by IAM are not billed. The sandbox pages do not say a sandbox command counts as one of these requests.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing"
+      ]
+    },
+    {
+      "item": "Jobs CPU",
+      "plan": "Cloud Run jobs, us-central1",
+      "published_price": "$0.000018 per vCPU-second",
+      "conditions": "Free tier: first 240,000 vCPU-seconds per month. Cloud Run CUD 1-year and 3-year both print $0.00001494. Compute Flexible CUD 1-year prints $0.00001296 and 3-year prints $0.00000972. Jobs are billed at the instance-based rate for the entire lifetime of any instance started, minimum 1 minute. The jobs sandbox page says sandboxes share that host allocation.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes"
+      ]
+    },
+    {
+      "item": "Jobs memory",
+      "plan": "Cloud Run jobs, us-central1",
+      "published_price": "$0.000002 per GiB-second",
+      "conditions": "USD enabled-job host memory allocation shared by its application and sandboxes, billed for the entire instance lifetime, minimum 1 minute, not measured guest-memory consumption. Free tier: first 450,000 GiB-seconds per month, shared billing-account discount. Cloud Run CUD 1-year and 3-year both print $0.00000166. Compute Flexible CUD 1-year prints $0.00000144 and 3-year $0.00000108. Prices were rechecked 2026-10-08.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes"
+      ]
+    },
+    {
+      "item": "Worker pools CPU",
+      "plan": "Worker pools, us-central1",
+      "published_price": "$0.000011244 per vCPU-second",
+      "conditions": "Host allocation shared by enabled sandboxes, explicitly verified on the worker-pool sandbox page. Free tier: first 384,204 vCPU-seconds per month based on us-central1 pricing, shared billing-account spending discount. Compute Flexible CUD 1-year prints $0.000008096 and 3-year $0.000006072; no Cloud Run CUD columns. The host contract says worker pools do not idle, CPU is always allocated and the instance is billed while running, including waiting. No sandbox-only suspended billing mechanism or worker-pool-specific minimum was established.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing",
+        "https://docs.cloud.google.com/run/docs/configuring/workerpools/sandboxes",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "item": "Worker pools memory",
+      "plan": "Worker pools, us-central1",
+      "published_price": "$0.000001235 per GiB-second",
+      "conditions": "Host allocation shared by enabled sandboxes. Free tier: first 728,744 GiB-seconds per month based on us-central1 pricing, shared billing-account spending discount. Compute Flexible CUD 1-year prints $0.000000889 and 3-year $0.000000667. Running/waiting host allocation remains billed; this is not measured active guest-memory consumption or per-sandbox allowance.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing",
+        "https://docs.cloud.google.com/run/docs/configuring/workerpools/sandboxes",
+        "https://docs.cloud.google.com/run/docs/container-contract"
+      ]
+    },
+    {
+      "item": "Outbound data transfer",
+      "plan": "Cloud Run networking",
+      "published_price": "Premium Network Service Tier at Google Cloud networking pricing; pricing page states 1 GiB free within North America per month",
+      "conditions": "Independently rechecked 2026-10-08: Cloud Run pricing says 1GiB free data transfer within North America per month; the general Free Tier's request-based Cloud Run section instead says 1 GB of outbound data transfer from North America per month and refers other billing configurations to Cloud Run pricing. This destination/unit/billing-scope discrepancy remains unresolved: do not combine from North America with 1 GiB, convert GB to GiB, or assume intercontinental traffic qualifies. Allowances are billing-account-wide, not per sandbox. Cloud Run pricing separately exempts transfer to Google Cloud resources in the same region and to Media CDN, Cloud CDN and Cloud Load Balancing. VPC transfer is billed at VM/VPC transfer rates; Serverless VPC Access connectors charge for their compute. Numeric region/destination/route, NAT, connector, inter-region and I/O rates or totals remain unquantified here, not zero or universally free. Sandbox egress is off unless --allow-egress is set; applicability of this host meter and allowance to enabled sandbox traffic remains unestablished.",
+      "source_urls": [
+        "https://cloud.google.com/run/pricing?hl=en",
+        "https://docs.cloud.google.com/free/docs/free-cloud-features?hl=en",
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    {
+      "item": "Image preparation and external retained state",
+      "plan": "Configuration-dependent host and external services",
+      "published_price": "Not quantified for the sandbox configuration",
+      "conditions": "The sandbox guide permits host images, tar archives and bind mounts and mentions Cloud Storage. Host-local tmpfs state is ephemeral and shares billed memory; durable external archive/bucket storage, operations, retrieval and transfer are separate configuration-dependent charges, not free managed sandbox retention. Cloud Run source deployment uses separately priced Cloud Build and Artifact Registry; building locally or reusing an image is a different path. No universal sandbox build, storage, I/O, ingress or snapshot-retention rate is established. The no-additional-sandbox-premium statement is not a complete bill.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/container-contract",
+        "https://cloud.google.com/run/pricing",
+        "https://cloud.google.com/storage/pricing"
+      ]
+    },
+    {
+      "item": "Promotional credit",
+      "plan": "New Google Cloud customers, not a recurring sandbox allowance",
+      "published_price": "$300 in free credits",
+      "conditions": "The exact sandbox guide says new customers receive $300 in free credits to run, test and deploy workloads. Promotional credit only, not a recurring sandbox allowance, guaranteed entitlement or reduction in ongoing usage prices. Excluded from production cost evidence by its exact item name.",
+      "source_urls": [
+        "https://docs.cloud.google.com/run/docs/code-execution",
+        "https://docs.cloud.google.com/run/docs/configuring/services/sandboxes",
+        "https://docs.cloud.google.com/run/docs/configuring/jobs/sandboxes"
+      ]
+    }
+  ],
+  "performance_claims": [
+    {
+      "metric": "Sandbox start inside an existing host",
+      "published_claim": "Starting in milliseconds",
+      "conditions": "Vendor claim, July 9, 2026 public-preview blog, rechecked 2026-10-08. Sandboxes are spawned within existing Cloud Run instances; this is not a host deployment, scale-from-zero, image build or cold-host-readiness benchmark. No exact numeric start value, statistic, cold/warm distinction, region, image or resource configuration is supplied. The guide's almost instantly wording adds no numeric measurement; fork/reset/resume timings remain unestablished.",
+      "source_urls": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview",
+        "https://docs.cloud.google.com/run/docs/code-execution"
+      ]
+    },
+    {
+      "metric": "Start, execute, and stop example",
+      "published_claim": "1,000 sandboxes with an average of 500ms latency",
+      "conditions": "Vendor-reported example from July 9, 2026, rechecked 2026-10-08: requests to a Cloud Run service start, execute and stop 1,000 sandboxes running untrusted Python. This is an average of the described composite request/execution lifecycle, not a pure cold-create, warm-create, ready, fork, reset or resume latency, percentile or throughput rate. Host provisioning inclusion, concurrency, region, image, CPU and memory configuration are not stated. No independent benchmark was run.",
+      "source_urls": [
+        "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview"
+      ]
+    }
+  ],
+  "research_notes": [
+    "This dossier is Cloud Run sandbox mode, announced in public preview on July 9, 2026. It is the sandbox launcher inside a Cloud Run service, job, worker pool, or instance. It is not general Cloud Run without that launcher.",
+    "Research dated 2026-09-29 excluded Google Cloud Run as general serverless compute. That exclusion is replaced by this dossier. General Cloud Run without sandboxes is not a second product entry.",
+    "Gemini Enterprise Agent Platform Code Execution, GKE Sandbox and Compute Engine are separate products; their features, hardware, state retention and prices are outside this dossier and were not borrowed or re-certified in this audit.",
+    "The launch blog's no-additional-premium claim is retained with host/ancillary charge qualifications. USD us-central1 service/job/worker-pool rates were rechecked 2026-10-08. Host GPU, ephemeral-disk and delayed-job rates are removed because sandbox applicability is not established. Iowa instance rates are removed because current locations docs exclude instances in us-central1 despite the pricing selector. Other regional prices and complete external storage/build/network bills remain unquantified, not free.",
+    "Second generation is a microVM for the host service. The sandbox is an isolated process boundary in the same instance. First-generation gVisor is not the sandbox mode. Enabling the launcher forces second generation on a service.",
+    "All four host sandbox configure pages and the complete sandbox CLI reference were reviewed. The reference documents fork, writable-overlay tar capture and import. Fork state wording does not establish process-memory restoration. The Google-linked ComputeSDK README requires project allowlisting whereas current Google enablement docs describe public preview without that prerequisite; access is unresolved and must not be treated as ungated.",
+    "sleep 1h and sleep 12m are examples on the code-execution page, not limits. The Cloud Run pricing examples, which the page places in europe-west1, were not copied as sandbox bills.",
+    "On the instance-based services table and the jobs table, the Cloud Run CUD 1-year and 3-year CPU prices print the same number, and the memory prices print the same number. Both printed values are kept.",
+    "Official ADK current source exports CloudRunSandboxCodeExecutor (local-only stateless Python integration); minimum released package version was not established. Community TypeScript ComputeSDK has direct and customer-deployed remote gateway modes; default create() is a logical handle, not a sandbox startup operation. Neither gateway HTTP nor host run.app URLs establish ingress to a service inside a sandbox."
+  ]
+}
