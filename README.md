@@ -1,6 +1,6 @@
 # Sandbox Wars
 
-Community provider research and cyberpunk fighter artwork for [Sandbox Wars](https://sandboxwars.dev).
+Community provider research and fighter artwork for [Sandbox Wars](https://sandboxwars.dev).
 
 This repository contains sourced provider dossiers for the 13 currently shipped
 provider fighters, contribution skills, issue/PR templates, avatar-generation
