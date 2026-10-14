@@ -7,8 +7,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "validate": "node scripts/validate-providers.mjs && node scripts/research-tables.mjs --check && npm run validate:art",
-    "research:generate": "node scripts/research-tables.mjs",
+    "validate": "node scripts/validate-providers.mjs && npm run validate:art",
     "validate:art": "node scripts/validate-art.mjs",
     "test": "node --test scripts/*.test.mjs"
   }

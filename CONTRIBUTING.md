@@ -1,34 +1,49 @@
 # Contributing
 
-For corrections, identify the provider and field and link primary evidence.
-For a new provider, open an issue with exact product, marketing, documentation
-and pricing URLs. This repository starts with research for shipped fighters;
-maintainers review proposed additions before extending that scope.
+## Fix a typo or update an existing provider
 
-## Research
+1. Open the provider’s JSON file in `data/providers/` and click Edit in GitHub, or edit it locally.
+2. Change the relevant text or value. For a factual change, include a supporting official URL and preserve relevant qualifications.
+3. Open a pull request with a short description of the change.
 
-Use `.agents/skills/research-sandbox-provider/SKILL.md` or follow its conventions
-manually. Edit `data/providers/<id>.json`; preserve IDs, source URLs, units, dates,
-unknowns and product/plan/region qualifications. Include every FACT_FIELDS entry
-exactly once. Missing documentation alone does not establish non-support.
+A typo fix only needs the typo corrected. No issue, full research pass, artwork,
+local tooling or generated files are required. GitHub runs validation automatically.
+Maintainers import accepted changes and regenerate the backend dataset.
 
-Run `npm run research:generate`, `npm run validate` and `npm test`.
-Use the provider PR template (`?template=provider.md` on the PR creation URL).
-List changed status/value transitions and evidence; include regenerated tables.
-Maintainers review evidence before merging. Production adoption happens separately.
+## Add a provider
+
+Copy an existing dossier such as `data/providers/modal.json` into a new
+`data/providers/<provider-id>.json`. Update its identity, facts, sources, dates,
+capabilities, published prices and research notes for the exact product. Use
+`unknown` where evidence is missing. Open a PR with the dossier; artwork is optional.
+The initial research covers the 13 shipped provider fighters. A new dossier is a
+proposal and does not automatically add a fighter to the website.
+
+The [research skill](.agents/skills/research-sandbox-provider/SKILL.md) can help
+prepare a dossier. See [research conventions](research/BRIEF.md) for evidence rules.
+If you prefer to suggest a provider or report a problem without editing JSON,
+[open an issue](https://github.com/pandemicsyn/sandboxwars/issues/new?template=provider.yml).
+
+## Optional local validation
+
+With Node.js 22.12 or newer, run `npm run validate`. No installation or credentials
+are needed. To check only your dossier, run:
+
+```sh
+node scripts/validate-providers.mjs data/providers/<provider-id>.json
+```
+
+Unresolved questions belong in the dossier’s `research_notes`.
 
 ## Provider avatars and artwork
 
-Use `.agents/skills/create-sandbox-fighter/SKILL.md`. The reusable prompt contract
-is in its `references/atlas-contract.md`; exact prompts are in
-`output/fighter-study/prompt-*.json` and `prompts*.json`. Inspect the approved E2B
-and Modal sheets before generation. Preserve existing versions, save the exact
-prompt and reference filenames, update roster metadata and inspect the preview.
-Run `npm run validate:art`; include a description of the preview checks in the PR.
-New art does not automatically add a fighter to the shipped roster.
+Use the [avatar skill](.agents/skills/create-sandbox-fighter/SKILL.md), its
+[reusable prompt](.agents/skills/create-sandbox-fighter/references/provider-prompt-template.json)
+and the approved E2B/Modal reference sheets. Save the expanded prompt and reference
+filenames with your artwork, preserve existing versions, and update the preview
+metadata. Inspect the standalone preview; `npm run validate:art` checks metadata.
+Maintainers handle website integration separately.
 
-Keep secrets and confidential information out of issues, dossiers and prompts.
-Only submit material you are entitled to contribute. Third-party names and marks
-remain their owners' property.
-
-Contributions are provided under this repository’s MIT license.
+Contributions are provided under this repository’s MIT license. Only submit
+material you are entitled to contribute, and keep confidential information out of
+files and discussions. Third-party names and marks remain their owners’ property.

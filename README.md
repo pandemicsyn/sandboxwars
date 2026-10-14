@@ -9,27 +9,28 @@ implementation are maintained separately.
 
 ## Contribute
 
-Use the [provider issue form](https://github.com/pandemicsyn/sandboxwars/issues/new?template=provider.yml)
-to propose a provider, update facts or report an error. Read [CONTRIBUTING.md](CONTRIBUTING.md)
-for research and artwork PRs. The current dataset covers the fighters in
+Fix a typo or update a fact by editing one file in [data/providers](data/providers)
+and opening a pull request—even directly in GitHub. For a new provider, add a
+dossier using the research skill, or [open an issue](https://github.com/pandemicsyn/sandboxwars/issues/new?template=provider.yml).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details. The current dataset covers the fighters in
 [data/fighters.json](data/fighters.json); the broader research backlog is not included.
 
 - [Provider dossiers](data/providers) and [research conventions](research/BRIEF.md)
-- [Feature matrix](research/feature-matrix.md), [published prices](research/pricing-matrix.md), [gaps](research/gaps.md)
 - [Provider research skill](.agents/skills/research-sandbox-provider/SKILL.md)
 - [Avatar generation skill](.agents/skills/create-sandbox-fighter/SKILL.md)
 - [Reusable provider avatar prompt](.agents/skills/create-sandbox-fighter/references/provider-prompt-template.json)
 - [Exact example generation prompt](output/fighter-study/prompt-daytona-v3.json)
 - [Art direction and references](output/fighter-study/ART-DIRECTION.md)
 
-## Local checks
+## Optional local checks
 
-Node.js 22.12 or newer; no package dependencies or credentials required.
+GitHub checks your PR automatically. Local checks are optional; they need Node.js
+22.12 or newer, with no package dependencies or credentials. Maintainers import
+accepted changes and regenerate the backend dataset.
 
 ```sh
 npm run validate
 npm test
-npm run research:generate  # after updating dossiers
 ```
 
 For artwork preview, use Python 3:
