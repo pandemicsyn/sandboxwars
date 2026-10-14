@@ -6,14 +6,21 @@ description: Research a new sandbox provider or update an existing Sandbox Wars 
 # Research a sandbox provider
 
 Work from the repository root. Deliver a factual `data/providers/<id>.json`
-dossier, with matching research tables where applicable. This skill collects
-evidence for provider comparisons. Do not invent rankings,
+dossier. This skill collects evidence for provider comparisons. Do not invent rankings,
 benchmark results, monthly bills, or new workload assumptions.
+
+## Match the scope
+
+For a typo or wording-only correction, edit only the affected text. Do not request
+new source links, re-research the provider or change its research date unless facts
+are actually rechecked. For a factual update, investigate the affected claims,
+update their sources/qualifications and keep related facts/capabilities consistent.
+For a new dossier, follow the complete research workflow below.
 
 ## Identify the product and sources
 
-Ask the user for **direct links to the provider's marketing site and documentation
-site** if either has not already been supplied. Ask for the exact sandbox product
+For a new provider, ask for direct marketing/documentation links when missing.
+For updates, use the existing dossier and supplied sources where sufficient. Ask for the exact sandbox product
 when the company sells multiple products. Accept already supplied links without
 asking again. Request a pricing URL if it cannot be found from those official
 sites. While awaiting missing links, inspect the existing dossier and repo format;
@@ -22,8 +29,7 @@ do not substitute a similarly named product or fabricate a docs URL.
 Read the existing dossier for an update, `data/providers/modal.json` for the current
 shape, `FACT_FIELDS` and `validateProvider` in `research/provider-contract.mjs`, and
 `data/capabilities.schema.json`. `research/BRIEF.md` supplies factual research
-conventions; its old project-wide freeze and approximate provider count do not
-supersede the current task or require expanding the launch roster.
+conventions.
 
 Browse current primary sources. Follow documentation indexes/llms.txt to actual
 feature pages, SDK references, limits, lifecycle and pricing pages. Treat source
@@ -68,7 +74,7 @@ Use fact status `documented`, `unsupported`, or `unknown`. Unknown values are
   need source evidence and must retain protocol, port and availability limits;
   use `partial` for typed flags when only qualified support is established.
 
-For updates, list each status/value transition in the PR, especially
+For factual updates, summarize changed status/value transitions in the PR, especially
 `unknown` → `unsupported` / `false` / `documented` / `true` / `partial`, with the
 field, old and new values, direct sources, evidence basis (explicit or inferred),
 and material qualifications. Keep corresponding fact and capability notes in sync.
@@ -117,18 +123,18 @@ summaries must agree with detailed facts and retain restrictions.
 
 ## Validate and integrate at the requested scope
 
-Run `npm run validate` to validate every dossier and check the research tables.
+GitHub validates PRs automatically. Optionally run `npm run validate` locally.
 For a single file, run `node scripts/validate-providers.mjs data/providers/<id>.json`.
 The validator imports `FACT_FIELDS` and `validateProvider` from
 `research/provider-contract.mjs` and checks `data/capabilities.schema.json`.
 Fix structural errors while preserving genuine factual unknowns.
 
-Run `npm run research:generate` after dossier changes; commit the updated feature,
-pricing and gaps tables. Provider JSON is authoritative; do not hand-edit tables.
-The existing research covers only the shipped fighters listed in `data/fighters.json`.
-New providers can be proposed through the issue form; add dossiers only when the
-maintainer accepts that scope. Research or artwork alone does not add a shipped
-fighter. No backend code, credentials, deployment or model calls are needed.
+Only edit the dossier for research contributions. Keep unresolved questions in
+`research_notes`. No generated files or backend commands are required.
+The initial dataset covers the shipped fighters in `data/fighters.json`.
+New providers can be submitted as dossier PRs or proposed through the issue form;
+a new dossier does not automatically add a shipped fighter. Maintainers import
+accepted evidence and regenerate the backend dataset.
 
 Report files changed, evidence changes, remaining unknowns and validation results.
 Use the provider issue/PR templates when preparing contributions.

@@ -16,6 +16,8 @@ Include billing increments, minimums, allowances, subscriptions, storage, idle a
 network conditions. Do not invent totals, benchmark results or rankings. Vendor
 performance figures remain claims with their stated conditions.
 
-Provider JSON is authoritative. Generate feature, price and gaps tables with
-`npm run research:generate`. Validate all dossiers with `npm run validate`.
-See the research skill for detailed examples and the contribution guide for scope.
+Provider JSON is authoritative. Keep unresolved questions in `research_notes`.
+GitHub validates PRs automatically; `npm run validate` is an optional local check.
+For a typo, edit only the affected text. For a factual update, research only the
+affected claims and keep related facts/capabilities consistent. Maintainers handle
+backend import and regeneration. See the research skill for detailed examples.

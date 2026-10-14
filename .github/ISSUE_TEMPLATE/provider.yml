@@ -1,66 +1,23 @@
 name: Add or update a sandbox provider
-description: Propose a provider dossier or correct existing features, prices, or limits.
+description: Suggest a provider, correct a fact, or report a typo.
 title: "[Provider] "
 body:
-  - type: dropdown
-    id: change
-    attributes:
-      label: Change type
-      options:
-        - Add a new provider
-        - Update an existing provider
-        - Report incorrect provider data
-    validations:
-      required: true
   - type: input
     id: product
     attributes:
-      label: Provider and exact sandbox product
-      description: Include the existing dossier ID if known.
-    validations:
-      required: true
-  - type: input
-    id: marketing
-    attributes:
-      label: Official marketing URL
-      description: For new providers, supply this URL. For a correction, include it if known.
-      placeholder: https://provider.example/
-  - type: input
-    id: docs
-    attributes:
-      label: Official documentation URL
-      description: For new providers, supply this URL or state that no public docs exist. For a correction, include it if known.
-      placeholder: https://provider.example/docs/
-  - type: input
-    id: pricing
-    attributes:
-      label: Official pricing URL
-      description: Include a direct link, or state that pricing is not public.
-  - type: textarea
-    id: affected
-    attributes:
-      label: Affected field, receipt or fight
-      description: For corrections, identify the dossier field and current value. Include a fight URL, bout ID or receipt text if available.
-  - type: textarea
-    id: evidence
-    attributes:
-      label: Proposed facts or corrections and supporting sources
-      description: Explain the proposed facts or correction and link supporting sources if available. Include plans, regions, preview restrictions, price units and billing conditions. No requires an explicit denial or a justified, scoped inference from a sufficiently complete API/lifecycle contract; missing mentions alone remain unknown. If evidence is unavailable, explain what needs investigation.
-    validations:
-      required: true
-  - type: dropdown
-    id: scope
-    attributes:
-      label: Requested scope
-      options:
-        - Research dossier only
-        - Update an existing launch fighter's evidence
-        - Investigate a provider data error (scope not yet known)
-        - Propose a new launch fighter (research and artwork)
+      label: Provider or product
+      description: Include a dossier filename or website link if you know it.
     validations:
       required: true
   - type: textarea
-    id: gaps
+    id: change
     attributes:
-      label: Unknowns or conflicting information
-      description: Include any inaccessible sources and dates of changed claims.
+      label: What should change?
+      description: A short description is enough for a typo. For a new provider, name the exact sandbox product.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Supporting links (if applicable)
+      description: Official documentation, pricing, or product links for factual changes or new providers. Not needed for typos.
